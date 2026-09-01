@@ -185,17 +185,17 @@ module PZHardcoreNuzlocke
     begin
       case action
       when "TYPE_CHART"
-        safe_ui("Tabla de tipos [prueba]") { open_type_chart }
+        safe_ui("#{t(:type_chart)} [test]") { open_type_chart }
       when "CHALLENGES"
-        safe_ui("Desafíos [prueba]") { open_menu }
+        safe_ui("#{t(:challenges)} [test]") { open_menu }
       when "RANDOM"
         safe_ui("Random [prueba]") { open_random_setup(false) }
       when "NUZLOCKE"
         safe_ui("Nuzlocke [prueba]") { open_nuzlocke_setup(false) }
       when "LEARNING"
-        safe_ui("Ayudas de combate [prueba]") { open_learning_setup }
+        safe_ui("#{t(:learning_option)} [test]") { open_learning_setup }
       when "MOVE_INFO"
-        safe_ui("Información de ataque [prueba]") { open_move_info_by_id(test_move_id) }
+        safe_ui("#{t(:move_info_title)} [test]") { open_move_info_by_id(test_move_id) }
       when "OPTIONS"
         safe_ui("Opciones [prueba]") do
           scene = PokemonOptionScene.new
@@ -205,7 +205,7 @@ module PZHardcoreNuzlocke
       when "INITIAL_FLOW"
         current = state
         if !current || !defined?($PokemonGlobal) || !$PokemonGlobal
-          show_info("Carga una partida antes de ejecutar esta simulación.", "Prueba de configuración inicial")
+          show_info(t(:test_requires_save), t(:test_initial_title))
         else
           saved_state = Marshal.dump(current)
           saved_nuzlocke = $PokemonGlobal.instance_variable_get(:@nuzlocke)
@@ -217,7 +217,7 @@ module PZHardcoreNuzlocke
             current[:random] = default_random_state
             $game_switches[409] = false if defined?($game_switches) && $game_switches
             set_base_nuzlocke(false)
-            safe_ui("Configuración inicial [prueba]") { open_post_nuzlocke_first_run_setup }
+            safe_ui("#{t(:initial_config_title)} [test]") { open_post_nuzlocke_first_run_setup }
           ensure
             $PokemonGlobal.pzn_hardcore_state = Marshal.load(saved_state)
             $game_switches[409] = saved_random_switch if defined?($game_switches) && $game_switches && !saved_random_switch.nil?

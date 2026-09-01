@@ -2,31 +2,25 @@
 
 module PZHardcoreNuzlocke
   RANDOM_RULES = [
-    [:progressive,      "Random progresivo"],
-    [:moves,            "Movimientos random"],
-    [:evolutions,       "Evoluciones random"],
-    [:evo_similar_bst,  "Evoluciones con BST similar"],
-    [:tm_compat,        "Compatibilidad con MT random"],
-    [:types,            "Tipos random"],
-    [:items,            "Objetos del mapa random"],
-    [:held_items,       "Objetos equipados random"],
-    [:trainer_rewards,  "Recompensas random de entrenadores"],
-    [:semi_random,      "Modo Semi Random"]
+    [:progressive,      :random_progressive],
+    [:moves,            :random_moves],
+    [:evolutions,       :random_evolutions],
+    [:evo_similar_bst,  :random_evo_similar_bst],
+    [:tm_compat,        :random_tm_compat],
+    [:types,            :random_types],
+    [:items,            :random_items],
+    [:held_items,       :random_held_items],
+    [:trainer_rewards,  :random_trainer_rewards],
+    [:semi_random,      :random_semi_random]
   ]
 
   RANDOM_EXPLANATIONS = {
-    :progressive=>"Limita la fuerza base y la potencia de movimientos según tus medallas. Evita legendarios y ataques extremos demasiado pronto.",
-    :moves=>"Cada especie recibe un movepool aleatorio. Con Random progresivo activo, la potencia se adapta al avance de la partida.",
-    :evolutions=>"Las evoluciones cambian a especies aleatorias. El resultado queda fijado para este guardado.",
-    :evo_similar_bst=>"Si las evoluciones son random, busca resultados con fuerza base parecida para reducir saltos de poder absurdos.",
-    :tm_compat=>"La compatibilidad de cada Pokémon con las MT se genera al azar, cambiando qué movimientos puede aprender.",
-    :types=>"Las especies reciben tipos aleatorios y consistentes durante la partida. Cambia debilidades, resistencias y STAB.",
-    :items=>"Los objetos no esenciales obtenidos en el mapa se sustituyen por otros aleatorios. Los objetos clave están protegidos.",
-    :held_items=>"Los Pokémon salvajes pueden llevar objetos aleatorios. Las listas de seguridad del juego siguen aplicándose.",
-    :trainer_rewards=>"Algunos entrenadores derrotados pueden entregar una recompensa aleatoria adicional.",
-    :semi_random=>"Solo randomiza encuentros y Pokémon regalados. Entrenadores, movimientos, habilidades y objetos conservan su comportamiento normal.",
-    :ability_mode=>"El modo Full Random da habilidades nuevas por especie; Mapeo sustituye cada habilidad por otra de forma consistente; Sin randomizar las conserva.",
-    :generations=>"Restringe las especies aleatorias a las generaciones marcadas. Debe quedar al menos una generación activa."
+    :progressive=>:random_progressive_help, :moves=>:random_moves_help,
+    :evolutions=>:random_evolutions_help, :evo_similar_bst=>:random_evo_similar_bst_help,
+    :tm_compat=>:random_tm_compat_help, :types=>:random_types_help,
+    :items=>:random_items_help, :held_items=>:random_held_items_help,
+    :trainer_rewards=>:random_trainer_rewards_help, :semi_random=>:random_semi_random_help,
+    :ability_mode=>:random_ability_help, :generations=>:random_generations_help
   }
 
   def self.random_state

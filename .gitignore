@@ -2,6 +2,8 @@
 # Never commit a complete game installation or its assets.
 /Pokemon Z V2.18/
 /Pokemon Z*/
+/POKEMON Z*/
+/Pokémon Z*/
 
 # Pokemon Essentials / RPG Maker game data and executables
 *.rxdata

@@ -3,8 +3,14 @@
 PZ_HARDCORE_NUZLOCKE_ROOT = File.dirname(__FILE__) unless defined?(PZ_HARDCORE_NUZLOCKE_ROOT)
 
 [
+  "Config/install_profile.rb",
+  "Locales/i18n.rb",
+  "Locales/es.rb",
+  "Locales/en.rb",
+  "Locales/fr.rb",
   "Config/rules.rb",
   "Config/areas.rb",
+  "Config/profiles.rb",
   "Scripts/core.rb",
   "Scripts/encounters.rb",
   "Scripts/death.rb",

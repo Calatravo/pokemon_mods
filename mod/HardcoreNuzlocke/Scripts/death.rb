@@ -50,6 +50,10 @@ module PZHardcoreNuzlocke
     true
   end
 
+  def self.cemetery_box_names
+    [Config::CEMETERY_NAME, "CEMETERY", "CIMETIERE", "CIMETIÈRE"]
+  end
+
   def self.cemetery_box
     return nil if !defined?($PokemonStorage) || !$PokemonStorage
     storage = $PokemonStorage
@@ -59,14 +63,14 @@ module PZHardcoreNuzlocke
       return saved
     end
     for box in 0...storage.maxBoxes
-      if storage[box].name.to_s.upcase == Config::CEMETERY_NAME
+      if cemetery_box_names.include?(storage[box].name.to_s.upcase)
         current[:cemetery_box] = box
         return box
       end
     end
     (storage.maxBoxes - 1).downto(0) do |box|
       if box_empty?(storage, box)
-        storage[box].name = Config::CEMETERY_NAME
+        storage[box].name = t(:cemetery_box)
         current[:cemetery_box] = box
         return box
       end
@@ -97,7 +101,7 @@ module PZHardcoreNuzlocke
     $Trainer.party.each { |pokemon| still_pending = true if dead?(pokemon) }
     current[:pending_cemetery] = still_pending
     if moved.length > 0
-      current[:pending_notice] = "#{moved.join(', ')} fue trasladado automáticamente a la caja #{Config::CEMETERY_NAME}."
+      current[:pending_notice] = t(:cemetery_moved, moved.join(', '), t(:cemetery_box))
     end
     moved
   rescue Exception => error

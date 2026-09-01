@@ -2,18 +2,12 @@
 
 module PZHardcoreNuzlocke
   LEARNING_SETTINGS = [
-    [:move_info, "Ficha de ataque con X",
-      "Durante la selección de ataques, pulsa X sobre un movimiento para consultar tipo, categoría, potencia, precisión, PP, prioridad, eficacia y descripción."],
-    [:move_effectiveness, "Eficacia en los ataques",
-      "Añade a cada ataque una etiqueta que indica si será muy eficaz, poco eficaz, normal o sin efecto contra el rival activo."],
-    [:exact_multipliers, "Multiplicadores exactos",
-      "Muestra valores como x0, x0.5, x1, x2 o x4 en lugar de etiquetas generales. Es útil para aprender cómo se combinan los dos tipos."],
-    [:switch_matchup, "Ayuda al cambiar Pokémon",
-      "Al recorrer el equipo durante un combate, compara los tipos del Pokémon seleccionado con el rival e indica su ventaja ofensiva y su riesgo defensivo."],
-    [:warn_no_effect, "Avisar ataques sin efecto",
-      "Pide confirmación antes de usar un ataque de daño que no afecta al rival por inmunidad de tipos."],
-    [:show_enemy_types, "Mostrar tipos del rival",
-      "Muestra los tipos conocidos del rival activo en la parte superior del selector de ataques."]
+    [:move_info, :learning_move_info, :learning_move_info_help],
+    [:move_effectiveness, :learning_effectiveness, :learning_effectiveness_help],
+    [:exact_multipliers, :learning_exact, :learning_exact_help],
+    [:switch_matchup, :learning_switch, :learning_switch_help],
+    [:warn_no_effect, :learning_warn, :learning_warn_help],
+    [:show_enemy_types, :learning_enemy_types, :learning_enemy_types_help]
   ]
 
   LEARNING_DEFAULTS = {
@@ -45,13 +39,13 @@ module PZHardcoreNuzlocke
     return false if !defined?($PokemonSystem) || !$PokemonSystem
     loop do
       commands = LEARNING_SETTINGS.collect do |entry|
-        "[#{learning_setting?(entry[0]) ? 'X' : ' '}] #{entry[1]}"
+        "[#{learning_setting?(entry[0]) ? 'X' : ' '}] #{t(entry[1])}"
       end
-      commands << "Aplicar y volver"
-      choice = choose("Ayudas para aprender en combate", commands)
+      commands << t(:apply_back)
+      choice = choose(t(:learning_title), commands)
       return true if choice < 0 || choice == LEARNING_SETTINGS.length
       entry = LEARNING_SETTINGS[choice]
-      if confirm_toggle(entry[1], entry[2], learning_setting?(entry[0]))
+      if confirm_toggle(t(entry[1]), t(entry[2]), learning_setting?(entry[0]))
         set_learning_setting(entry[0], !learning_setting?(entry[0]))
       end
     end
@@ -91,10 +85,10 @@ module PZHardcoreNuzlocke
   end
 
   def self.effectiveness_label(modifier)
-    return "SIN EFECTO" if modifier.to_i == 0
-    return "MUY EFICAZ" if modifier.to_i > 4
-    return "POCO EFICAZ" if modifier.to_i < 4
-    "NORMAL"
+    return t(:effect_none) if modifier.to_i == 0
+    return t(:effect_super) if modifier.to_i > 4
+    return t(:effect_low) if modifier.to_i < 4
+    t(:effect_normal)
   end
 
   def self.opposing_battlers(attacker)
@@ -129,17 +123,17 @@ module PZHardcoreNuzlocke
 
   def self.type_names(creature)
     names = creature_types(creature).collect { |type_id| type_name(type_id) }
-    names.length == 0 ? "Desconocido" : names.join("/")
+    names.length == 0 ? t(:unknown) : names.join("/")
   end
 
   def self.enhance_fight_buttons(bitmap, moves, attacker)
     return if !bitmap || !moves || !attacker
     pbSetSmallFont(bitmap)
     help_parts = []
-    help_parts << "X: Info" if learning_setting?(:move_info)
+    help_parts << t(:fight_info_hint) if learning_setting?(:move_info)
     if learning_setting?(:show_enemy_types)
       opponent = primary_opponent(attacker)
-      help_parts << "Rival: #{type_names(opponent)}" if opponent
+      help_parts << t(:opponent_types, type_names(opponent)) if opponent
     end
     if help_parts.length > 0
       pbDrawTextPositions(bitmap, [[help_parts.join("  "), 8, 7, 0,
@@ -151,7 +145,7 @@ module PZHardcoreNuzlocke
       x = (index % 2) == 0 ? 4 : 192
       y = ((index / 2) == 0 ? 6 : 48) + FightMenuButtons::UPPERGAP
       if move.basedamage.to_i <= 0
-        label = "ESTADO"
+        label = t(:effect_status)
         base = Color.new(100, 106, 118)
       else
         modifier = move_modifier(move, attacker)
@@ -168,13 +162,13 @@ module PZHardcoreNuzlocke
   end
 
   def self.switch_matchup_text(pokemon, context)
-    return "Elige un Pokémon." if !pokemon || !context
+    return t(:choose_pokemon) if !pokemon || !context
     battle = context[:battle]
     battler_index = context[:battler_index]
     attacker = battle && battle.battlers ? battle.battlers[battler_index] : nil
     rivals = opposing_battlers(attacker)
     rival = rivals[0]
-    return "Elige un Pokémon." if !rival
+    return t(:choose_pokemon) if !rival
 
     candidate_types = creature_types(pokemon)
     rival_types = creature_types(rival)
@@ -192,15 +186,15 @@ module PZHardcoreNuzlocke
     defense = 4 if defense == 0 && rival_types.length == 0
 
     if learning_setting?(:exact_multipliers)
-      "#{rival.name}: Atq #{multiplier_text(offense)} | Def #{multiplier_text(defense)}"
+      t(:switch_exact, rival.name, multiplier_text(offense), multiplier_text(defense))
     else
-      offense_text = offense > 4 ? "Atq eficaz" : (offense < 4 ? "Atq débil" : "Atq neutro")
-      defense_text = defense > 4 ? "Def débil" : (defense < 4 ? "Def resiste" : "Def neutra")
-      "#{rival.name}: #{offense_text} | #{defense_text}"
+      offense_text = offense > 4 ? t(:attack_effective) : (offense < 4 ? t(:attack_weak) : t(:attack_neutral))
+      defense_text = defense > 4 ? t(:defense_weak) : (defense < 4 ? t(:defense_resists) : t(:defense_neutral))
+      t(:switch_words, rival.name, offense_text, defense_text)
     end
   rescue Exception => error
     log("switch matchup error: #{error.class}: #{error.message}")
-    "Elige un Pokémon."
+    t(:choose_pokemon)
   end
 
   def self.refresh_switch_help(scene)
@@ -227,7 +221,7 @@ module PZHardcoreNuzlocke
     index = -1 if !index
     return if !party || index < 0
     pokemon = index < party.length ? party[index] : nil
-    text = pokemon ? switch_matchup_text(pokemon, learning_switch_context) : "X/Esc: Volver"
+    text = pokemon ? switch_matchup_text(pokemon, learning_switch_context) : t(:footer_back)
     helpwindow = scene.instance_variable_get(:@sprites)["helpwindow"] rescue nil
     return if !helpwindow
     current = helpwindow.respond_to?(:text) ? helpwindow.text : nil
@@ -241,7 +235,7 @@ module PZHardcoreNuzlocke
   def self.move_description(move_id)
     pbGetMessage(MessageTypes::MoveDescriptions, move_id).to_s
   rescue Exception
-    "No hay una descripción disponible para este movimiento."
+    t(:move_no_description)
   end
 
   def self.open_move_info(move, attacker=nil)
@@ -320,9 +314,9 @@ class PZMoveInfoScene
   def category_name
     category = @move.instance_variable_get(:@category) rescue nil
     category = @move.category if category.nil? && @move.respond_to?(:category)
-    return "Físico" if category == 0
-    return "Especial" if category == 1
-    "Estado"
+    return PZHardcoreNuzlocke.t(:move_physical) if category == 0
+    return PZHardcoreNuzlocke.t(:move_special) if category == 1
+    PZHardcoreNuzlocke.t(:move_status)
   end
 
   def wrap_text(text, width=47)
@@ -367,26 +361,26 @@ class PZMoveInfoScene
     priority = @move.priority.to_i >= 0 ? "+#{@move.priority}" : @move.priority.to_s
     bitmap.fill_rect(26, 112, Graphics.width - 52, 68, Color.new(235, 240, 246))
     pbDrawTextPositions(bitmap, [
-      ["Potencia: #{power}", 38, 116, 0, base, shadow],
-      ["Precisión: #{accuracy}", 190, 116, 0, base, shadow],
-      ["PP: #{pp}", 370, 116, 0, base, shadow],
-      ["Prioridad: #{priority}", 38, 146, 0, base, shadow]
+      [PZHardcoreNuzlocke.t(:move_power, power), 38, 116, 0, base, shadow],
+      [PZHardcoreNuzlocke.t(:move_accuracy, accuracy), 190, 116, 0, base, shadow],
+      [PZHardcoreNuzlocke.t(:move_pp, pp), 370, 116, 0, base, shadow],
+      [PZHardcoreNuzlocke.t(:move_priority, priority), 38, 146, 0, base, shadow]
     ])
     if @attacker
       target = PZHardcoreNuzlocke.primary_opponent(@attacker)
       if target
         if @move.basedamage.to_i <= 0
-          effect = "Estado: no usa eficacia de daño"
+          effect = PZHardcoreNuzlocke.t(:move_status_effect)
         else
           modifier = PZHardcoreNuzlocke.move_modifier(@move, @attacker, target)
-          effect = "Contra #{target.name}: #{PZHardcoreNuzlocke.effectiveness_label(modifier)} (#{PZHardcoreNuzlocke.multiplier_text(modifier)})"
+          effect = PZHardcoreNuzlocke.t(:move_against, target.name, PZHardcoreNuzlocke.effectiveness_label(modifier), PZHardcoreNuzlocke.multiplier_text(modifier))
         end
         pbDrawTextPositions(bitmap, [[effect, Graphics.width - 38, 146, 1, accent, shadow]])
       end
     end
 
     bitmap.fill_rect(26, 188, Graphics.width - 52, 132, Color.new(235, 240, 246))
-    pbDrawTextPositions(bitmap, [["Descripción", 38, 190, 0, accent, shadow]])
+    pbDrawTextPositions(bitmap, [[PZHardcoreNuzlocke.t(:move_description), 38, 190, 0, accent, shadow]])
     description = PZHardcoreNuzlocke.move_description(@move.id)
     wrap_text(description).first(4).each_with_index do |line, index|
       pbDrawTextPositions(bitmap, [[line, 38, 220 + index * 24, 0, base, shadow]])
@@ -394,7 +388,7 @@ class PZMoveInfoScene
 
     footer_y = Graphics.height - 48
     bitmap.fill_rect(18, footer_y, Graphics.width - 36, 30, Color.new(42, 59, 83))
-    pbDrawTextPositions(bitmap, [["C/Enter, X o Esc: Volver", Graphics.width / 2,
+    pbDrawTextPositions(bitmap, [[PZHardcoreNuzlocke.t(:move_footer), Graphics.width / 2,
       footer_y - 1, 2, Color.new(245, 248, 252), Color.new(19, 29, 43)]])
   end
 
@@ -408,13 +402,8 @@ class PZMoveInfoScene
 end
 
 class PZLearningMenuOption
-  attr_reader :values
-  attr_reader :name
-
-  def initialize
-    @name = _INTL("Ayudas de combate")
-    @values = [_INTL("Configurar")]
-  end
+  def name; PZHardcoreNuzlocke.t(:learning_option); end
+  def values; [PZHardcoreNuzlocke.t(:configure)]; end
 
   def get; 0; end
   def set(value); end

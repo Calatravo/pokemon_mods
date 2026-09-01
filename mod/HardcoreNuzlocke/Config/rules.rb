@@ -23,16 +23,16 @@ module PZHardcoreNuzlocke
     FORCED_RULES = [:permadeath, :first_encounter, :one_per_area]
 
     CONFIGURABLE_RULES = [
-      [:dupes_clause,    "Cláusula dupes (línea evolutiva)"],
-      [:species_clause,  "Cláusula de especie exacta"],
-      [:shiny_clause,    "Cláusula shiny"],
-      [:level_caps,      "Topes de nivel"],
-      [:no_battle_items, "Sin objetos en combate"],
-      [:set_style,       "Estilo Fijo"],
-      [:count_gifts,     "Los regalos consumen zona"],
-      [:count_statics,   "Los estáticos consumen zona"],
-      [:shared_methods,  "Hierba/agua/pesca comparten zona"],
-      [:subzones,        "Cada submapa cuenta aparte"]
+      [:dupes_clause,    :rule_dupes_clause],
+      [:species_clause,  :rule_species_clause],
+      [:shiny_clause,    :rule_shiny_clause],
+      [:level_caps,      :rule_level_caps],
+      [:no_battle_items, :rule_no_battle_items],
+      [:set_style,       :rule_set_style],
+      [:count_gifts,     :rule_count_gifts],
+      [:count_statics,   :rule_count_statics],
+      [:shared_methods,  :rule_shared_methods],
+      [:subzones,        :rule_subzones]
     ]
 
     # Pokemon Z already exposes these progression switches and caps in its UI.

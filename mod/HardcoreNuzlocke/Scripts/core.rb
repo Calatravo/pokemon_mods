@@ -25,7 +25,7 @@ module PZHardcoreNuzlocke
   rescue Exception => error
     log_exception("UI ERROR [#{label}]", error)
     begin
-      Kernel.pbMessage("Se produjo un error al abrir '#{label}'. El juego puede continuar y el diagnóstico se guardó en Mods/HardcoreNuzlocke/nuzlocke.log.")
+      Kernel.pbMessage(t(:safe_ui_error, label))
     rescue Exception
     end
     false
@@ -150,7 +150,7 @@ module PZHardcoreNuzlocke
     return if !current || current[:failed]
     current[:failed] = true
     current[:failed_at] = Time.now.to_i
-    current[:pending_notice] = "RUN TERMINADA: no quedan Pokémon capaces de combatir. El historial se conserva, pero las reglas forzadas han sido desactivadas."
+    current[:pending_notice] = t(:run_failed_notice)
     set_base_nuzlocke(false)
     log("Challenge failed")
   end
@@ -164,16 +164,18 @@ module PZHardcoreNuzlocke
     if defined?($data_mapinfos) && $data_mapinfos && $data_mapinfos[map_id]
       return $data_mapinfos[map_id].name.to_s
     end
-    "Mapa #{map_id}"
+    t(:map_fallback, map_id)
   rescue Exception
-    "Mapa #{map_id}"
+    t(:map_fallback, map_id)
   end
 
   def self.area_index
     @area_index ||= begin
       index = {}
       Config::AREAS.each do |key, data|
-        data[1].each { |map_id| index[map_id] = [key.to_s, data[0]] }
+        localized_name = language == :es ? data[0] : map_name(data[1][0])
+        localized_name = data[0] if !localized_name || localized_name == ""
+        data[1].each { |map_id| index[map_id] = [key.to_s, localized_name] }
       end
       index
     end
@@ -195,18 +197,18 @@ module PZHardcoreNuzlocke
   end
 
   def self.encounter_method(encounter_type)
-    return ["tierra", "Tierra/cueva"] if encounter_type.nil?
+    return ["land", t(:method_ground)] if encounter_type.nil?
     pairs = []
     if defined?(EncounterTypes)
-      pairs << [EncounterTypes::Water, "agua", "Surf"] if EncounterTypes.const_defined?(:Water)
-      pairs << [EncounterTypes::OldRod, "pesca", "Pesca"] if EncounterTypes.const_defined?(:OldRod)
-      pairs << [EncounterTypes::GoodRod, "pesca", "Pesca"] if EncounterTypes.const_defined?(:GoodRod)
-      pairs << [EncounterTypes::SuperRod, "pesca", "Pesca"] if EncounterTypes.const_defined?(:SuperRod)
+      pairs << [EncounterTypes::Water, "water", t(:method_surf)] if EncounterTypes.const_defined?(:Water)
+      pairs << [EncounterTypes::OldRod, "fishing", t(:method_fishing)] if EncounterTypes.const_defined?(:OldRod)
+      pairs << [EncounterTypes::GoodRod, "fishing", t(:method_fishing)] if EncounterTypes.const_defined?(:GoodRod)
+      pairs << [EncounterTypes::SuperRod, "fishing", t(:method_fishing)] if EncounterTypes.const_defined?(:SuperRod)
     end
     pairs.each { |entry| return [entry[1], entry[2]] if encounter_type == entry[0] }
-    ["tierra", "Tierra/cueva"]
+    ["land", t(:method_ground)]
   rescue Exception
-    ["tierra", "Tierra/cueva"]
+    ["land", t(:method_ground)]
   end
 
   def self.area_for(map_id=nil, encounter_type=nil)
@@ -328,12 +330,12 @@ module PZHardcoreNuzlocke
     return nil if !species
     caught = state[:caught_species]
     if rule?(:species_clause) && caught.include?(species)
-      return "esa especie ya fue obtenida"
+      return t(:duplicate_species)
     end
     if rule?(:dupes_clause)
       baby = baby_species(species)
       caught.each do |owned_species|
-        return "su línea evolutiva ya fue obtenida" if baby_species(owned_species) == baby
+        return t(:duplicate_line) if baby_species(owned_species) == baby
       end
     end
     nil
@@ -347,10 +349,10 @@ module PZHardcoreNuzlocke
   end
 
   def self.status_label(status)
-    return "DISPONIBLE" if status == :available
-    return "ENCUENTRO ACTIVO" if status == :encountered
-    return "CAPTURADA" if status == :caught
-    return "PERDIDA" if status == :missed
+    return t(:status_available) if status == :available
+    return t(:status_encountered) if status == :encountered
+    return t(:status_caught) if status == :caught
+    return t(:status_missed) if status == :missed
     status.to_s.upcase
   end
 end

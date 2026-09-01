@@ -39,25 +39,18 @@ module PZHardcoreNuzlocke
       log("Persistent runtime bridge found")
       return
     end
-    main_index = $RGSS_SCRIPTS.length
-    ($RGSS_SCRIPTS.length - 1).downto(0) do |index|
-      name = $RGSS_SCRIPTS[index][1].to_s.downcase
-      if name == "main" || name =~ /(^|_)main$/
-        main_index = index
-        break
+    class << Graphics
+      alias_method :pzn_hardcore_runtime_update, :update
+      def update
+        pzn_hardcore_runtime_update
+        if !PZHardcoreNuzlocke.installed && PZHardcoreNuzlocke.final_install_ready?
+          PZHardcoreNuzlocke.install!
+          PZHardcoreNuzlocke.validate_installation! if PZHardcoreNuzlocke.installed
+        end
+        PZHardcoreNuzlocke.tick if PZHardcoreNuzlocke.installed
       end
     end
-    bridge = <<'PZ_BRIDGE'
-if PZHardcoreNuzlocke.install_ready?
-  PZHardcoreNuzlocke.install!
-  PZHardcoreNuzlocke.install_runtime_update_hook! if PZHardcoreNuzlocke.installed
-else
-  PZHardcoreNuzlocke.report_not_ready_once
-end
-PZ_BRIDGE
-    compressed = Zlib::Deflate.deflate(bridge)
-    $RGSS_SCRIPTS.insert(main_index, [990001, "PZ Hardcore Nuzlocke Bridge", compressed])
-    log("Runtime bridge inserted before script index #{main_index}")
+    log("Deferred runtime hook installed")
   end
 
   def self.install_runtime_update_hook!
@@ -102,6 +95,9 @@ PZ_BRIDGE
     else
       log("Installation self-test FAIL: #{failed.join(', ')}")
     end
+    profile = Config.profile
+    profile_status = Config.profile_valid? ? "PASS" : "WARN"
+    log("Compatibility profile #{profile_status}: #{profile}; language=#{language}")
   rescue Exception => error
     log("Installation self-test ERROR: #{error.class}: #{error.message}")
   end
@@ -234,7 +230,7 @@ PZ_BRIDGE
           player_owned = pbOwnedByPlayer?(idxPokemon) rescue (idxPokemon % 2 == 0)
           if player_owned && PZHardcoreNuzlocke.active? && PZHardcoreNuzlocke.rule?(:no_battle_items) && !pbIsPokeBall?(idxItem)
             $PokemonBag.pbStoreItem(idxItem) if $PokemonBag.pbCanStore?(idxItem)
-            pbDisplay(_INTL("Las reglas Nuzlocke prohíben usar objetos en combate."))
+            pbDisplay(PZHardcoreNuzlocke.t(:items_blocked))
             return false
           end
           pzn_hardcore_original_register_item(idxPokemon, idxItem, idxTarget)
@@ -282,7 +278,7 @@ PZ_BRIDGE
         def pbWithdraw(selected, heldpoke)
           pokemon = heldpoke || @storage[selected[0], selected[1]]
           if PZHardcoreNuzlocke.active? && PZHardcoreNuzlocke.dead?(pokemon)
-            pbDisplay(_INTL("Un Pokémon del Cementerio no puede volver al equipo."))
+            pbDisplay(PZHardcoreNuzlocke.t(:dead_cannot_return))
             return false
           end
           pzn_hardcore_original_withdraw(selected, heldpoke)
@@ -293,7 +289,7 @@ PZ_BRIDGE
         alias_method :pzn_hardcore_original_place, :pbPlace
         def pbPlace(selected)
           if selected[0] == -1 && PZHardcoreNuzlocke.active? && PZHardcoreNuzlocke.dead?(@heldpkmn)
-            pbDisplay(_INTL("Un Pokémon del Cementerio no puede volver al equipo."))
+            pbDisplay(PZHardcoreNuzlocke.t(:dead_cannot_return))
             return false
           end
           pzn_hardcore_original_place(selected)
@@ -304,7 +300,7 @@ PZ_BRIDGE
         alias_method :pzn_hardcore_original_swap, :pbSwap
         def pbSwap(selected)
           if selected[0] == -1 && PZHardcoreNuzlocke.active? && PZHardcoreNuzlocke.dead?(@heldpkmn)
-            pbDisplay(_INTL("Un Pokémon del Cementerio no puede volver al equipo."))
+            pbDisplay(PZHardcoreNuzlocke.t(:dead_cannot_return))
             return false
           end
           pzn_hardcore_original_swap(selected)
@@ -418,9 +414,11 @@ PZ_BRIDGE
           challenge_present = result.any? { |option| option.is_a?(PZNuzlockeMenuOption) }
           learning_present = result.any? { |option| option.is_a?(PZLearningMenuOption) }
           chart_present = result.any? { |option| option.is_a?(PZTypeChartMenuOption) }
+          language_present = result.any? { |option| option.is_a?(PZLanguageMenuOption) }
           result << PZNuzlockeMenuOption.new if !challenge_present
           result << PZLearningMenuOption.new if !learning_present
           result << PZTypeChartMenuOption.new if !chart_present
+          result << PZLanguageMenuOption.new if !language_present
           result
         end
       end
@@ -433,11 +431,13 @@ PZ_BRIDGE
           options = window.instance_variable_get(:@options) rescue nil
           selected = options && window.index < options.length ? options[window.index] : nil
           if selected.is_a?(PZNuzlockeMenuOption)
-            @sprites["textbox"].text = "Configura y consulta Nuzlocke, Random, progreso, zonas y Cementerio."
+            @sprites["textbox"].text = PZHardcoreNuzlocke.t(:option_challenge_help)
           elsif selected.is_a?(PZLearningMenuOption)
-            @sprites["textbox"].text = "Configura explicaciones, eficacia, multiplicadores y ayudas al cambiar Pokémon."
+            @sprites["textbox"].text = PZHardcoreNuzlocke.t(:option_learning_help)
           elsif selected.is_a?(PZTypeChartMenuOption)
-            @sprites["textbox"].text = "Consulta fortalezas, debilidades, resistencias e inmunidades de cada tipo."
+            @sprites["textbox"].text = PZHardcoreNuzlocke.t(:option_chart_help)
+          elsif selected.is_a?(PZLanguageMenuOption)
+            @sprites["textbox"].text = PZHardcoreNuzlocke.t(:language_help)
           end
         end
       end
@@ -450,15 +450,15 @@ PZ_BRIDGE
           pzn_hardcore_original_option_update
           selected = self.index < @options.length ? @options[self.index] : nil
           if self.active && selected.is_a?(PZNuzlockeMenuOption) && Input.trigger?(Input::C)
-            PZHardcoreNuzlocke.safe_ui("Desafíos") { PZHardcoreNuzlocke.open_menu }
+            PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:challenges)) { PZHardcoreNuzlocke.open_menu }
             Input.update
             refresh
           elsif self.active && selected.is_a?(PZLearningMenuOption) && Input.trigger?(Input::C)
-            PZHardcoreNuzlocke.safe_ui("Ayudas de combate") { PZHardcoreNuzlocke.open_learning_setup }
+            PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:learning_option)) { PZHardcoreNuzlocke.open_learning_setup }
             Input.update
             refresh
           elsif self.active && selected.is_a?(PZTypeChartMenuOption) && Input.trigger?(Input::C)
-            PZHardcoreNuzlocke.safe_ui("Tabla de tipos") { PZHardcoreNuzlocke.open_type_chart }
+            PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:type_chart)) { PZHardcoreNuzlocke.open_type_chart }
             Input.update
             refresh
           end
@@ -482,7 +482,7 @@ PZ_BRIDGE
           pzn_hardcore_original_pause_update
           if Input.trigger?(Input::R)
             @sprites.visible = false
-            PZHardcoreNuzlocke.safe_ui("Desafíos desde pausa") { PZHardcoreNuzlocke.open_menu }
+            PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:challenges)) { PZHardcoreNuzlocke.open_menu }
             @sprites.visible = true
             PZHardcoreNuzlocke.draw_pause_info(@sprites, @globalVp)
             Input.update
@@ -573,7 +573,7 @@ PZ_BRIDGE
             if Input.trigger?(Input::X) && PZHardcoreNuzlocke.learning_setting?(:move_info)
               move = battler.moves[cw.index]
               if move && move.id != 0
-                PZHardcoreNuzlocke.safe_ui("Información de ataque") do
+                PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:move_info_title)) do
                   PZHardcoreNuzlocke.open_move_info(move, battler)
                 end
                 pbShowWindow(fightbox)
@@ -588,10 +588,10 @@ PZ_BRIDGE
               modifier = PZHardcoreNuzlocke.move_modifier(move, battler, target)
               damaging = move && move.respond_to?(:basedamage) && move.basedamage.to_i > 0
               if damaging && modifier == 0 && PZHardcoreNuzlocke.learning_setting?(:warn_no_effect)
-                target_name = target ? target.name : "el rival"
-                explanation = "#{move.name} no causa daño a #{target_name} por la inmunidad de tipos."
+                target_name = target ? target.name : PZHardcoreNuzlocke.t(:enemy_fallback)
+                explanation = PZHardcoreNuzlocke.t(:no_effect_explanation, move.name, target_name)
                 proceed = PZHardcoreNuzlocke.confirm_choice(
-                  "¿Deseas usarlo de todas formas?", explanation, "Ataque sin efecto")
+                  PZHardcoreNuzlocke.t(:use_anyway), explanation, PZHardcoreNuzlocke.t(:no_effect_title))
                 pbShowWindow(fightbox)
                 pbRefresh
                 next if !proceed
@@ -643,7 +643,7 @@ PZ_BRIDGE
             @pzn_first_run_setup_pending = false
             @pzn_first_run_setup_running = true
             begin
-              PZHardcoreNuzlocke.safe_ui("Configuración inicial") { PZHardcoreNuzlocke.open_post_nuzlocke_first_run_setup }
+              PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:initial_config_title)) { PZHardcoreNuzlocke.open_post_nuzlocke_first_run_setup }
             ensure
               @pzn_first_run_setup_running = false
             end

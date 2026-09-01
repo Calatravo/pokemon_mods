@@ -54,7 +54,7 @@ module PZHardcoreNuzlocke
     }
 
     if !counted
-      context[:notice] = "ENCUENTRO ESTÁTICO EXENTO - #{area[:name]}"
+      context[:notice] = t(:notice_static_exempt, area[:name])
       set_battle_context(battle, context)
       return
     end
@@ -87,14 +87,14 @@ module PZHardcoreNuzlocke
       record[:species] = primary.species
       record[:encountered_at] = Time.now.to_i
       record[:source] = source
-      context[:notice] = "PRIMER ENCUENTRO - #{area[:name]}\n#{species_name(primary.species)}"
+      context[:notice] = t(:notice_first, area[:name], species_name(primary.species))
     elsif status == :available && context[:shiny].length > 0
-      context[:notice] = "SHINY EXENTO - #{area[:name]}\nLa zona sigue disponible."
+      context[:notice] = t(:notice_shiny, area[:name])
     elsif status == :available
-      context[:notice] = "DUPES - #{area[:name]}\nEl encuentro no consume la zona."
+      context[:notice] = t(:notice_dupes, area[:name])
     else
       context[:allowed].clear
-      context[:notice] = "ZONA YA USADA - #{area[:name]}\nCaptura normal bloqueada."
+      context[:notice] = t(:notice_zone_used, area[:name])
     end
     set_battle_context(battle, context)
   rescue Exception => error
@@ -120,12 +120,12 @@ module PZHardcoreNuzlocke
     return [true, nil] if context[:shiny].include?(token)
     return [true, nil] if context[:allowed].include?(token)
     if context[:duplicates][token]
-      return [false, "Cláusula dupes: #{context[:duplicates][token]}. Busca otro encuentro."]
+      return [false, t(:capture_dupes_block, context[:duplicates][token])]
     end
     if context[:other].include?(token)
-      return [false, "En un encuentro doble solo cuenta el primer Pokémon válido. (#{context[:area][:name]})"]
+      return [false, t(:capture_double_block, context[:area][:name])]
     end
-    [false, "Ya consumiste el encuentro de #{context[:area][:name]}. La Poké Ball no se gastó."]
+    [false, t(:capture_zone_block, context[:area][:name])]
   end
 
   def self.restore_blocked_ball(battle, ball)
@@ -193,11 +193,11 @@ module PZHardcoreNuzlocke
     end
     duplicate = duplicate_reason(pokemon)
     if duplicate
-      Kernel.pbMessage("No puedes aceptar este regalo: #{duplicate}.")
+      Kernel.pbMessage(t(:gift_duplicate_block, duplicate))
       return nil
     end
     if zone_status(area) != :available
-      Kernel.pbMessage("No puedes aceptar este regalo: #{area[:name]} ya tiene su encuentro consumido.")
+      Kernel.pbMessage(t(:gift_zone_block, area[:name]))
       return nil
     end
     {:area=>area, :pokemon=>pokemon, :shiny=>false}

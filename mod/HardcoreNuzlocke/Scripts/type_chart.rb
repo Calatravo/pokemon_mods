@@ -5,6 +5,17 @@ module PZHardcoreNuzlocke
   TYPE_ICON_WIDTH = 24
   TYPE_ICON_HEIGHT = 28
   TYPE_ICON_COUNT = 19
+  TYPE_NAME_KEYS = {
+    :NORMAL=>:type_name_normal, :FIGHTING=>:type_name_fighting,
+    :FLYING=>:type_name_flying, :POISON=>:type_name_poison,
+    :GROUND=>:type_name_ground, :ROCK=>:type_name_rock,
+    :BUG=>:type_name_bug, :GHOST=>:type_name_ghost,
+    :STEEL=>:type_name_steel, :FIRE=>:type_name_fire,
+    :WATER=>:type_name_water, :GRASS=>:type_name_grass,
+    :ELECTRIC=>:type_name_electric, :PSYCHIC=>:type_name_psychic,
+    :ICE=>:type_name_ice, :DRAGON=>:type_name_dragon,
+    :DARK=>:type_name_dark, :FAIRY=>:type_name_fairy
+  }
 
   def self.type_chart_types
     result = []
@@ -22,9 +33,13 @@ module PZHardcoreNuzlocke
   end
 
   def self.type_name(type_id)
+    TYPE_NAME_KEYS.each do |constant_name, translation_key|
+      value = PBTypes.const_get(constant_name) rescue nil
+      return t(translation_key) if !value.nil? && value.to_i == type_id.to_i
+    end
     PBTypes.getName(type_id).to_s
   rescue Exception
-    "Tipo #{type_id}"
+    t(:type_fallback, type_id)
   end
 
   def self.type_effectiveness(attack_type, defense_type)
@@ -55,7 +70,7 @@ class PZTypeChartScene
 
   def pbStartScene
     @types = PZHardcoreNuzlocke.type_chart_types
-    raise "No se encontraron tipos válidos" if @types.length == 0
+    raise PZHardcoreNuzlocke.t(:no_valid_types) if @types.length == 0
     @type_index = 0
     @view = :defense
     @scroll_offset = 0
@@ -122,8 +137,8 @@ class PZTypeChartScene
     accent = Color.new(31, 91, 145)
     pbSetSystemFont(bitmap)
     pbDrawTextPositions(bitmap, [
-      ["Tabla de tipos", 28, 22, 0, accent, shadow],
-      [@view == :defense ? "DEFENSA" : "ATAQUE", Graphics.width - 28, 24, 1, accent, shadow]
+      [PZHardcoreNuzlocke.t(:type_chart), 28, 22, 0, accent, shadow],
+      [@view == :defense ? PZHardcoreNuzlocke.t(:type_defense) : PZHardcoreNuzlocke.t(:type_attack), Graphics.width - 28, 24, 1, accent, shadow]
     ])
 
     selected = @types[@type_index]
@@ -135,16 +150,16 @@ class PZTypeChartScene
 
     if @view == :defense
       categories = [
-        ["Débil frente a - recibe x2", 4, Color.new(190, 64, 64)],
-        ["Resiste - recibe x1/2", 1, Color.new(48, 132, 86)],
-        ["Inmune - recibe x0", 0, Color.new(91, 98, 112)]
+        [PZHardcoreNuzlocke.t(:type_weak_to), 4, Color.new(190, 64, 64)],
+        [PZHardcoreNuzlocke.t(:type_resists), 1, Color.new(48, 132, 86)],
+        [PZHardcoreNuzlocke.t(:type_immune), 0, Color.new(91, 98, 112)]
       ]
       relation_proc = proc { |candidate| PZHardcoreNuzlocke.type_effectiveness(candidate, selected) }
     else
       categories = [
-        ["Supereficaz contra - inflige x2", 4, Color.new(48, 132, 86)],
-        ["Poco eficaz contra - inflige x1/2", 1, Color.new(190, 118, 42)],
-        ["No afecta a - inflige x0", 0, Color.new(91, 98, 112)]
+        [PZHardcoreNuzlocke.t(:type_super_against), 4, Color.new(48, 132, 86)],
+        [PZHardcoreNuzlocke.t(:type_low_against), 1, Color.new(190, 118, 42)],
+        [PZHardcoreNuzlocke.t(:type_no_effect), 0, Color.new(91, 98, 112)]
       ]
       relation_proc = proc { |candidate| PZHardcoreNuzlocke.type_effectiveness(selected, candidate) }
     end
@@ -156,7 +171,7 @@ class PZTypeChartScene
       y = draw_category(content, category[0], matching, y, category[2])
     end
     content_top = 116
-    content_height = Graphics.height - content_top - 88
+    content_height = Graphics.height - content_top - 112
     @max_scroll = [y - content_height, 0].max
     @scroll_offset = @max_scroll if @scroll_offset > @max_scroll
     bitmap.fill_rect(24, content_top, Graphics.width - 48, content_height, Color.new(235, 240, 246))
@@ -165,12 +180,13 @@ class PZTypeChartScene
 
     pbSetSmallFont(bitmap)
     pbDrawTextPositions(bitmap, [
-      ["Izq./Der.: Tipo", 28, Graphics.height - 74, 0, base, shadow],
-      ["C: Defensa/Ataque", Graphics.width / 2, Graphics.height - 74, 2, base, shadow],
-      ["Arr./Ab.: Lista", Graphics.width - 28, Graphics.height - 74, 1, base, shadow]
+      [PZHardcoreNuzlocke.t(:type_footer_type), 28, Graphics.height - 98, 0, base, shadow],
+      [PZHardcoreNuzlocke.t(:type_footer_list), Graphics.width - 28, Graphics.height - 98, 1, base, shadow],
+      [PZHardcoreNuzlocke.t(:type_footer_view), 28, Graphics.height - 72, 0, base, shadow],
+      [PZHardcoreNuzlocke.t(:footer_back), Graphics.width - 28, Graphics.height - 72, 1, base, shadow]
     ])
-    note = "X/Esc: Volver. Daño x1 si no aparece."
-    pbDrawTextPositions(bitmap, [[note, Graphics.width / 2, Graphics.height - 50, 2, Color.new(75, 82, 96), shadow]])
+    note = PZHardcoreNuzlocke.t(:type_footer_note)
+    pbDrawTextPositions(bitmap, [[note, Graphics.width / 2, Graphics.height - 46, 2, Color.new(75, 82, 96), shadow]])
   end
 
   def draw_category(bitmap, label, type_ids, y, color)
@@ -178,7 +194,7 @@ class PZTypeChartScene
     pbDrawTextPositions(bitmap, [[label, 28, y, 0, color, Color.new(210, 216, 224)]])
     y += 26
     if type_ids.length == 0
-      pbDrawTextPositions(bitmap, [["Ninguno", 36, y, 0, Color.new(90, 96, 108), Color.new(220, 224, 230)]])
+      pbDrawTextPositions(bitmap, [[PZHardcoreNuzlocke.t(:none), 36, y, 0, Color.new(90, 96, 108), Color.new(220, 224, 230)]])
       return y + 32
     end
     columns = 3
@@ -216,13 +232,8 @@ class PZTypeChartScene
 end
 
 class PZTypeChartMenuOption
-  attr_reader :values
-  attr_reader :name
-
-  def initialize
-    @name = _INTL("Tabla de tipos")
-    @values = [_INTL("Abrir")]
-  end
+  def name; PZHardcoreNuzlocke.t(:type_chart); end
+  def values; [PZHardcoreNuzlocke.t(:open)]; end
 
   def get; 0; end
   def set(value); end

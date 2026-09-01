@@ -1,8 +1,10 @@
 # Pokémon Z Mods
 
-Mod de desafíos configurables para **Pokémon Z V2.18**. Añade Nuzlocke forzado, Random y Randomlocke desde la primera partida, asistentes de configuración, ayudas de aprendizaje en combate y una tabla de tipos integrada.
+[Español](README.md) · [English](README.en.md) · [Français](README.fr.md)
 
-> Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de Pokémon Z V2.18.
+Mod de desafíos configurables para las ediciones española, inglesa y francesa de **Pokémon Z**. Añade Nuzlocke forzado, Random y Randomlocke desde la primera partida, asistentes de configuración, ayudas de aprendizaje en combate y una tabla de tipos integrada.
+
+> Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
 ## Instalación rápida
 
@@ -12,10 +14,10 @@ Mod de desafíos configurables para **Pokémon Z V2.18**. Añade Nuzlocke forzad
 4. Ejecuta, cambiando la ruta por la de tu instalación:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Juegos\Pokemon Z V2.18"
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Juegos\Pokemon Z V2.18" -Language auto
 ```
 
-El instalador copia el mod a `Mods\HardcoreNuzlocke`, guarda una copia de seguridad de `preload.rb` y añade únicamente el cargador necesario. **No modifica `Data\Scripts.rxdata`.** Puedes volver a ejecutar el mismo comando para actualizar el mod.
+`auto` detecta la edición y selecciona el idioma y perfil compatibles. También se puede indicar `-Language es`, `-Language en` o `-Language fr`. El instalador copia el mod a `Mods\HardcoreNuzlocke`, guarda copias de seguridad de `preload.rb` y `mkxp.json`, activa el cargador y corrige el wrapper Zlib defectuoso incluido en 2.12/2.13. **No modifica `Data\Scripts.rxdata`.** Puedes volver a ejecutar el mismo comando para actualizar el mod.
 
 Consulta [INSTALL.md](INSTALL.md) para la instalación manual, verificación, actualización, solución de problemas y desinstalación.
 
@@ -121,13 +123,14 @@ Las ayudas son independientes de Nuzlocke y Random: funcionan también en una pa
 
 ## Tabla de tipos y menús de consulta
 
-La tabla integrada usa los iconos y nombres de tipo del juego. `Izquierda/Derecha` cambia el tipo, `C` alterna entre la vista de defensa y ataque, `Arriba/Abajo` desplaza las relaciones cuando no caben y `X` o `Esc` vuelve. La vista muestra relaciones `x2`, `x1/2` y `x0`, distribuidas en columnas para que listas extensas como Roca en ataque permanezcan dentro de la pantalla.
+La tabla integrada usa los iconos del juego y nombres traducidos por el mod. `Izquierda/Derecha` cambia el tipo, `C` alterna entre la vista de defensa y ataque, `Arriba/Abajo` desplaza las relaciones cuando no caben y `X` o `Esc` vuelve. La vista muestra relaciones `x2`, `x1/2` y `x0`, distribuidas en columnas para que listas extensas como Roca en ataque permanezcan dentro de la pantalla.
 
 Los accesos añadidos son:
 
 - **Opciones → Desafíos - Abrir:** estado y configuración de Nuzlocke y Random, progreso, registro de zonas y Cementerio.
 - **Opciones → Ayudas de combate - Configurar:** todos los interruptores de aprendizaje descritos arriba.
 - **Opciones → Tabla de tipos - Abrir:** referencia ofensiva y defensiva de tipos.
+- **Opciones → Idioma del mod:** cambia al instante entre Español, English y Français y guarda la elección en la partida.
 - **Menú de pausa → Desafíos:** abre el mismo centro de consulta; también se conserva el atajo indicado en pantalla como `S/R` según el sistema de entrada del juego.
 
 La documentación interna y técnica adicional está en [la documentación del módulo](mod/HardcoreNuzlocke/README.md).
@@ -146,10 +149,21 @@ La documentación interna y técnica adicional está en [la documentación del m
 | --- |
 | ![Ficha de movimiento durante el combate](docs/screenshots/05-ficha-ataque.jpg) |
 
-## Compatibilidad
+| Edición francesa |
+| --- |
+| ![Menú de desafíos en francés](docs/screenshots/06-defis-fr.png) |
 
-- Pokémon Z **V2.18** para Windows.
-- El instalador está pensado para la distribución que contiene `Game.exe`, `preload.rb` y `Data\Scripts.rxdata` en la carpeta principal.
+## Idiomas y compatibilidad
+
+| Edición probada | Perfil | Idioma inicial |
+| --- | --- | --- |
+| Pokémon Z **V2.18 española** | `es_218` | Español |
+| Pokémon Z **V2.13 inglesa** | `en_213` | English |
+| Pokémon Z **V2.12 francesa + Patch 1** | `fr_212p1` | Français |
+
+- Los nombres de Pokémon, movimientos y sus descripciones se obtienen de los datos de cada edición; los textos propios del mod están traducidos íntegramente.
+- El idioma del mod puede cambiarse después desde Opciones sin reinstalar ni alterar el idioma base del juego.
+- El instalador requiere una distribución con `Game.exe`, `preload.rb`, `mkxp.json` y `Data\Scripts.rxdata` en la carpeta principal.
 - Otros mods que reemplacen los mismos métodos pueden causar incompatibilidades. Conserva siempre la copia de seguridad.
 
 ## Estado y diagnóstico
@@ -159,6 +173,8 @@ Al iniciar el juego se crea `Mods\HardcoreNuzlocke\nuzlocke.log`. Una carga corr
 ```text
 PASS (12 hooks)
 ```
+
+La línea siguiente debe indicar también `Compatibility profile PASS` con el perfil de la edición instalada.
 
 Si el juego se cierra o una pantalla no abre, adjunta ese registro al crear una incidencia.
 

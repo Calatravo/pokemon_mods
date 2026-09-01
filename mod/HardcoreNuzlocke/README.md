@@ -1,6 +1,16 @@
-# Desafíos configurables - Pokémon Z V2.18
+# Desafíos configurables - Pokémon Z
 
-Este módulo añade Nuzlocke forzado, Random configurable y Randomlocke. Los modos están disponibles desde la primera partida y su estado se guarda dentro de la partida.
+Este módulo añade Nuzlocke forzado, Random configurable y Randomlocke a las ediciones española 2.18, inglesa 2.13 y francesa 2.12 + Patch 1. Los modos están disponibles desde la primera partida y su estado se guarda dentro de la partida.
+
+## Idiomas y perfiles
+
+El instalador genera `Config/install_profile.rb` con uno de estos pares:
+
+- `LANGUAGE = :es`, `PROFILE = :es_218`.
+- `LANGUAGE = :en`, `PROFILE = :en_213`.
+- `LANGUAGE = :fr`, `PROFILE = :fr_212p1`.
+
+Todos los menús, explicaciones, preguntas y avisos del mod están traducidos. Pokémon, movimientos y descripciones se leen de los datos localizados del juego; los nombres de los 18 tipos se incluyen en las traducciones del mod porque algunas distribuciones conservan esos nombres internos en español. El jugador puede cambiar el idioma del mod en Opciones y la elección se guarda en `$PokemonSystem`.
 
 ## Inicio de una partida
 
@@ -15,6 +25,7 @@ Al aplicar un modo, su configuración queda bloqueada para ese guardado. Así no
 - Menú de opciones: `Desafíos - Abrir`.
 - Menú de opciones: `Ayudas de combate - Configurar`.
 - Menú de opciones: `Tabla de tipos - Abrir`.
+- Menú de opciones: `Idioma del mod` (`Español`, `English` o `Français`).
 - Menú de pausa: selecciona la nueva entrada `Desafíos`. También se conserva el atajo `S` (`R` en el sistema de entrada del juego).
 
 Desde el centro de desafíos se puede consultar el estado de los modos, el progreso, las zonas, los encuentros perdidos y el cementerio. Una configuración ya aplicada puede revisarse, pero no alterarse.
@@ -32,7 +43,7 @@ La pantalla `Ayudas de combate` permite activar o desactivar individualmente:
 - Confirmación antes de usar un ataque de daño sin efecto.
 - Nombre de los tipos del rival en el selector de ataques.
 
-La ficha de ataque usa el icono y nombre del tipo del juego y muestra categoría, potencia, precisión, PP, prioridad, eficacia contra el rival y descripción. Los movimientos de estado se identifican como tales y no reciben una etiqueta de eficacia de daño engañosa. Las ayudas habituales vienen activadas y se guardan por partida.
+La ficha de ataque usa el icono del juego y el nombre localizado del tipo y muestra categoría, potencia, precisión, PP, prioridad, eficacia contra el rival y descripción. Los movimientos de estado se identifican como tales y no reciben una etiqueta de eficacia de daño engañosa. Las ayudas habituales vienen activadas y se guardan por partida.
 
 ## Nuzlocke
 
@@ -73,11 +84,14 @@ La selección de generaciones se aplica antes de generar los iniciales. Debe que
 
 - `Config/rules.rb`: valores predeterminados, reglas obligatorias y topes de nivel.
 - `Config/areas.rb`: agrupación de mapas en zonas de captura.
+- `Config/profiles.rb`: ediciones compatibles y validación del perfil.
+- `Config/install_profile.rb`: idioma y perfil elegidos para la instalación.
+- `Locales/*.rb`: textos en español, inglés y francés.
 - `nuzlocke.log`: registro de carga, validación y errores del módulo.
 
-La lógica del mod permanece separada en `Mods/HardcoreNuzlocke`. `preload.rb` carga el módulo antes de los scripts del juego; el propio módulo espera a que existan todas las clases e instala un puente temporal en memoria antes de `Main`.
+La lógica del mod permanece separada en `Mods/HardcoreNuzlocke`. `preload.rb` carga el módulo antes de los scripts del juego; el módulo instala un hook diferido en `Graphics.update`, espera a que existan todas las clases y entonces instala sus hooks en memoria. Las instalaciones españolas que ya contienen el puente persistente compatible lo reutilizan.
 
-La instalación distribuida no modifica `Data/Scripts.rxdata`. El instalador crea una copia recuperable de `preload.rb` antes de añadir su bloque de carga.
+La instalación distribuida no modifica `Data/Scripts.rxdata`. El instalador crea copias recuperables de `preload.rb` y `mkxp.json`, activa la precarga cuando la edición la trae comentada y elimina el wrapper Zlib defectuoso conocido de 2.12/2.13.
 
 ## Control de pruebas por fichero
 
