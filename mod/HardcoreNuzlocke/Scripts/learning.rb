@@ -131,6 +131,7 @@ module PZHardcoreNuzlocke
     pbSetSmallFont(bitmap)
     help_parts = []
     help_parts << t(:fight_info_hint) if learning_setting?(:move_info)
+    help_parts << t(:fight_type_chart_hint)
     if learning_setting?(:show_enemy_types)
       opponent = primary_opponent(attacker)
       help_parts << t(:opponent_types, type_names(opponent)) if opponent

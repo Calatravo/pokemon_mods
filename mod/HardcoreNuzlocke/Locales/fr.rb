@@ -108,7 +108,7 @@ PZHardcoreNuzlocke::I18n.register(:fr, {
   :learning_warn_help=>"Demande confirmation avant une capacité offensive sans effet à cause d'une immunité de type.",
   :learning_enemy_types_help=>"Affiche les types connus de l'adversaire actif en haut du sélecteur de capacités.",
   :effect_none=>"SANS EFFET", :effect_super=>"SUPER EFFICACE", :effect_low=>"PEU EFFICACE", :effect_normal=>"NEUTRE", :effect_status=>"STATUT",
-  :fight_info_hint=>"X : Infos", :opponent_types=>"Adversaire : %s", :choose_pokemon=>"Choisissez un Pokémon.",
+  :fight_info_hint=>"X : Infos", :fight_type_chart_hint=>"R : Types", :opponent_types=>"Adversaire : %s", :choose_pokemon=>"Choisissez un Pokémon.",
   :switch_exact=>"%s : Atq %s | Déf %s", :switch_words=>"%s : %s | %s",
   :attack_effective=>"Atq efficace", :attack_weak=>"Atq faible", :attack_neutral=>"Atq neutre",
   :defense_weak=>"Déf faible", :defense_resists=>"Déf résiste", :defense_neutral=>"Déf neutre",

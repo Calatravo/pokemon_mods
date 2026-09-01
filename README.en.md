@@ -117,6 +117,8 @@ These settings work in normal, Nuzlocke, Random and Randomlocke games. They can 
 
 The integrated chart uses the game's type icons and translated type names. Left/Right changes type, `C` switches between Defense and Attack, Up/Down scrolls long lists and `X` or Escape returns. Relations are shown as `x2`, `x1/2` and `x0` in a safe multi-column layout, including Rock's longer attack list.
 
+During battle, press `R` in the move selector to open the chart immediately. Closing it returns to the same selected move without spending the turn or changing the choice. The move selector shows `R: Types` next to the `X: Info` shortcut.
+
 Added entries:
 
 - **Options → Challenges:** Nuzlocke/Random configuration and status, progress, area records and Cemetery.

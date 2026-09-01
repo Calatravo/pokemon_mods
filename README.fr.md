@@ -117,6 +117,8 @@ Ces aides fonctionnent en partie normale, Nuzlocke, Random et Randomlocke. Elles
 
 La table utilise les icônes du jeu et les noms de types traduits. Gauche/Droite change le type, `C` alterne Défense et Attaque, Haut/Bas fait défiler une liste longue et `X` ou Échap revient. Les relations `x2`, `x1/2` et `x0` restent dans une disposition sûre, y compris pour la longue liste offensive de Roche.
 
+Pendant un combat, appuyez sur `R` dans le sélecteur de capacités pour ouvrir immédiatement la table. La fermer revient à la même capacité sélectionnée sans consommer le tour ni modifier le choix. Le sélecteur affiche `R : Types` à côté du raccourci `X : Infos`.
+
 Entrées ajoutées :
 
 - **Options → Défis** : configuration et état Nuzlocke/Random, progression, zones et Cimetière.

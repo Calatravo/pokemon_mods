@@ -570,7 +570,15 @@ module PZHardcoreNuzlocke
               pbPlayCursorSE() if cw.setIndex(cw.index + 2)
             end
 
-            if Input.trigger?(Input::X) && PZHardcoreNuzlocke.learning_setting?(:move_info)
+            if Input.trigger?(Input::R)
+              PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:type_chart)) do
+                PZHardcoreNuzlocke.open_type_chart
+              end
+              pbShowWindow(fightbox)
+              pbRefresh
+              Input.update
+              next
+            elsif Input.trigger?(Input::X) && PZHardcoreNuzlocke.learning_setting?(:move_info)
               move = battler.moves[cw.index]
               if move && move.id != 0
                 PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:move_info_title)) do

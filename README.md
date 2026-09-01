@@ -125,6 +125,8 @@ Las ayudas son independientes de Nuzlocke y Random: funcionan también en una pa
 
 La tabla integrada usa los iconos del juego y nombres traducidos por el mod. `Izquierda/Derecha` cambia el tipo, `C` alterna entre la vista de defensa y ataque, `Arriba/Abajo` desplaza las relaciones cuando no caben y `X` o `Esc` vuelve. La vista muestra relaciones `x2`, `x1/2` y `x0`, distribuidas en columnas para que listas extensas como Roca en ataque permanezcan dentro de la pantalla.
 
+Durante un combate, `R` abre directamente la tabla desde el selector de movimientos. Al cerrarla se vuelve al mismo ataque seleccionado, sin consumir el turno ni modificar la elección. El propio selector muestra el recordatorio `R: Tipos` junto al acceso `X: Info`.
+
 Los accesos añadidos son:
 
 - **Opciones → Desafíos - Abrir:** estado y configuración de Nuzlocke y Random, progreso, registro de zonas y Cementerio.

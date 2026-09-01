@@ -108,7 +108,7 @@ PZHardcoreNuzlocke::I18n.register(:en, {
   :learning_warn_help=>"Asks for confirmation before using a damaging move that cannot affect the opponent because of a type immunity.",
   :learning_enemy_types_help=>"Shows the known types of the active opponent at the top of the move selector.",
   :effect_none=>"NO EFFECT", :effect_super=>"SUPER EFFECTIVE", :effect_low=>"NOT VERY EFFECTIVE", :effect_normal=>"NEUTRAL", :effect_status=>"STATUS",
-  :fight_info_hint=>"X: Info", :opponent_types=>"Opponent: %s", :choose_pokemon=>"Choose a Pokémon.",
+  :fight_info_hint=>"X: Info", :fight_type_chart_hint=>"R: Types", :opponent_types=>"Opponent: %s", :choose_pokemon=>"Choose a Pokémon.",
   :switch_exact=>"%s: Atk %s | Def %s", :switch_words=>"%s: %s | %s",
   :attack_effective=>"Strong Atk", :attack_weak=>"Weak Atk", :attack_neutral=>"Neutral Atk",
   :defense_weak=>"Weak Def", :defense_resists=>"Resist Def", :defense_neutral=>"Neutral Def",

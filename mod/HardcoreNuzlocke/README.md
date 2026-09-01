@@ -30,7 +30,7 @@ Al aplicar un modo, su configuración queda bloqueada para ese guardado. Así no
 
 Desde el centro de desafíos se puede consultar el estado de los modos, el progreso, las zonas, los encuentros perdidos y el cementerio. Una configuración ya aplicada puede revisarse, pero no alterarse.
 
-La tabla de tipos muestra el icono y el nombre de cada tipo. Izquierda y derecha cambian de tipo; C alterna entre defensa y ataque; arriba y abajo desplazan las relaciones cuando no caben; X o Esc vuelve al menú. La distribución en tres columnas evita que tipos con muchas relaciones, como Roca, salgan de la pantalla.
+La tabla de tipos muestra el icono y el nombre de cada tipo. Izquierda y derecha cambian de tipo; C alterna entre defensa y ataque; arriba y abajo desplazan las relaciones cuando no caben; X o Esc vuelve al menú. La distribución en tres columnas evita que tipos con muchas relaciones, como Roca, salgan de la pantalla. En el selector de movimientos de un combate, `R` abre la tabla y vuelve después al mismo movimiento sin consumir el turno.
 
 ## Ayudas para aprender en combate
 
