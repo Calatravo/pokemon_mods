@@ -102,7 +102,7 @@ module PZHardcoreNuzlocke
         delay += frames
         next
       end
-      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|MOVE_INFO|ITEM_PICKUP|ITEM_RECEIVE|ENCOUNTER_TEST|OPTIONS|PAUSE|INITIAL_FLOW|BATTLE)$/i
+      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|MOVE_INFO|ITEM_PICKUP|ITEM_RECEIVE|ITEM_POLICY_TEST|ENCOUNTER_TEST|OPTIONS|PAUSE|INITIAL_FLOW|BATTLE)$/i
         action = $1.to_s.upcase
         @test_pending_actions << action
         accepted << "OPEN #{action}"
@@ -202,6 +202,44 @@ module PZHardcoreNuzlocke
       when "ITEM_RECEIVE"
         item = hasConst?(PBItems, :POTION) ? getConst(PBItems, :POTION) : 1
         safe_ui("Item receipt [test]") { Kernel.pbReceiveItem(item, 1) }
+      when "ITEM_POLICY_TEST"
+        candidate = RandomizedChallenge::UNRANDOMIZABLE_ITEMS[0]
+        raise "no manual-only item candidate" if !candidate
+        original_protection = RandomizedChallenge.unrandomizable_item?(candidate)
+        saved_item_data = $ItemData
+        begin
+          $ItemData = []
+          $ItemData[candidate] = []
+          $ItemData[candidate][ITEMPOCKET] = 1
+          $ItemData[candidate][ITEMTYPE] = 0
+          $ItemData[candidate][ITEMUSE] = 0
+          automatic_protection = with_item_random_policy(:automatic_only) do
+            RandomizedChallenge.unrandomizable_item?(candidate)
+          end
+          renewable_protection = with_item_random_policy(:preserve_all) do
+            RandomizedChallenge.unrandomizable_item?(candidate)
+          end
+          $ItemData[candidate][ITEMTYPE] = 6
+          key_protection = with_item_random_policy(:automatic_only) do
+            RandomizedChallenge.unrandomizable_item?(candidate)
+          end
+          $ItemData[candidate][ITEMTYPE] = 0
+          $ItemData[candidate][ITEMPOCKET] = 8
+          custom_key_protection = with_item_random_policy(:automatic_only) do
+            RandomizedChallenge.unrandomizable_item?(candidate)
+          end
+        ensure
+          $ItemData = saved_item_data
+        end
+        fake_event_class = Struct.new(:character_name)
+        resource_event = fake_event_class.new("cajaMateriales")
+        pickup_event = fake_event_class.new("objeto")
+        if !original_protection || automatic_protection || !renewable_protection ||
+           !key_protection || !custom_key_protection ||
+           !renewable_item_event?(resource_event) || renewable_item_event?(pickup_event)
+          raise "item policy mismatch: original=#{original_protection.inspect}, automatic=#{automatic_protection.inspect}"
+        end
+        log("Item randomization policy test PASS")
       when "ENCOUNTER_TEST"
         static_type = random_encounter_type
         step_type = nil

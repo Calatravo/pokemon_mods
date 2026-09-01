@@ -73,7 +73,10 @@ El asistente permite configurar:
 - Progresión de fuerza según medallas.
 - Movimientos, evoluciones y evoluciones con fuerza base similar.
 - Compatibilidad con MT, tipos y habilidades.
-- Objetos del mapa y objetos equipados.
+- Objetos únicos visibles y ocultos del mapa, protegiendo objetos clave, MO y megapiedras.
+- Los nodos renovables de bayas y materiales mantienen sus recursos para impedir farmeo random infinito.
+- Regalos y recompensas de eventos random como opción independiente, desactivada por defecto.
+- Objetos equipados random.
 - Recompensas aleatorias de entrenadores.
 - Modo Semi Random.
 - Generaciones permitidas, de la 1 a la 9.
@@ -105,4 +108,4 @@ El puente interactivo solo se activa al iniciar `Game.exe` con la variable de en
 - `HOLD DIRECCION N`: mantiene `UP`, `DOWN`, `LEFT` o `RIGHT` durante N fotogramas; permite caminar por el mapa y provocar combates reales.
 - `WAIT N`: espera N fotogramas antes de continuar la secuencia.
 - `TEXT texto`: introduce texto por la ruta de teclado del juego.
-- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN MOVE_INFO`, `OPEN ITEM_PICKUP`, `OPEN ITEM_RECEIVE`, `OPEN ENCOUNTER_TEST`, `OPEN OPTIONS`, `OPEN PAUSE`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `ITEM_PICKUP` encuentra un Antídoto y `ITEM_RECEIVE` entrega una Poción en la sesión de prueba para comprobar ambos mensajes originales y sus ventanas posteriores con la descripción; `ENCOUNTER_TEST` valida que un combate por pasos no se clasifique como estático; `PAUSE` abre el menú de pausa real; `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.
+- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN MOVE_INFO`, `OPEN ITEM_PICKUP`, `OPEN ITEM_RECEIVE`, `OPEN ITEM_POLICY_TEST`, `OPEN ENCOUNTER_TEST`, `OPEN OPTIONS`, `OPEN PAUSE`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `ITEM_PICKUP` encuentra un Antídoto y `ITEM_RECEIVE` entrega una Poción en la sesión de prueba para comprobar ambos mensajes originales y sus ventanas posteriores con la descripción; `ITEM_POLICY_TEST` verifica la separación entre recogidas únicas, objetos clave y nodos renovables; `ENCOUNTER_TEST` valida que un combate por pasos no se clasifique como estático; `PAUSE` abre el menú de pausa real; `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.

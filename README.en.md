@@ -93,7 +93,8 @@ Random tables are generated and saved for the playthrough, so species, abilities
 | **Similar-BST evolutions** | On | When evolutions are randomized, prefers a target with similar base-stat total. It has no practical effect while Random evolutions is off. |
 | **Random TM compatibility** | On | Randomizes which TMs each Pokémon can learn. |
 | **Random types** | Off | Assigns stable random types, changing STAB, weaknesses, resistances and immunities. |
-| **Random field items** | On | Replaces non-essential map pickups while protecting key items. |
+| **Random field items** | On | Randomizes one-time visible and hidden pickups while protecting key items, HMs and Mega Stones. Renewable trees, rocks, material crates and Berry plants keep their normal resources to prevent unlimited random farming. |
+| **Random event gifts** | Off | Randomizes non-essential gifts and rewards handed out directly by events. Key items, HMs and Mega Stones remain protected. |
 | **Random held items** | On | Allows wild Pokémon to carry safe random items. |
 | **Random trainer rewards** | Off | Allows some defeated trainers to grant an extra random reward. |
 | **Semi Random mode** | Off | Limits randomization to encounters and gifts; trainers, moves, abilities and items keep their normal behavior. |
@@ -144,7 +145,7 @@ Added entries:
 The game creates `Mods\HardcoreNuzlocke\nuzlocke.log`. A correct startup includes:
 
 ```text
-Installation self-test PASS (13 hooks)
+Installation self-test PASS (14 hooks)
 Compatibility profile PASS: en_213; language=en
 ```
 

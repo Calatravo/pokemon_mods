@@ -99,7 +99,8 @@ Es una opción de tres estados, no un simple interruptor:
 | **Evoluciones con BST similar** | Activada | Cuando las evoluciones random están activas, intenta elegir una especie con una suma de estadísticas base parecida y reduce saltos de poder desproporcionados. No tiene efecto práctico si `Evoluciones random` está desactivada. |
 | **Compatibilidad con MT random** | Activada | Genera al azar qué MT puede aprender cada Pokémon, modificando su compatibilidad normal. |
 | **Tipos random** | Desactivada | Asigna tipos aleatorios y consistentes a las especies. Cambia STAB, inmunidades, debilidades y resistencias. |
-| **Objetos del mapa random** | Activada | Sustituye los objetos no esenciales recogidos en el mapa por otros aleatorios. Los objetos clave y las protecciones internas del juego se conservan. |
+| **Objetos del mapa random** | Activada | Randomiza las recogidas únicas visibles y ocultas. Protege objetos clave, MO y megapiedras. Los nodos renovables (árboles, rocas, cajas de materiales y plantas de bayas) conservan sus recursos normales para impedir una fuente infinita de objetos random. |
+| **Regalos de eventos random** | Desactivada | Randomiza regalos y recompensas no esenciales entregados directamente por eventos. Los objetos clave, MO y megapiedras permanecen protegidos. |
 | **Objetos equipados random** | Activada | Permite que los Pokémon salvajes lleven objetos aleatorios, respetando las listas de seguridad del juego. |
 | **Recompensas random de entrenadores** | Desactivada | Permite que algunos entrenadores derrotados entreguen una recompensa aleatoria adicional. |
 | **Modo Semi Random** | Desactivada | Limita la aleatorización a encuentros y Pokémon regalados. Entrenadores, movimientos, habilidades y objetos mantienen su comportamiento normal; por ello actúa como una variante reducida frente a las demás opciones. |
@@ -175,7 +176,7 @@ La documentación interna y técnica adicional está en [la documentación del m
 Al iniciar el juego se crea `Mods\HardcoreNuzlocke\nuzlocke.log`. Una carga correcta termina con:
 
 ```text
-PASS (13 hooks)
+PASS (14 hooks)
 ```
 
 La línea siguiente debe indicar también `Compatibility profile PASS` con el perfil de la edición instalada.

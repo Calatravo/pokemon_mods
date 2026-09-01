@@ -86,6 +86,7 @@ module PZHardcoreNuzlocke
       :tm_compat=>true,
       :types=>false,
       :items=>true,
+      :event_items=>false,
       :held_items=>true,
       :trainer_rewards=>false,
       :semi_random=>false,

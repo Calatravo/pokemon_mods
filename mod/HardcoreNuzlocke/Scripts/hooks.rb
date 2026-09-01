@@ -86,6 +86,9 @@ module PZHardcoreNuzlocke
                  FightMenuButtons.method_defined?(:pzn_learning_original_refresh) &&
                  PokemonScreen_Scene.method_defined?(:pzn_learning_original_update),
       :gifts=>(Object.private_method_defined?(:pzn_hardcore_original_add_pokemon) || Object.method_defined?(:pzn_hardcore_original_add_pokemon)),
+      :item_randomization=>Kernel.respond_to?(:pzn_random_policy_original_item_ball) &&
+                           Kernel.respond_to?(:pzn_random_policy_original_receive_item) &&
+                           RandomizedChallenge.respond_to?(:pzn_original_unrandomizable_item),
       :item_descriptions=>Kernel.respond_to?(:pzn_hardcore_original_item_ball) &&
                           Kernel.respond_to?(:pzn_hardcore_original_receive_item),
       :test_input=>Input.respond_to?(:pzn_test_original_update) &&
@@ -113,6 +116,7 @@ module PZHardcoreNuzlocke
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
+    install_item_randomization_hooks
     install_item_description_hooks
     install_test_input_hook
     install_menu_hooks
@@ -453,6 +457,63 @@ module PZHardcoreNuzlocke
           result = pzn_hardcore_original_receive_item(*arguments)
           PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
           result
+        end
+      end
+    end
+  end
+
+  def self.install_item_randomization_hooks
+    randomized_singleton = class << RandomizedChallenge; self; end
+    randomized_singleton.class_eval do
+      if !method_defined?(:pzn_original_unrandomizable_item)
+        alias_method :pzn_original_unrandomizable_item, :unrandomizable_item?
+        def unrandomizable_item?(item)
+          return true if PZHardcoreNuzlocke.preserve_current_item?
+          if PZHardcoreNuzlocke.automatic_item_protection_only?
+            item_id = item.is_a?(String) || item.is_a?(Symbol) ? getID(PBItems, item) : item
+            item_data = defined?($ItemData) && $ItemData ? $ItemData[item_id] : nil
+            # Pokemon Z has a few custom key objects and Mega Stones whose
+            # ITEMTYPE metadata/base Mega list is incomplete. Pockets 8 and 6
+            # are the reliable source of truth for those two groups.
+            return true if item_data && (item_data[ITEMPOCKET] == 8 || item_data[ITEMPOCKET] == 6)
+            return true if pbIsKeyItem?(item_id) || pbIsHiddenMachine?(item_id) || pbIsMegaStone?(item_id)
+            return false
+          end
+          pzn_original_unrandomizable_item(item)
+        end
+      end
+    end
+
+    class << Kernel
+      if !method_defined?(:pzn_random_policy_original_item_ball)
+        alias_method :pzn_random_policy_original_item_ball, :pbItemBall
+        def pbItemBall(*arguments)
+          PZHardcoreNuzlocke.with_map_item_random_policy do
+            pzn_random_policy_original_item_ball(*arguments)
+          end
+        end
+      end
+
+      if !method_defined?(:pzn_random_policy_original_receive_item)
+        alias_method :pzn_random_policy_original_receive_item, :pbReceiveItem
+        def pbReceiveItem(item, quantity=1)
+          if PZHardcoreNuzlocke.event_items_randomized?
+            item = PZHardcoreNuzlocke.with_item_random_policy(:automatic_only) do
+              RandomizedChallenge.determine_random_item(item)
+            end
+            item = getID(PBItems, item) if item.is_a?(String) || item.is_a?(Symbol)
+            if pbIsTechnicalMachine?(item) && RandomizedChallenge::RANDOMIZE_TM_MOVES &&
+               !RandomizedChallenge::UNRANDOMIZABLE_TMS.include?(item)
+              progressive = progressive_random_on? && $Trainer.numbadges < 3 &&
+                RandomizedChallenge::MT_MOVES_RESPECT_PROGRESSIVE_RANDOM
+              move = progressive ? find_valid_move(true, 70, true) : find_valid_move(false, 0, true)
+              $PokemonGlobal.given_tm_moves << move
+              $PokemonGlobal.tm_moves ||= {}
+              $ItemData[item][ITEMMACHINE] = move
+              $PokemonGlobal.tm_moves[item] = move
+            end
+          end
+          pzn_random_policy_original_receive_item(item, quantity)
         end
       end
     end

@@ -93,7 +93,8 @@ Les tables aléatoires sont générées puis enregistrées : espèces, talents, 
 | **Évolutions au BST similaire** | Activé | Si les évolutions sont randomisées, préfère une somme de statistiques de base comparable. |
 | **Compatibilité CT random** | Activée | Randomise les CT que chaque Pokémon peut apprendre. |
 | **Types random** | Désactivés | Attribue des types aléatoires stables, modifiant STAB, faiblesses, résistances et immunités. |
-| **Objets au sol random** | Activés | Remplace les objets non essentiels en protégeant les objets clés. |
+| **Objets au sol random** | Activés | Randomise les objets visibles et cachés à ramassage unique tout en protégeant les objets clés, les CS et les Méga-Gemmes. Les arbres, rochers, caisses de matériaux et plants de Baies renouvelables conservent leurs ressources normales afin d'éviter une récolte aléatoire illimitée. |
+| **Cadeaux d'événements aléatoires** | Désactivés | Randomise les cadeaux et récompenses non essentiels remis directement par les événements. Les objets clés, les CS et les Méga-Gemmes restent protégés. |
 | **Objets tenus random** | Activés | Permet aux Pokémon sauvages de porter des objets aléatoires sûrs. |
 | **Récompenses de Dresseurs random** | Désactivées | Certains Dresseurs vaincus peuvent donner une récompense aléatoire supplémentaire. |
 | **Mode Semi Random** | Désactivé | Limite l'aléatoire aux rencontres et cadeaux ; Dresseurs, capacités, talents et objets restent normaux. |
@@ -140,7 +141,7 @@ Entrées ajoutées :
 Le jeu crée `Mods\HardcoreNuzlocke\nuzlocke.log`. Un démarrage correct contient :
 
 ```text
-Installation self-test PASS (13 hooks)
+Installation self-test PASS (14 hooks)
 Compatibility profile PASS: fr_212p1; language=fr
 ```
 

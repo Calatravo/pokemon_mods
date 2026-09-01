@@ -76,7 +76,7 @@ Después de abrir el juego, comprueba el archivo:
 Mods\HardcoreNuzlocke\nuzlocke.log
 ```
 
-La validación correcta contiene `PASS (13 hooks)` y `Compatibility profile PASS`. Después podrás encontrar en Opciones:
+La validación correcta contiene `PASS (14 hooks)` y `Compatibility profile PASS`. Después podrás encontrar en Opciones:
 
 - `Desafíos - Abrir`
 - `Ayudas de combate - Configurar`
@@ -117,4 +117,4 @@ Restaura temporalmente las copias de `preload.rb` y `mkxp.json`, conserva `nuzlo
 
 ### No aparecen los menús
 
-Comprueba que exista `Mods\HardcoreNuzlocke\loader.rb` y revisa que `nuzlocke.log` termine en `PASS (13 hooks)`. Si no es así, vuelve a ejecutar el instalador y revisa el primer error del registro.
+Comprueba que exista `Mods\HardcoreNuzlocke\loader.rb` y revisa que `nuzlocke.log` termine en `PASS (14 hooks)`. Si no es así, vuelve a ejecutar el instalador y revisa el primer error del registro.

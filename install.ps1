@@ -151,4 +151,4 @@ Write-Host "Perfil: $Profile"
 Write-Host ""
 Write-Host "Inicia Game.exe. Tras llegar al menu principal, revisa este registro:"
 Write-Host (Join-Path $targetMod "nuzlocke.log")
-Write-Host "La validacion correcta termina con: PASS (13 hooks)"
+Write-Host "La validacion correcta termina con: PASS (14 hooks)"
