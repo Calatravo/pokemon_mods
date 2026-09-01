@@ -1,0 +1,26 @@
+# The repository publishes only the mod and its documentation.
+# Never commit a complete game installation or its assets.
+/Pokemon Z V2.18/
+/Pokemon Z*/
+
+# Pokemon Essentials / RPG Maker game data and executables
+*.rxdata
+*.rvdata
+*.rvdata2
+*.exe
+*.dll
+*.sav
+*.dat
+
+# Runtime output and local test bridge files
+*.log
+**/test-input.txt
+**/test-input.ack
+**/test-input.*.txt
+
+# Backups and editor/OS files
+*.backup-*
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
