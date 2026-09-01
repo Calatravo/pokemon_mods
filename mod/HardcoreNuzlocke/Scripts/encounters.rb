@@ -20,11 +20,23 @@ module PZHardcoreNuzlocke
   end
 
   def self.random_encounter_type
-    return nil if !defined?($PokemonTemp) || !$PokemonTemp
-    value = $PokemonTemp.encounterType
+    if defined?($PokemonTemp) && $PokemonTemp
+      value = $PokemonTemp.encounterType
+      return value if value && value.to_i >= 0
+    end
+    value = @step_encounter_type
     value && value.to_i >= 0 ? value : nil
   rescue Exception
     nil
+  end
+
+  def self.with_step_encounter
+    previous = @step_encounter_type
+    value = $PokemonEncounters.pbEncounterType rescue nil
+    @step_encounter_type = value && value.to_i >= 0 ? value : nil
+    yield
+  ensure
+    @step_encounter_type = previous
   end
 
   def self.begin_wild_battle(battle)

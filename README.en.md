@@ -98,6 +98,8 @@ Random tables are generated and saved for the playthrough, so species, abilities
 | **Random trainer rewards** | Off | Allows some defeated trainers to grant an extra random reward. |
 | **Semi Random mode** | Off | Limits randomization to encounters and gifts; trainers, moves, abilities and items keep their normal behavior. |
 
+After a field item, event gift or reward is successfully added to the Bag, the game keeps its normal acquisition messages and then opens a separate window with the item's localized description. It appears once even for multiple copies and, with Random enabled, describes the item actually received after replacement.
+
 Generations **1 through 9** start enabled and can be toggled individually. The randomizer only selects species from enabled generations and prevents the last enabled generation from being disabled.
 
 ## Battle learning aids
@@ -142,7 +144,7 @@ Added entries:
 The game creates `Mods\HardcoreNuzlocke\nuzlocke.log`. A correct startup includes:
 
 ```text
-Installation self-test PASS (12 hooks)
+Installation self-test PASS (13 hooks)
 Compatibility profile PASS: en_213; language=en
 ```
 

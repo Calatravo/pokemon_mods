@@ -31,6 +31,28 @@ module PZHardcoreNuzlocke
     false
   end
 
+  def self.item_description(item)
+    item_id = item
+    if item_id.is_a?(String) || item_id.is_a?(Symbol)
+      item_id = getID(PBItems, item_id)
+    end
+    return "" if !item_id || item_id.to_i <= 0
+    pbGetMessage(MessageTypes::ItemDescriptions, item_id).to_s
+  rescue Exception => error
+    log("item description lookup error: #{error.class}: #{error.message}")
+    ""
+  end
+
+  def self.show_received_item_description(item)
+    description = item_description(item)
+    return false if description.strip == ""
+    Kernel.pbMessage(description)
+    true
+  rescue Exception => error
+    log_exception("item description display error", error)
+    false
+  end
+
   def self.default_state
     {
       :version                => Config::VERSION,

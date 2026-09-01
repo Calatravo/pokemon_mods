@@ -425,7 +425,7 @@ module PZHardcoreNuzlocke
     icon.bmp("Graphics/Pictures/DP Pause Menu/optionsA")
     icon.center_origins
     icon.xyz = 39, 36 + 48 * index
-    sprites["pzn_challenges"] = icon
+    sprites[t(:challenges)] = icon
     true
   rescue Exception => error
     log("pause menu option error: #{error.class}: #{error.message}")

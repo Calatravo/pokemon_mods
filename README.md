@@ -104,6 +104,8 @@ Es una opción de tres estados, no un simple interruptor:
 | **Recompensas random de entrenadores** | Desactivada | Permite que algunos entrenadores derrotados entreguen una recompensa aleatoria adicional. |
 | **Modo Semi Random** | Desactivada | Limita la aleatorización a encuentros y Pokémon regalados. Entrenadores, movimientos, habilidades y objetos mantienen su comportamiento normal; por ello actúa como una variante reducida frente a las demás opciones. |
 
+Al recoger un objeto del mapa o recibirlo de un evento o una recompensa, el juego conserva sus avisos habituales y abre después otra ventana con la descripción localizada del objeto. Solo aparece si el objeto entra realmente en la mochila, se muestra una vez aunque se reciban varias unidades y, con Random activo, describe el objeto que se ha recibido tras la sustitución.
+
 ### Generaciones permitidas
 
 Las generaciones **1 a 9** están activadas inicialmente. Cada generación se puede permitir o excluir por separado y el randomizador solo escogerá especies de las generaciones marcadas. El asistente impide desactivar la última: siempre debe quedar al menos una generación disponible.
@@ -173,7 +175,7 @@ La documentación interna y técnica adicional está en [la documentación del m
 Al iniciar el juego se crea `Mods\HardcoreNuzlocke\nuzlocke.log`. Una carga correcta termina con:
 
 ```text
-PASS (12 hooks)
+PASS (13 hooks)
 ```
 
 La línea siguiente debe indicar también `Compatibility profile PASS` con el perfil de la edición instalada.

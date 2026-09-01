@@ -102,7 +102,7 @@ module PZHardcoreNuzlocke
         delay += frames
         next
       end
-      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|MOVE_INFO|OPTIONS|INITIAL_FLOW|BATTLE)$/i
+      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|MOVE_INFO|ITEM_PICKUP|ITEM_RECEIVE|ENCOUNTER_TEST|OPTIONS|PAUSE|INITIAL_FLOW|BATTLE)$/i
         action = $1.to_s.upcase
         @test_pending_actions << action
         accepted << "OPEN #{action}"
@@ -196,12 +196,28 @@ module PZHardcoreNuzlocke
         safe_ui("#{t(:learning_option)} [test]") { open_learning_setup }
       when "MOVE_INFO"
         safe_ui("#{t(:move_info_title)} [test]") { open_move_info_by_id(test_move_id) }
+      when "ITEM_PICKUP"
+        item = hasConst?(PBItems, :ANTIDOTE) ? getConst(PBItems, :ANTIDOTE) : 1
+        safe_ui("Item pickup [test]") { Kernel.pbItemBall(item, 1) }
+      when "ITEM_RECEIVE"
+        item = hasConst?(PBItems, :POTION) ? getConst(PBItems, :POTION) : 1
+        safe_ui("Item receipt [test]") { Kernel.pbReceiveItem(item, 1) }
+      when "ENCOUNTER_TEST"
+        static_type = random_encounter_type
+        step_type = nil
+        with_step_encounter { step_type = random_encounter_type }
+        if static_type || !step_type
+          raise "classification mismatch: static=#{static_type.inspect}, step=#{step_type.inspect}"
+        end
+        log("Encounter classification test PASS: static=nil, step=#{step_type}")
       when "OPTIONS"
         safe_ui("Opciones [prueba]") do
           scene = PokemonOptionScene.new
           screen = PokemonOption.new(scene)
           screen.pbStartScreen
         end
+      when "PAUSE"
+        safe_ui("Pause menu [test]") { DP_PauseMenu.new }
       when "INITIAL_FLOW"
         current = state
         if !current || !defined?($PokemonGlobal) || !$PokemonGlobal

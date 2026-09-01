@@ -98,6 +98,8 @@ Les tables aléatoires sont générées puis enregistrées : espèces, talents, 
 | **Récompenses de Dresseurs random** | Désactivées | Certains Dresseurs vaincus peuvent donner une récompense aléatoire supplémentaire. |
 | **Mode Semi Random** | Désactivé | Limite l'aléatoire aux rencontres et cadeaux ; Dresseurs, capacités, talents et objets restent normaux. |
 
+Après l'ajout réussi d'un objet au sol, d'un cadeau d'événement ou d'une récompense dans le Sac, le jeu conserve ses messages habituels puis ouvre une fenêtre séparée avec la description localisée de l'objet. Elle n'apparaît qu'une fois, même pour plusieurs exemplaires, et décrit l'objet réellement reçu après remplacement lorsque le mode Random est actif.
+
 Les générations **1 à 9** sont activées par défaut et peuvent être autorisées séparément. Le randomiseur n'utilise que les générations cochées et empêche de désactiver la dernière.
 
 ## Aides d'apprentissage en combat
@@ -138,7 +140,7 @@ Entrées ajoutées :
 Le jeu crée `Mods\HardcoreNuzlocke\nuzlocke.log`. Un démarrage correct contient :
 
 ```text
-Installation self-test PASS (12 hooks)
+Installation self-test PASS (13 hooks)
 Compatibility profile PASS: fr_212p1; language=fr
 ```
 

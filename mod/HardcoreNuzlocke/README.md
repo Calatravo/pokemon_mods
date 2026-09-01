@@ -80,6 +80,8 @@ El asistente permite configurar:
 
 La selección de generaciones se aplica antes de generar los iniciales. Debe quedar al menos una generación activa.
 
+Al recoger un objeto del suelo o recibirlo de un evento o recompensa, se conservan los mensajes normales del juego y después aparece otra ventana con su descripción localizada. La ventana solo se muestra si el objeto entra en la mochila, una sola vez aunque haya varias unidades y, con Random, utiliza el objeto final obtenido tras la sustitución.
+
 ## Archivos configurables
 
 - `Config/rules.rb`: valores predeterminados, reglas obligatorias y topes de nivel.
@@ -103,4 +105,4 @@ El puente interactivo solo se activa al iniciar `Game.exe` con la variable de en
 - `HOLD DIRECCION N`: mantiene `UP`, `DOWN`, `LEFT` o `RIGHT` durante N fotogramas; permite caminar por el mapa y provocar combates reales.
 - `WAIT N`: espera N fotogramas antes de continuar la secuencia.
 - `TEXT texto`: introduce texto por la ruta de teclado del juego.
-- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN MOVE_INFO`, `OPEN OPTIONS`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.
+- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN MOVE_INFO`, `OPEN ITEM_PICKUP`, `OPEN ITEM_RECEIVE`, `OPEN ENCOUNTER_TEST`, `OPEN OPTIONS`, `OPEN PAUSE`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `ITEM_PICKUP` encuentra un Antídoto y `ITEM_RECEIVE` entrega una Poción en la sesión de prueba para comprobar ambos mensajes originales y sus ventanas posteriores con la descripción; `ENCOUNTER_TEST` valida que un combate por pasos no se clasifique como estático; `PAUSE` abre el menú de pausa real; `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.

@@ -69,7 +69,9 @@ module PZHardcoreNuzlocke
     checks = {
       :pokemon_hp=>PokeBattle_Pokemon.method_defined?(:pzn_hardcore_original_hp_set),
       :capture=>PokeBattle_BattleCommon.method_defined?(:pzn_hardcore_original_throw_ball),
-      :battle=>PokeBattle_Battle.method_defined?(:pzn_hardcore_original_start_core),
+      :battle=>PokeBattle_Battle.method_defined?(:pzn_hardcore_original_start_core) &&
+               (Object.private_method_defined?(:pzn_hardcore_original_battle_on_step_taken) ||
+                Object.method_defined?(:pzn_hardcore_original_battle_on_step_taken)),
       :storage=>PokemonStorageScreen.method_defined?(:pzn_hardcore_original_withdraw),
       :options=>PokemonOptionScene.method_defined?(:pzn_hardcore_original_add_on_options),
       :type_chart=>defined?(PZTypeChartScene) && defined?(PZTypeChartMenuOption) &&
@@ -84,6 +86,8 @@ module PZHardcoreNuzlocke
                  FightMenuButtons.method_defined?(:pzn_learning_original_refresh) &&
                  PokemonScreen_Scene.method_defined?(:pzn_learning_original_update),
       :gifts=>(Object.private_method_defined?(:pzn_hardcore_original_add_pokemon) || Object.method_defined?(:pzn_hardcore_original_add_pokemon)),
+      :item_descriptions=>Kernel.respond_to?(:pzn_hardcore_original_item_ball) &&
+                          Kernel.respond_to?(:pzn_hardcore_original_receive_item),
       :test_input=>Input.respond_to?(:pzn_test_original_update) &&
                    Input.respond_to?(:pzn_test_original_triggerex) &&
                    Input.respond_to?(:pzn_test_original_gets),
@@ -109,6 +113,7 @@ module PZHardcoreNuzlocke
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
+    install_item_description_hooks
     install_test_input_hook
     install_menu_hooks
     install_learning_hooks
@@ -182,6 +187,19 @@ module PZHardcoreNuzlocke
   end
 
   def self.install_battle_hooks
+    Object.class_eval do
+      if (method_defined?(:pbBattleOnStepTaken) || private_method_defined?(:pbBattleOnStepTaken)) &&
+         !private_method_defined?(:pzn_hardcore_original_battle_on_step_taken)
+        alias_method :pzn_hardcore_original_battle_on_step_taken, :pbBattleOnStepTaken
+        def pbBattleOnStepTaken(*arguments)
+          PZHardcoreNuzlocke.with_step_encounter do
+            pzn_hardcore_original_battle_on_step_taken(*arguments)
+          end
+        end
+        private :pbBattleOnStepTaken
+      end
+    end
+
     PokeBattle_BattleCommon.module_eval do
       if !method_defined?(:pzn_hardcore_original_throw_ball)
         alias_method :pzn_hardcore_original_throw_ball, :pbThrowPokeBall
@@ -400,6 +418,42 @@ module PZHardcoreNuzlocke
           result
         end
         private :pbGenerateEgg
+      end
+    end
+  end
+
+  def self.install_item_description_hooks
+    class << Kernel
+      if method_defined?(:pbItemBall_random) && !method_defined?(:pzn_hardcore_original_item_ball)
+        alias_method :pzn_hardcore_original_item_ball, :pbItemBall_random
+        def pbItemBall_random(*arguments)
+          result = pzn_hardcore_original_item_ball(*arguments)
+          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result
+        end
+      elsif method_defined?(:pbItemBall) && !method_defined?(:pzn_hardcore_original_item_ball)
+        alias_method :pzn_hardcore_original_item_ball, :pbItemBall
+        def pbItemBall(*arguments)
+          result = pzn_hardcore_original_item_ball(*arguments)
+          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result
+        end
+      end
+
+      if method_defined?(:pbReceiveItem_random) && !method_defined?(:pzn_hardcore_original_receive_item)
+        alias_method :pzn_hardcore_original_receive_item, :pbReceiveItem_random
+        def pbReceiveItem_random(*arguments)
+          result = pzn_hardcore_original_receive_item(*arguments)
+          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result
+        end
+      elsif method_defined?(:pbReceiveItem) && !method_defined?(:pzn_hardcore_original_receive_item)
+        alias_method :pzn_hardcore_original_receive_item, :pbReceiveItem
+        def pbReceiveItem(*arguments)
+          result = pzn_hardcore_original_receive_item(*arguments)
+          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result
+        end
       end
     end
   end
