@@ -42,13 +42,26 @@ $languageProfiles = @{
     "en" = "en_213"
     "fr" = "fr_212p1"
 }
+$knownScriptsProfiles = @{
+    "0580B2F2787C16FCBC72F6CD34155656102985F43D92A560A34232E64DEA9001" = "es_218"
+    "82AC875CA31A2B9B32F046C965E5F89DDA8B479EC768D3CA2B90125943DBDFEE" = "en_213"
+    "4AF6E9E7EAD84E439C3EC05451DCFAC46B06B70C6160E8E99F6207D18209C1B4" = "fr_212p1"
+}
 
 $detectionText = $resolvedGamePath.ToLowerInvariant()
 if ($Profile -eq "auto") {
     if ($Language -ne "auto") {
         $Profile = $languageProfiles[$Language]
     }
-    elseif ($detectionText -match '2[\.,]13|english|anglais') {
+    else {
+        $scriptsHash = (Get-FileHash -LiteralPath $scriptsPath -Algorithm SHA256).Hash
+        if ($knownScriptsProfiles.ContainsKey($scriptsHash)) {
+            $Profile = $knownScriptsProfiles[$scriptsHash]
+        }
+    }
+}
+if ($Profile -eq "auto") {
+    if ($detectionText -match '2[\.,]13|english|anglais') {
         $Profile = "en_213"
     }
     elseif ($detectionText -match '2[\.,]12|fran[cç]ais|french') {
@@ -58,7 +71,7 @@ if ($Profile -eq "auto") {
         $Profile = "es_218"
     }
     else {
-        throw "No se pudo detectar la edición. Indica -Language es|en|fr o -Profile es_218|en_213|fr_212p1."
+        throw "No se pudo detectar la edición por sus archivos ni por la ruta. Indica -Language es|en|fr o -Profile es_218|en_213|fr_212p1."
     }
 }
 

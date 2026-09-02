@@ -9,17 +9,18 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 ## Instalación rápida
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga este repositorio con **Code > Download ZIP** y descomprímelo.
-3. Abre PowerShell en la carpeta descomprimida.
-4. Ejecuta, cambiando la ruta por la de tu instalación:
+2. Descarga `Pokemon-Z-Mods-v1.0.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
+
+También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Juegos\Pokemon Z V2.18" -Language auto
 ```
 
-`auto` detecta la edición y selecciona el idioma y perfil compatibles. También se puede indicar `-Language es`, `-Language en` o `-Language fr`. El instalador copia el mod a `Mods\HardcoreNuzlocke`, guarda copias de seguridad de `preload.rb` y `mkxp.json`, activa el cargador y corrige el wrapper Zlib defectuoso incluido en 2.12/2.13. **No modifica `Data\Scripts.rxdata`.** Puedes volver a ejecutar el mismo comando para actualizar el mod.
+`auto` detecta la edición por sus archivos (aunque se haya renombrado la carpeta) y selecciona el idioma y perfil compatibles. También se puede indicar `-Language es`, `-Language en` o `-Language fr`. El instalador copia el mod a `Mods\HardcoreNuzlocke`, guarda copias de seguridad de `preload.rb` y `mkxp.json`, activa el cargador y corrige el wrapper Zlib defectuoso incluido en 2.12/2.13. **No modifica `Data\Scripts.rxdata`.** Puedes volver a ejecutar el mismo comando para actualizar el mod.
 
-Consulta [INSTALL.md](INSTALL.md) para la instalación manual, verificación, actualización, solución de problemas y desinstalación.
+Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, o [INSTALL.md](INSTALL.md) para la instalación manual, verificación, actualización, solución de problemas y desinstalación.
 
 ## Configuración inicial y guardado
 

@@ -26,3 +26,8 @@
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Generated release artifacts and Python cache
+/dist/
+__pycache__/
+*.pyc

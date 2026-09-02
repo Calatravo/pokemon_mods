@@ -22,15 +22,17 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga el ZIP del repositorio y descomprímelo.
-2. Abre PowerShell dentro de la carpeta descomprimida.
-3. Ejecuta:
+1. Descarga `Pokemon-Z-Mods-v1.0.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
+3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
+
+El instalador abre un selector de carpetas y detecta automáticamente la edición. Como alternativa por terminal, abre PowerShell dentro de la carpeta descomprimida y ejecuta:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\ruta\a\Pokemon Z V2.18" -Language auto
 ```
 
-El script detecta la edición por la ruta, elige su perfil, copia `mod\HardcoreNuzlocke` a la carpeta `Mods` del juego, activa `preload.rb` en `mkxp.json` y añade o reutiliza el cargador. Para forzar una edición se puede usar:
+El script detecta primero la edición por la firma de sus archivos y usa el nombre de la ruta como respaldo, elige su perfil, copia `mod\HardcoreNuzlocke` a la carpeta `Mods` del juego, activa `preload.rb` en `mkxp.json` y añade o reutiliza el cargador. Para forzar una edición se puede usar:
 
 ```powershell
 -Language es
@@ -48,6 +50,8 @@ mkxp.json.backup-before-pokemon-mods
 ```
 
 Las ediciones 2.12/2.13 incluyen en `preload.rb` un antiguo wrapper Zlib que falla al activarlo; el instalador retira únicamente ese bloque conocido y conserva la copia original. El instalador es repetible: vuelve a ejecutar el mismo comando para actualizar los archivos del mod sin duplicar el cargador ni la entrada de `mkxp.json`.
+
+Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Los ZIP Android ya contienen el perfil correcto de cada edición y no necesitan PowerShell.
 
 ## Instalación manual
 

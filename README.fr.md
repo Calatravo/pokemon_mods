@@ -19,17 +19,18 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez le dépôt avec **Code > Download ZIP**, puis décompressez-le.
-3. Ouvrez PowerShell dans le dossier décompressé.
-4. Exécutez la commande en adaptant le chemin :
+2. Téléchargez `Pokemon-Z-Mods-v1.0.0.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
+
+Vous pouvez également utiliser PowerShell en adaptant le chemin :
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Jeux\Pokémon Z V2.12 - Français" -Language auto
 ```
 
-`auto` détecte l'édition, la langue et le profil. Il est aussi possible d'utiliser `-Language es`, `-Language en` ou `-Language fr`. L'installateur sauvegarde `preload.rb` et `mkxp.json`, active le chargeur, corrige l'ancien wrapper Zlib défectueux des versions 2.12/2.13 et ne modifie jamais `Data\Scripts.rxdata`. La même commande peut être relancée pour mettre le mod à jour.
+`auto` détecte l'édition à partir de ses fichiers, même si le dossier a été renommé, puis choisit la langue et le profil. Il est aussi possible d'utiliser `-Language es`, `-Language en` ou `-Language fr`. L'installateur sauvegarde `preload.rb` et `mkxp.json`, active le chargeur, corrige l'ancien wrapper Zlib défectueux des versions 2.12/2.13 et ne modifie jamais `Data\Scripts.rxdata`. La même commande peut être relancée pour mettre le mod à jour.
 
-Consultez [INSTALL.md](INSTALL.md) pour l'installation manuelle, la mise à jour, la désinstallation et le dépannage.
+Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, macOS et l'état d'iOS, ou [INSTALL.md](INSTALL.md) pour l'installation manuelle, la mise à jour, la désinstallation et le dépannage.
 
 ## Configuration dès la première partie
 

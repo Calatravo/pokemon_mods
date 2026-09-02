@@ -19,17 +19,18 @@ Pokémon names, move names and move descriptions come from each game's localized
 ## Quick installation
 
 1. Close the game and back up its folder and save files.
-2. Download this repository with **Code > Download ZIP** and extract it.
-3. Open PowerShell in the extracted folder.
-4. Run the following command with the path to your game:
+2. Download `Pokemon-Z-Mods-v1.0.0.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
+
+You can also use PowerShell with the path to your game:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Games\Pokemon Z V2.13" -Language auto
 ```
 
-`auto` detects the edition, language and compatibility profile. You can explicitly use `-Language es`, `-Language en` or `-Language fr`. The installer backs up `preload.rb` and `mkxp.json`, enables the loader, safely handles the broken legacy Zlib wrapper in 2.12/2.13 and never modifies `Data\Scripts.rxdata`. It is safe to run the same command again to update the mod.
+`auto` detects the edition from its files even if the folder was renamed, then selects the language and compatibility profile. You can explicitly use `-Language es`, `-Language en` or `-Language fr`. The installer backs up `preload.rb` and `mkxp.json`, enables the loader, safely handles the broken legacy Zlib wrapper in 2.12/2.13 and never modifies `Data\Scripts.rxdata`. It is safe to run the same command again to update the mod.
 
-See [INSTALL.md](INSTALL.md) for manual installation, updating, uninstalling and troubleshooting.
+See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS and iOS status, or [INSTALL.md](INSTALL.md) for manual installation, updating, uninstalling and troubleshooting.
 
 ## First-playthrough setup
 
