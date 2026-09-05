@@ -427,19 +427,67 @@ module PZHardcoreNuzlocke
   end
 
   def self.install_item_description_hooks
+    if defined?(PokemonBag) && !PokemonBag.method_defined?(:pzn_hardcore_original_store_item_for_description)
+      PokemonBag.class_eval do
+        alias_method :pzn_hardcore_original_store_item_for_description, :pbStoreItem
+        def pbStoreItem(*arguments)
+          result = pzn_hardcore_original_store_item_for_description(*arguments)
+          PZHardcoreNuzlocke.record_received_item_for_description(arguments[0]) if result
+          result
+        end
+      end
+    end
+
+    Object.class_eval do
+      if (method_defined?(:pbGetMessage) || private_method_defined?(:pbGetMessage)) &&
+         !private_method_defined?(:pzn_hardcore_original_get_message_from_object) &&
+         !method_defined?(:pzn_hardcore_original_get_message_from_object)
+        alias_method :pzn_hardcore_original_get_message_from_object, :pbGetMessage
+        def pbGetMessage(message_type, *arguments)
+          if message_type == MessageTypes::ItemDescriptions && arguments.length > 0
+            custom = PZHardcoreNuzlocke.random_tm_item_description(arguments[0])
+            return custom unless custom.nil?
+          end
+          pzn_hardcore_original_get_message_from_object(message_type, *arguments)
+        end
+      end
+    end
+
     class << Kernel
+      if (method_defined?(:pbGetMessage) || private_method_defined?(:pbGetMessage)) &&
+         !method_defined?(:pzn_hardcore_original_get_message)
+        alias_method :pzn_hardcore_original_get_message, :pbGetMessage
+        def pbGetMessage(message_type, *arguments)
+          if message_type == MessageTypes::ItemDescriptions && arguments.length > 0
+            custom = PZHardcoreNuzlocke.random_tm_item_description(arguments[0])
+            return custom unless custom.nil?
+          end
+          pzn_hardcore_original_get_message(message_type, *arguments)
+        end
+      end
+
       if method_defined?(:pbItemBall_random) && !method_defined?(:pzn_hardcore_original_item_ball)
         alias_method :pzn_hardcore_original_item_ball, :pbItemBall_random
         def pbItemBall_random(*arguments)
-          result = pzn_hardcore_original_item_ball(*arguments)
-          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result = nil
+          received_item = nil
+          PZHardcoreNuzlocke.track_received_item_for_description(arguments[0]) do
+            result = pzn_hardcore_original_item_ball(*arguments)
+            received_item = PZHardcoreNuzlocke.consume_received_item_for_description
+          end
+          PZHardcoreNuzlocke.show_received_item_description(received_item) if result
           result
         end
       elsif method_defined?(:pbItemBall) && !method_defined?(:pzn_hardcore_original_item_ball)
         alias_method :pzn_hardcore_original_item_ball, :pbItemBall
         def pbItemBall(*arguments)
-          result = pzn_hardcore_original_item_ball(*arguments)
-          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result = nil
+          received_item = nil
+          PZHardcoreNuzlocke.track_received_item_for_description(arguments[0]) do
+            result = pzn_hardcore_original_item_ball(*arguments)
+            received_item = PZHardcoreNuzlocke.consume_received_item_for_description
+          end
+          PZHardcoreNuzlocke.show_received_item_description(received_item) if result
           result
         end
       end
@@ -447,15 +495,25 @@ module PZHardcoreNuzlocke
       if method_defined?(:pbReceiveItem_random) && !method_defined?(:pzn_hardcore_original_receive_item)
         alias_method :pzn_hardcore_original_receive_item, :pbReceiveItem_random
         def pbReceiveItem_random(*arguments)
-          result = pzn_hardcore_original_receive_item(*arguments)
-          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result = nil
+          received_item = nil
+          PZHardcoreNuzlocke.track_received_item_for_description(arguments[0]) do
+            result = pzn_hardcore_original_receive_item(*arguments)
+            received_item = PZHardcoreNuzlocke.consume_received_item_for_description
+          end
+          PZHardcoreNuzlocke.show_received_item_description(received_item) if result
           result
         end
       elsif method_defined?(:pbReceiveItem) && !method_defined?(:pzn_hardcore_original_receive_item)
         alias_method :pzn_hardcore_original_receive_item, :pbReceiveItem
         def pbReceiveItem(*arguments)
-          result = pzn_hardcore_original_receive_item(*arguments)
-          PZHardcoreNuzlocke.show_received_item_description(arguments[0]) if result
+          result = nil
+          received_item = nil
+          PZHardcoreNuzlocke.track_received_item_for_description(arguments[0]) do
+            result = pzn_hardcore_original_receive_item(*arguments)
+            received_item = PZHardcoreNuzlocke.consume_received_item_for_description
+          end
+          PZHardcoreNuzlocke.show_received_item_description(received_item) if result
           result
         end
       end

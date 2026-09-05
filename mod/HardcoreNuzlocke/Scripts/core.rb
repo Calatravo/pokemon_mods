@@ -37,10 +37,54 @@ module PZHardcoreNuzlocke
       item_id = getID(PBItems, item_id)
     end
     return "" if !item_id || item_id.to_i <= 0
-    pbGetMessage(MessageTypes::ItemDescriptions, item_id).to_s
+    fallback = random_tm_item_description(item_id)
+    return fallback if fallback
+    item_description_message(MessageTypes::ItemDescriptions, item_id).to_s
   rescue Exception => error
     log("item description lookup error: #{error.class}: #{error.message}")
     ""
+  end
+
+  def self.item_description_message(message_type, *arguments)
+    return Kernel.send(:pzn_hardcore_original_get_message, message_type, *arguments) if
+      Kernel.respond_to?(:pzn_hardcore_original_get_message, true)
+    return Object.send(:pzn_hardcore_original_get_message_from_object, message_type, *arguments) if
+      Object.respond_to?(:pzn_hardcore_original_get_message_from_object, true)
+    return Kernel.pbGetMessage(message_type, *arguments) if Kernel.respond_to?(:pbGetMessage, true)
+    ""
+  rescue Exception
+    ""
+  end
+
+  def self.tm_move_for_item(item)
+    item_id = item
+    if item_id.is_a?(String) || item_id.is_a?(Symbol)
+      item_id = getID(PBItems, item_id)
+    end
+    return nil if !item_id || item_id.to_i <= 0
+    return nil if !Kernel.respond_to?(:pbIsTechnicalMachine?, true)
+    return nil if !Kernel.send(:pbIsTechnicalMachine?, item_id)
+    move = nil
+    if defined?($PokemonGlobal) && $PokemonGlobal && $PokemonGlobal.respond_to?(:tm_moves) &&
+       $PokemonGlobal.tm_moves.is_a?(Hash) && $PokemonGlobal.tm_moves[item_id]
+      move = $PokemonGlobal.tm_moves[item_id]
+    elsif defined?($ItemData) && $ItemData && $ItemData[item_id]
+      item_data = $ItemData[item_id]
+      move = item_data[ITEMMACHINE] if item_data.is_a?(Array)
+    end
+    return nil if !move
+    move = getID(PBMoves, move) if move.is_a?(String) || move.is_a?(Symbol)
+    move = move.to_i
+    return nil if move <= 0
+    move
+  end
+
+  def self.random_tm_item_description(item)
+    move_id = tm_move_for_item(item)
+    return nil if !move_id
+    description = item_description_message(MessageTypes::MoveDescriptions, move_id).to_s
+    return nil if description.strip.empty?
+    description
   end
 
   def self.show_received_item_description(item)
@@ -51,6 +95,38 @@ module PZHardcoreNuzlocke
   rescue Exception => error
     log_exception("item description display error", error)
     false
+  end
+
+  def self.consume_received_item_for_description
+    return nil if !@received_item_for_description || @received_item_for_description.empty?
+    entry = @received_item_for_description.pop
+    return nil if !entry
+    return entry[:actual] if entry.is_a?(Hash) && entry[:actual]
+    if entry.is_a?(Hash)
+      entry[:expected]
+    else
+      entry
+    end
+  end
+
+  def self.track_received_item_for_description(item)
+    @received_item_for_description ||= []
+    @received_item_for_description << { :expected => item, :actual => nil }
+    begin
+      yield
+    ensure
+      @received_item_for_description.pop if !@received_item_for_description.empty?
+    end
+  end
+
+  def self.record_received_item_for_description(item)
+    return if !@received_item_for_description || @received_item_for_description.empty?
+    entry = @received_item_for_description[-1]
+    if entry.is_a?(Hash)
+      entry[:actual] = item
+    else
+      @received_item_for_description[-1] = { :expected => entry, :actual => item }
+    end
   end
 
   def self.default_state
