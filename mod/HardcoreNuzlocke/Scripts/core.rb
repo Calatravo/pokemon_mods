@@ -79,6 +79,80 @@ module PZHardcoreNuzlocke
     move
   end
 
+  def self.event_item_id(item)
+    return nil if !item
+    value = item
+    if value.is_a?(String) || value.is_a?(Symbol)
+      value = getID(PBItems, value)
+    end
+    value = value.to_i
+    return nil if value <= 0
+    value
+  end
+
+  def self.olivier_polvo_explosivo_items
+    return @olivier_polvo_explosivo_items if @olivier_polvo_explosivo_items
+    items = []
+    if defined?(PBItems)
+      items << getID(PBItems, :POLVOBRILLANTE) if PBItems.const_defined?(:POLVOBRILLANTE)
+      items << getID(PBItems, :BRASACANDENTE) if PBItems.const_defined?(:BRASACANDENTE)
+    end
+    @olivier_polvo_explosivo_items = items.uniq
+  end
+
+  def self.progress_blocking_event_items
+    return @progress_blocking_event_items if @progress_blocking_event_items
+    items = []
+    if defined?(PBItems)
+      PBItems.constants.each do |const_name|
+        name = const_name.to_s
+        next if !name.start_with?("LLAVE") && !name.start_with?("TICKET") && !name.start_with?("MONEDA")
+        items << getID(PBItems, const_name) if getID(PBItems, const_name)
+      end
+      items << getID(PBItems, :POKEFLUTE) if PBItems.const_defined?(:POKEFLUTE)
+      items << getID(PBItems, :AURORATICKET) if PBItems.const_defined?(:AURORATICKET)
+    end
+    @progress_blocking_event_items = items.uniq
+  end
+
+  def self.preserve_progress_blocking_event_item?(item)
+    item_id = event_item_id(item)
+    return false if !item_id
+    return true if preserve_olivier_polvo_explosivo_item?(item_id)
+    return true if progress_blocking_event_items.include?(item_id)
+    return false if !defined?($ItemData) || !$ItemData
+    data = $ItemData[item_id]
+    return false if !data.is_a?(Array)
+    pocket = data[ITEMPOCKET]
+    type = data[ITEMTYPE]
+    return true if defined?(ITEMPOCKET) && pocket && pocket == 8
+    return true if defined?(ITEMTYPE) && type && type == 6
+    false
+  rescue Exception => error
+    log_exception("progress blocking event item check failed", error)
+    false
+  end
+
+  def self.preserve_olivier_polvo_explosivo_item?(item)
+    item_id = event_item_id(item)
+    return false if !item_id
+    olivier_polvo_explosivo_items.include?(item_id)
+  end
+
+  def self.random_event_item(item)
+    original_id = event_item_id(item)
+    return nil if !original_id
+    begin
+      randomized = RandomizedChallenge.determine_random_item(original_id)
+      randomized_id = event_item_id(randomized)
+      return randomized_id if randomized_id
+    rescue Exception => error
+      log_exception("Randomized event item failed", error)
+      return original_id
+    end
+    original_id
+  end
+
   def self.random_tm_item_description(item)
     move_id = tm_move_for_item(item)
     return nil if !move_id

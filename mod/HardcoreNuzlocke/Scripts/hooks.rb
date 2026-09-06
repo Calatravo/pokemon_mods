@@ -556,10 +556,12 @@ module PZHardcoreNuzlocke
         alias_method :pzn_random_policy_original_receive_item, :pbReceiveItem
         def pbReceiveItem(item, quantity=1)
           if PZHardcoreNuzlocke.event_items_randomized?
-            item = PZHardcoreNuzlocke.with_item_random_policy(:automatic_only) do
-              RandomizedChallenge.determine_random_item(item)
+            unless PZHardcoreNuzlocke.preserve_progress_blocking_event_item?(item)
+              item = PZHardcoreNuzlocke.with_item_random_policy(:automatic_only) do
+                RandomizedChallenge.determine_random_item(item)
+              end
+              item = getID(PBItems, item) if item.is_a?(String) || item.is_a?(Symbol)
             end
-            item = getID(PBItems, item) if item.is_a?(String) || item.is_a?(Symbol)
             if pbIsTechnicalMachine?(item) && RandomizedChallenge::RANDOMIZE_TM_MOVES &&
                !RandomizedChallenge::UNRANDOMIZABLE_TMS.include?(item)
               progressive = progressive_random_on? && $Trainer.numbadges < 3 &&
