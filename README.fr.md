@@ -19,7 +19,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.0.0.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.0.3.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :

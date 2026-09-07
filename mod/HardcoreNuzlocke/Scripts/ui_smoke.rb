@@ -203,8 +203,10 @@ module PZHardcoreNuzlocke
         item = hasConst?(PBItems, :POTION) ? getConst(PBItems, :POTION) : 1
         safe_ui("Item receipt [test]") { Kernel.pbReceiveItem(item, 1) }
       when "ITEM_POLICY_TEST"
-        candidate = RandomizedChallenge::UNRANDOMIZABLE_ITEMS[0]
-        raise "no manual-only item candidate" if !candidate
+        # HERRAMIENTAS (the first original exclusion) is a quest item. Use an
+        # ordinary item excluded by the base game to check the broader random.
+        candidate = getID(PBItems, :TINYMUSHROOM)
+        raise "no manual-only item candidate" if !RandomizedChallenge::UNRANDOMIZABLE_ITEMS.include?(candidate)
         original_protection = RandomizedChallenge.unrandomizable_item?(candidate)
         saved_item_data = $ItemData
         begin

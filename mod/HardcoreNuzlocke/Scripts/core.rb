@@ -111,6 +111,13 @@ module PZHardcoreNuzlocke
       end
       items << getID(PBItems, :POKEFLUTE) if PBItems.const_defined?(:POKEFLUTE)
       items << getID(PBItems, :AURORATICKET) if PBItems.const_defined?(:AURORATICKET)
+      # These quest objects are key items in ES 2.18, but ordinary crafting
+      # items in EN 2.13 / FR 2.12. Preserve their one-off deliveries explicitly.
+      # Do not import UNRANDOMIZABLE_ITEMS: it also excludes ordinary materials,
+      # berries and equipment that should remain eligible for randomization.
+      [:HERRAMIENTAS, :BATERIAVOLCANION, :EMBRIONM, :GENMISTERIOSO].each do |name|
+        items << getID(PBItems, name) if PBItems.const_defined?(name)
+      end
     end
     @progress_blocking_event_items = items.uniq
   end

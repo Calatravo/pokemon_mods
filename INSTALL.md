@@ -22,7 +22,7 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga `Pokemon-Z-Mods-v1.0.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+1. Descarga `Pokemon-Z-Mods-v1.0.3.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
 

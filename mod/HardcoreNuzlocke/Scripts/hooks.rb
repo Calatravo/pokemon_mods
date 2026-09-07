@@ -528,6 +528,9 @@ module PZHardcoreNuzlocke
         def unrandomizable_item?(item)
           return true if PZHardcoreNuzlocke.preserve_current_item?
           if PZHardcoreNuzlocke.automatic_item_protection_only?
+            # NPCs also use pbItemBall (including Olivier's ingredient refill).
+            # Keep progression protection shared by both item delivery paths.
+            return true if PZHardcoreNuzlocke.preserve_progress_blocking_event_item?(item)
             item_id = item.is_a?(String) || item.is_a?(Symbol) ? getID(PBItems, item) : item
             item_data = defined?($ItemData) && $ItemData ? $ItemData[item_id] : nil
             # Pokemon Z has a few custom key objects and Mega Stones whose
@@ -560,8 +563,8 @@ module PZHardcoreNuzlocke
               item = PZHardcoreNuzlocke.with_item_random_policy(:automatic_only) do
                 RandomizedChallenge.determine_random_item(item)
               end
-              item = getID(PBItems, item) if item.is_a?(String) || item.is_a?(Symbol)
             end
+            item = getID(PBItems, item) if item.is_a?(String) || item.is_a?(Symbol)
             if pbIsTechnicalMachine?(item) && RandomizedChallenge::RANDOMIZE_TM_MOVES &&
                !RandomizedChallenge::UNRANDOMIZABLE_TMS.include?(item)
               progressive = progressive_random_on? && $Trainer.numbadges < 3 &&
