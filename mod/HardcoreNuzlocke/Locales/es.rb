@@ -24,7 +24,7 @@ PZHardcoreNuzlocke::I18n.register(:es, {
   :rule_shiny_clause=>"Cláusula shiny", :rule_level_caps=>"Topes de nivel", :rule_no_battle_items=>"Sin objetos en combate",
   :rule_set_style=>"Estilo Fijo", :rule_count_gifts=>"Los regalos consumen zona", :rule_count_statics=>"Los estáticos consumen zona",
   :rule_shared_methods=>"Hierba/agua/pesca comparten zona", :rule_subzones=>"Cada submapa cuenta aparte",
-  :rule_permadeath_help=>"Muerte permanente: cuando un Pokémon llega a 0 PS queda marcado como muerto, no puede revivir y se mueve automáticamente al Cementerio.",
+  :rule_permadeath_help=>"Muerte permanente: cuando un Pokémon llega a 0 PS queda marcado como muerto, no puede revivir y se mueve automáticamente al Cementerio. Excepción: el combate introductorio tras elegir el inicial no registra muertes ni termina el reto.",
   :rule_first_encounter_help=>"Solo el primer encuentro válido de cada zona puede capturarse. Debilitarlo o huir consume esa oportunidad.",
   :rule_one_per_area_help=>"Todas las plantas, pisos y submapas agrupados bajo la misma zona comparten una única captura.",
   :rule_dupes_clause_help=>"Los encuentros cuya línea evolutiva ya obtuviste se ignoran y no consumen la zona. Su captura queda bloqueada para permitir repetir encuentro.",

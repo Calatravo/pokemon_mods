@@ -9,7 +9,7 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 ## Instalación rápida
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.1.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -75,6 +75,9 @@ Estas tres reglas siempre están activas en el modo Nuzlocke forzado y no se pue
 - `Registro de zonas` muestra el estado de cada lugar, su primer encuentro y la captura conseguida, si la hubo.
 
 La agrupación concreta de mapas en zonas se puede adaptar en [`Config/areas.rb`](mod/HardcoreNuzlocke/Config/areas.rb), y los valores iniciales y topes están en [`Config/rules.rb`](mod/HardcoreNuzlocke/Config/rules.rb).
+
+El combate introductorio de Bidoof tras elegir el inicial está exento de muerte permanente y derrota del reto. El inicial recupera sus PS si cae; los combates posteriores aplican las reglas normales. Con movimientos random activados, el inicial recibe su repertorio aleatorio respetando el nivel y la progresividad.
+
 
 ## Modo Random
 

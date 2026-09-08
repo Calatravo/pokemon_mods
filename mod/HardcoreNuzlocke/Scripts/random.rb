@@ -130,6 +130,33 @@ module PZHardcoreNuzlocke
     Object.new.send(method_name, *arguments)
   end
 
+  # The game's starter gift pauses all randomization to keep the chosen species.
+  # Allow only its move-list lookup to see the player's original Random settings.
+  def self.with_starter_random_moves
+    previous = @starter_random_moves
+    switch = RandomizedChallenge::SWITCH
+    enabled = $game_switches[switch]
+    @starter_random_moves = call_global(:random_moves_on?) && !call_global(:semi_random_mode?)
+    begin
+      yield
+    ensure
+      @starter_random_moves = previous
+      $game_switches[switch] = enabled
+    end
+  end
+
+  def self.with_starter_move_lookup
+    return yield unless @starter_random_moves
+    switch = RandomizedChallenge::SWITCH
+    previous = $game_switches[switch]
+    begin
+      $game_switches[switch] = true
+      yield
+    ensure
+      $game_switches[switch] = previous
+    end
+  end
+
   def self.apply_random_config!
     config = random_state
     return false if !config || !defined?($PokemonGlobal) || !$PokemonGlobal || !defined?($game_switches) || !$game_switches

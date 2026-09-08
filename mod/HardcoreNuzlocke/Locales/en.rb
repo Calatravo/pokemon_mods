@@ -24,7 +24,7 @@ PZHardcoreNuzlocke::I18n.register(:en, {
   :rule_shiny_clause=>"Shiny clause", :rule_level_caps=>"Level caps", :rule_no_battle_items=>"No battle items",
   :rule_set_style=>"Set battle style", :rule_count_gifts=>"Gifts consume the area", :rule_count_statics=>"Static encounters consume the area",
   :rule_shared_methods=>"Grass/water/fishing share the area", :rule_subzones=>"Each submap counts separately",
-  :rule_permadeath_help=>"Permadeath: when a Pokémon reaches 0 HP it is marked as dead, cannot be revived and is automatically moved to the Cemetery.",
+  :rule_permadeath_help=>"Permadeath: when a Pokémon reaches 0 HP it is marked as dead, cannot be revived and is automatically moved to the Cemetery. Exception: the introductory battle after choosing a starter does not record deaths or end the run.",
   :rule_first_encounter_help=>"Only the first valid encounter in each area may be caught. Knocking it out or fleeing consumes that opportunity.",
   :rule_one_per_area_help=>"All floors, plants and submaps grouped under the same area share a single catch.",
   :rule_dupes_clause_help=>"Encounters whose evolutionary line you already obtained are ignored and do not consume the area. Their capture is blocked so you can encounter another Pokémon.",

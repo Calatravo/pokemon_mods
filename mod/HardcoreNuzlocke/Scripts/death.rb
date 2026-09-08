@@ -1,6 +1,35 @@
 # encoding: UTF-8
 
 module PZHardcoreNuzlocke
+  def self.intro_battle_exempt?
+    !!@intro_battle_exempt
+  end
+
+  def self.intro_battle_candidate?(species, level)
+    return false unless active? && current_map_id == 2 && level == 2
+    return false if state[:intro_battle_completed] || $game_switches[65]
+    return false unless species == PBSpecies::BIDOOF || species == :BIDOOF || species == 'BIDOOF'
+    event = current_item_event
+    event && event.respond_to?(:id) && [3, 9, 15].include?(event.id)
+  end
+
+  def self.with_intro_battle_exemption
+    previous = @intro_battle_exempt
+    @intro_battle_exempt = true
+    begin
+      result = yield
+      # Base Nuzlocke refuses to heal fainted Pokemon even with canlose=true.
+      # Restore HP while this battle is still exempt, before normal rules resume.
+      $Trainer.party.each do |pokemon|
+        pokemon.healHP if pokemon && pokemon.hp <= 0 && !dead?(pokemon)
+      end
+      state[:intro_battle_completed] = true
+      result
+    ensure
+      @intro_battle_exempt = previous
+    end
+  end
+
   def self.dead?(pokemon)
     pokemon && pokemon.respond_to?(:nuzlocke_dead) && pokemon.nuzlocke_dead
   rescue Exception
@@ -8,6 +37,7 @@ module PZHardcoreNuzlocke
   end
 
   def self.record_death(pokemon)
+    return if intro_battle_exempt?
     return if !active? || !pokemon || (pokemon.isEgg? rescue false) || dead?(pokemon)
     return if !defined?($Trainer) || !$Trainer || !$Trainer.party || !$Trainer.party.include?(pokemon)
     area = area_for(current_map_id, nil)
@@ -31,6 +61,7 @@ module PZHardcoreNuzlocke
   end
 
   def self.check_wipe!
+    return if intro_battle_exempt?
     return if !active? || !defined?($Trainer) || !$Trainer || !$Trainer.party
     alive = false
     $Trainer.party.each do |pokemon|

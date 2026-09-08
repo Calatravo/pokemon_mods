@@ -24,7 +24,7 @@ PZHardcoreNuzlocke::I18n.register(:fr, {
   :rule_shiny_clause=>"Clause chromatique", :rule_level_caps=>"Limites de niveau", :rule_no_battle_items=>"Aucun objet en combat",
   :rule_set_style=>"Mode de combat Défini", :rule_count_gifts=>"Les cadeaux consomment la zone", :rule_count_statics=>"Les rencontres statiques consomment la zone",
   :rule_shared_methods=>"Herbe/eau/pêche partagent la zone", :rule_subzones=>"Chaque sous-carte compte séparément",
-  :rule_permadeath_help=>"Mort permanente : lorsqu'un Pokémon tombe à 0 PV, il est marqué comme mort, ne peut pas être ranimé et rejoint automatiquement le Cimetière.",
+  :rule_permadeath_help=>"Mort permanente : lorsqu'un Pokémon tombe à 0 PV, il est marqué comme mort, ne peut pas être ranimé et rejoint automatiquement le Cimetière. Exception : le combat introductif après le choix du Pokémon de départ ne compte aucune mort et ne termine pas le défi.",
   :rule_first_encounter_help=>"Seule la première rencontre valide de chaque zone peut être capturée. La mettre K.O. ou fuir consomme cette occasion.",
   :rule_one_per_area_help=>"Tous les étages, sections et sous-cartes regroupés dans une même zone partagent une seule capture.",
   :rule_dupes_clause_help=>"Les rencontres dont la lignée évolutive a déjà été obtenue sont ignorées et ne consomment pas la zone. Leur capture est bloquée pour permettre une autre rencontre.",

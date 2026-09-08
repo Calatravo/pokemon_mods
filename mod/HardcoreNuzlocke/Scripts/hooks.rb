@@ -117,6 +117,7 @@ module PZHardcoreNuzlocke
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
+    install_random_starter_hooks
     install_item_randomization_hooks
     install_item_description_hooks
     install_test_input_hook
@@ -208,6 +209,7 @@ module PZHardcoreNuzlocke
   end
 
   def self.install_battle_hooks
+    install_intro_battle_hook
     Object.class_eval do
       if (method_defined?(:pbBattleOnStepTaken) || private_method_defined?(:pbBattleOnStepTaken)) &&
          !private_method_defined?(:pzn_hardcore_original_battle_on_step_taken)
@@ -310,6 +312,23 @@ module PZHardcoreNuzlocke
     end
   end
 
+  def self.install_intro_battle_hook
+    Object.class_eval do
+      unless method_defined?(:pzn_intro_original_wild_battle) || private_method_defined?(:pzn_intro_original_wild_battle)
+        alias_method :pzn_intro_original_wild_battle, :pbWildBattle
+        def pbWildBattle(species, level, variable=nil, canescape=true, canlose=false, *rest)
+          unless PZHardcoreNuzlocke.intro_battle_candidate?(species, level)
+            return pzn_intro_original_wild_battle(species, level, variable, canescape, canlose, *rest)
+          end
+          PZHardcoreNuzlocke.with_intro_battle_exemption do
+            pzn_intro_original_wild_battle(species, level, variable, canescape, true, *rest)
+          end
+        end
+        private :pbWildBattle
+      end
+    end
+  end
+
   def self.install_storage_hooks
     PokemonStorageScreen.class_eval do
       if !method_defined?(:pzn_hardcore_original_withdraw)
@@ -362,6 +381,28 @@ module PZHardcoreNuzlocke
         def pbMoveCaughtToParty(pokemon)
           return false if PZHardcoreNuzlocke.active? && PZHardcoreNuzlocke.dead?(pokemon)
           pzn_hardcore_original_caught_to_party(pokemon)
+        end
+      end
+    end
+  end
+
+  def self.install_random_starter_hooks
+    Object.class_eval do
+      unless method_defined?(:pzn_random_original_give_starter) || private_method_defined?(:pzn_random_original_give_starter)
+        alias_method :pzn_random_original_give_starter, :give_starter_random
+        def give_starter_random(*args)
+          PZHardcoreNuzlocke.with_starter_random_moves do
+            pzn_random_original_give_starter(*args)
+          end
+        end
+        private :give_starter_random
+      end
+    end
+    PokeBattle_Pokemon.class_eval do
+      unless method_defined?(:pzn_starter_original_move_list)
+        alias_method :pzn_starter_original_move_list, :getMoveList
+        def getMoveList
+          PZHardcoreNuzlocke.with_starter_move_lookup { pzn_starter_original_move_list }
         end
       end
     end

@@ -19,7 +19,7 @@ Pokémon names, move names and move descriptions come from each game's localized
 ## Quick installation
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.0.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.1.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -71,6 +71,9 @@ Typical settings start enabled. Selecting any setting opens a full explanation, 
 | **Each submap counts separately** | Off | Every internal map or floor becomes its own area. Off groups floors and segments belonging to the same logical place. |
 
 Illegal Poké Balls are returned with an explanation. Double encounters, shiny Pokémon, gifts and duplicates follow their configured clauses. `Nuzlocke progress` reports current area, catches, missed encounters, extra shiny catches, deaths and the level cap. `Area records` shows each location's encounter and catch state. If no usable Pokémon remain, the run is marked failed without making the save unusable.
+
+The introductory Bidoof battle after choosing a starter is exempt from permadeath and run failure. The starter recovers its HP if it faints; later battles follow normal rules. With random moves enabled, starters receive their randomized moves according to level and Progressive Random settings.
+
 
 ## Random mode
 

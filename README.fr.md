@@ -19,7 +19,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.0.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.1.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -130,6 +130,9 @@ Entrées ajoutées :
 - **Options → Table des types** : référence offensive et défensive.
 - **Options → Langue du mod** : Español, English ou Français.
 - **Menu de pause → Défis** : ouvre le même centre.
+
+Le combat introductif contre Keunotor après le choix du Pokémon de départ est exempt de mort permanente et de défaite du défi. Le Pokémon récupère ses PV en cas de K.O. ; les combats suivants appliquent les règles normales. Les capacités aléatoires du Pokémon de départ respectent son niveau et la progression configurée.
+
 
 ## Captures d'écran
 
