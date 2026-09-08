@@ -113,6 +113,7 @@ module PZHardcoreNuzlocke
   end
 
   def self.process_party_deaths!
+    return [] if battle_presentation_active?
     current = state
     return [] if !current || !current[:pending_cemetery] || !active?
     return [] if !defined?($Trainer) || !$Trainer || !defined?($PokemonStorage) || !$PokemonStorage
@@ -143,15 +144,46 @@ module PZHardcoreNuzlocke
   def self.tick
     return if !installed
     process_test_action if respond_to?(:process_test_action)
-    in_battle = defined?($game_temp) && $game_temp && $game_temp.in_battle
-    process_party_deaths! if !in_battle
-    current = state
-    if !in_battle && current && current[:pending_notice] && defined?(Kernel) && Kernel.respond_to?(:pbMessage)
-      notice = current[:pending_notice]
-      current[:pending_notice] = nil
-      Kernel.pbMessage(notice)
-    end
   rescue Exception => error
     log("tick error: #{error.class}: #{error.message}")
+  end
+
+  # Graphics.update also runs while damage/fainting animations are unfinished.
+  # Track the actual battle calls rather than relying on Game_Temp.in_battle,
+  # which Pokemon Z leaves false during its Pokemon battles.
+  def self.with_battle_presentation
+    previous = @battle_presentation_depth.to_i
+    @battle_presentation_depth = previous + 1
+    begin
+      yield
+    ensure
+      @battle_presentation_depth = previous
+    end
+  end
+
+  def self.battle_presentation_active?
+    @battle_presentation_depth.to_i > 0 ||
+      (defined?($game_temp) && $game_temp && $game_temp.in_battle)
+  end
+
+  def self.process_map_death_notices
+    return if !installed || @processing_death_notices || battle_presentation_active?
+    return unless defined?($scene) && $scene.is_a?(Scene_Map)
+    return if defined?($game_temp) && $game_temp &&
+      ($game_temp.transition_processing || $game_temp.message_window_showing)
+    @processing_death_notices = true
+    begin
+      process_party_deaths!
+      current = state
+      if current && current[:pending_notice] && defined?(Kernel) && Kernel.respond_to?(:pbMessage)
+        notice = current[:pending_notice]
+        current[:pending_notice] = nil
+        Kernel.pbMessage(notice)
+      end
+    ensure
+      @processing_death_notices = false
+    end
+  rescue Exception => error
+    log("map death notice error: #{error.class}: #{error.message}")
   end
 end

@@ -124,6 +124,7 @@ module PZHardcoreNuzlocke
     install_menu_hooks
     install_learning_hooks
     install_first_run_hooks
+    install_death_notice_hooks
     install_update_title_hook
     self.installed = true
     start_update_check
@@ -306,6 +307,38 @@ module PZHardcoreNuzlocke
         def pbStartBattle(battle)
           result = pzn_hardcore_original_scene_start(battle)
           PZHardcoreNuzlocke.show_encounter_notice(battle)
+          result
+        end
+      end
+    end
+  end
+
+  def self.install_death_notice_hooks
+    Object.class_eval do
+      unless method_defined?(:pzn_death_original_battle_animation) || private_method_defined?(:pzn_death_original_battle_animation)
+        alias_method :pzn_death_original_battle_animation, :pbBattleAnimation
+        def pbBattleAnimation(*args, &block)
+          PZHardcoreNuzlocke.with_battle_presentation do
+            pzn_death_original_battle_animation(*args, &block)
+          end
+        end
+        private :pbBattleAnimation
+      end
+    end
+    PokeBattle_Battle.class_eval do
+      unless method_defined?(:pzn_death_original_start_battle)
+        alias_method :pzn_death_original_start_battle, :pbStartBattle
+        def pbStartBattle(*args)
+          PZHardcoreNuzlocke.with_battle_presentation { pzn_death_original_start_battle(*args) }
+        end
+      end
+    end
+    Scene_Map.class_eval do
+      unless method_defined?(:pzn_death_original_map_update)
+        alias_method :pzn_death_original_map_update, :update
+        def update
+          result = pzn_death_original_map_update
+          PZHardcoreNuzlocke.process_map_death_notices
           result
         end
       end
