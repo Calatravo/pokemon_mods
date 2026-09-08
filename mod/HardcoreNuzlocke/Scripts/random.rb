@@ -149,7 +149,8 @@ module PZHardcoreNuzlocke
     $PokemonGlobal.semi_random = config[:semi_random]
     $PokemonGlobal.random_ability_mode = config[:ability_mode]
     $PokemonGlobal.random_gens = config[:generations].clone
-    $PokemonGlobal.ability_hash = nil
+    # ability_map fills missing entries lazily, but requires a Hash to index.
+    $PokemonGlobal.ability_hash = {}
     $PokemonGlobal.random_abs_pokemon = nil if $PokemonGlobal.respond_to?(:random_abs_pokemon=)
     config[:enabled] = true
     config[:locked] = true

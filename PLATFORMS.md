@@ -11,7 +11,7 @@ Sources: [Pokémon Z download and platform guide](https://pokemonzfangame.com/do
 ### Windows — recomendado
 
 1. Cierra Pokémon Z y conserva una copia de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.0.3.zip` de la release y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.0.4.zip` de la release y descomprímelo.
 3. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 4. Selecciona la carpeta que contiene directamente `Game.exe`.
 5. Inicia el juego y comprueba que `Mods/HardcoreNuzlocke/nuzlocke.log` contiene `PASS (14 hooks)`.
@@ -33,7 +33,7 @@ JoiPlay carga automáticamente el `preload.rb` situado junto a `Game.exe`; no es
 ### Steam Deck y Linux — Wine/Proton
 
 1. En Steam Deck cambia al modo Escritorio. En Linux abre una terminal.
-2. Descomprime `Pokemon-Z-Mods-v1.0.3.zip`.
+2. Descomprime `Pokemon-Z-Mods-v1.0.4.zip`.
 3. Ejecuta, sustituyendo la ruta y el perfil cuando corresponda:
 
 ```bash
@@ -55,7 +55,7 @@ No se publica un paquete iOS porque la web del juego no ofrece un método compat
 
 ### Windows — recommended
 
-Extract `Pokemon-Z-Mods-v1.0.3.zip`, double-click `Install Pokemon Z Mods.cmd`, and select the folder that directly contains `Game.exe`. The installer does not require administrator privileges, never edits `Data/Scripts.rxdata`, and backs up `preload.rb` and `mkxp.json`.
+Extract `Pokemon-Z-Mods-v1.0.4.zip`, double-click `Install Pokemon Z Mods.cmd`, and select the folder that directly contains `Game.exe`. The installer does not require administrator privileges, never edits `Data/Scripts.rxdata`, and backs up `preload.rb` and `mkxp.json`.
 
 ### Android — JoiPlay
 
@@ -73,7 +73,7 @@ No iOS package is provided because the Pokémon Z guide does not provide a compa
 
 ### Windows — recommandé
 
-Décompressez `Pokemon-Z-Mods-v1.0.3.zip`, double-cliquez sur `Install Pokemon Z Mods.cmd`, puis sélectionnez le dossier contenant directement `Game.exe`. L'installateur ne demande pas de droits administrateur, ne modifie jamais `Data/Scripts.rxdata` et sauvegarde `preload.rb` et `mkxp.json`.
+Décompressez `Pokemon-Z-Mods-v1.0.4.zip`, double-cliquez sur `Install Pokemon Z Mods.cmd`, puis sélectionnez le dossier contenant directement `Game.exe`. L'installateur ne demande pas de droits administrateur, ne modifie jamais `Data/Scripts.rxdata` et sauvegarde `preload.rb` et `mkxp.json`.
 
 ### Android — JoiPlay
 

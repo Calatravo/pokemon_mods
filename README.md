@@ -9,7 +9,7 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 ## Instalación rápida
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.0.3.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.0.4.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:

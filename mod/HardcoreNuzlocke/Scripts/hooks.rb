@@ -113,6 +113,7 @@ module PZHardcoreNuzlocke
     return if installed
     install_metadata_hooks
     install_pokemon_hooks
+    install_random_ability_hooks
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
@@ -144,6 +145,20 @@ module PZHardcoreNuzlocke
             @pzn_hardcore_state[:pending_first_setup] = true
           end
           pzn_hardcore_original_nuzlocke_set(value)
+        end
+      end
+    end
+  end
+
+  # Older mod versions saved a nil mapping after the setup wizard. Repair it
+  # at the lookup boundary, including saves that have already locked setup.
+  def self.install_random_ability_hooks
+    PokeBattle_Pokemon.class_eval do
+      if !method_defined?(:pzn_random_original_ability_map)
+        alias_method :pzn_random_original_ability_map, :ability_map
+        def ability_map(ret)
+          $PokemonGlobal.ability_hash ||= {}
+          pzn_random_original_ability_map(ret)
         end
       end
     end
