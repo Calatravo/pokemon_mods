@@ -19,7 +19,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.0.4.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.0.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -151,3 +151,11 @@ En cas de fermeture ou d'écran inaccessible, joignez ce journal, l'édition exa
 ## Mentions légales
 
 Projet de fans gratuit et non officiel. Pokémon et ses marques appartiennent à leurs propriétaires. Ce projet n'est ni affilié ni approuvé par Nintendo, Game Freak, Creatures Inc. ou The Pokémon Company.
+
+## Mises à jour automatiques sous Windows
+
+À partir de la version 1.1.0, un processus indépendant vérifie les versions stables sur GitHub au démarrage. Une connexion lente ou absente ne bloque pas le jeu. Le message apparaît uniquement dans le menu initial ; si la partie est déjà chargée, il attend un prochain démarrage.
+
+Si vous acceptez, le jeu se ferme automatiquement. Une fenêtre distincte télécharge et vérifie le SHA-256 du paquet, sauvegarde le mod précédent et installe la mise à jour. Le jeu se relance ensuite. Un refus permet de continuer et de vérifier à nouveau au prochain démarrage. Les sauvegardes, leurs réglages et le profil de langue/édition sont conservés.
+
+PowerShell et les droits d’écriture dans le dossier du jeu sont nécessaires, sans élévation administrateur. Les erreurs et copies de secours se trouvent dans `Mods/.pzn-updates/<session>/`. Installez 1.1.0 manuellement une première fois pour activer les futures mises à jour. Les autres systèmes gardent l’installation manuelle.

@@ -61,6 +61,9 @@ foreach ($archiveName in $expectedArchives) {
                 "installer/install.py",
                 "installer/install-gui.ps1",
                 "mod/HardcoreNuzlocke/loader.rb",
+                "mod/HardcoreNuzlocke/VERSION",
+                "mod/HardcoreNuzlocke/Scripts/updater.rb",
+                "mod/HardcoreNuzlocke/Updater/update.ps1",
                 "PLATFORMS.md"
             )) {
                 if (-not $zip.GetEntry($entryName)) {

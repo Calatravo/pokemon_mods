@@ -22,7 +22,7 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga `Pokemon-Z-Mods-v1.0.4.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+1. Descarga `Pokemon-Z-Mods-v1.1.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
 
@@ -122,3 +122,11 @@ Restaura temporalmente las copias de `preload.rb` y `mkxp.json`, conserva `nuzlo
 ### No aparecen los menús
 
 Comprueba que exista `Mods\HardcoreNuzlocke\loader.rb` y revisa que `nuzlocke.log` termine en `PASS (14 hooks)`. Si no es así, vuelve a ejecutar el instalador y revisa el primer error del registro.
+
+## Actualizador de Windows (desde 1.1.0)
+
+La primera instalación de 1.1.0 es manual. Después, el mod consulta GitHub al arrancar mediante un proceso independiente, sin esperar a internet. Aceptar el aviso del menú inicial cierra el juego, descarga y verifica el paquete, conserva una copia del mod anterior e instala la nueva versión. El juego vuelve a abrirse al terminar. Si ya cargaste la partida, el aviso no la interrumpe.
+
+El actualizador sustituye únicamente el mod. Conserva `Config/install_profile.rb` y los ajustes guardados en la partida; los demás archivos de código/configuración incluidos en el paquete reciben las versiones oficiales. No ejecuta el instalador descargado ni modifica `preload.rb`, `mkxp.json` o los datos del juego. Los archivos exclusivos de la instalación local se conservan.
+
+Si falla, revisa `Mods/.pzn-updates/<sesión>/error.txt`. Una sustitución fallida intenta restaurar automáticamente la carpeta anterior. Las copias quedan en `Mods/.pzn-updates/<sesión>/backup`; con el juego cerrado puedes usarlas para recuperar el mod. Requiere PowerShell y una carpeta escribible, sin pedir elevación. Las instalaciones mediante enlaces/junctions no admiten esta vía. Las migraciones que necesiten modificar el cargador del juego deberán distribuirse mediante instalación manual.

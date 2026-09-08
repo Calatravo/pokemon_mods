@@ -1,6 +1,10 @@
 # encoding: UTF-8
 
 PZHardcoreNuzlocke::I18n.register(:es, {
+  :update_title=>"Actualización del mod",
+  :update_question=>"Hay una nueva versión: %s. ¿Quieres actualizar?",
+  :update_explanation=>"Si aceptas, el juego se cerrará y la actualización se descargará e instalará automáticamente. Después se abrirá el juego. Se conservarán tu partida y tus ajustes.",
+  :update_failed=>"No se pudo preparar la actualización. Puedes seguir jugando con la versión actual. Se volverá a comprobar en el próximo arranque.",
   :language_option=>"Idioma del mod",
   :language_help=>"Cambia el idioma de todos los menús, explicaciones y avisos del mod.",
   :open=>"Abrir", :configure=>"Configurar", :continue=>"Continuar", :close=>"Cerrar",

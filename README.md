@@ -9,7 +9,7 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 ## Instalación rápida
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.0.4.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.0.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -187,3 +187,13 @@ Si el juego se cierra o una pantalla no abre, adjunta ese registro al crear una 
 ## Aviso legal
 
 Proyecto de aficionados, gratuito y no oficial. Pokémon y sus marcas pertenecen a sus respectivos propietarios. Este proyecto no está afiliado, respaldado ni patrocinado por Nintendo, Game Freak, Creatures Inc. ni The Pokémon Company.
+
+## Actualizaciones automáticas en Windows
+
+Desde la versión 1.1.0, el mod comprueba las releases estables de GitHub en un proceso independiente al arrancar. El juego no espera a la conexión: puedes usar el menú y cargar tu partida aunque internet sea lento o no esté disponible. El aviso solo aparece en el menú inicial; si ya has entrado en la partida, queda para el siguiente arranque.
+
+Al aceptar, el juego se cierra automáticamente. Una ventana independiente muestra la actualización, verifica el SHA-256 del paquete y conserva una copia del mod anterior. Al terminar, el juego se abre de nuevo. Si rechazas, puedes jugar y se volverá a comprobar en el próximo arranque.
+
+Las partidas, sus ajustes y el perfil de idioma/edición se conservan. Si falla la descarga o la instalación, consulta `Mods/.pzn-updates/<sesión>/error.txt`; la copia anterior está en `backup` dentro de esa carpeta cuando se ha sustituido el mod. No cierres Windows durante la instalación. Necesita PowerShell y permisos de escritura en la carpeta del juego. No solicita permisos de administrador.
+
+**Instala 1.1.0 manualmente una primera vez:** las versiones anteriores no incluyen el actualizador. Android/JoiPlay y los demás sistemas conservan la instalación manual.

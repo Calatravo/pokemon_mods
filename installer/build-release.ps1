@@ -13,6 +13,8 @@ if (-not $Version) {
 if ($Version -notmatch '^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$') {
     throw "Invalid release version: $Version"
 }
+$modVersion = [IO.File]::ReadAllText((Join-Path $projectRoot 'mod/HardcoreNuzlocke/VERSION')).Trim()
+if ($modVersion -ne $Version) { throw 'Root and installed mod versions must match.' }
 
 if (-not $OutputPath) {
     $OutputPath = Join-Path $projectRoot "dist"

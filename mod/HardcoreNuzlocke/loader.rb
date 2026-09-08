@@ -15,6 +15,7 @@ PZ_HARDCORE_NUZLOCKE_ROOT = File.dirname(__FILE__) unless defined?(PZ_HARDCORE_N
   "Scripts/encounters.rb",
   "Scripts/death.rb",
   "Scripts/random.rb",
+  "Scripts/updater.rb",
   "Scripts/ui.rb",
   "Scripts/type_chart.rb",
   "Scripts/learning.rb",

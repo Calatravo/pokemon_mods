@@ -13,7 +13,7 @@ module PZHardcoreNuzlocke
   end
 
   def self.final_install_ready?
-    install_ready? && defined?(Scene_DebugIntro) &&
+    install_ready? && defined?(Scene_DebugIntro) && defined?(PokemonLoadScene) &&
       (Object.private_method_defined?(:enable_random) || Object.method_defined?(:enable_random)) &&
       (Object.private_method_defined?(:pbAddPokemon) || Object.method_defined?(:pbAddPokemon))
   end
@@ -123,7 +123,9 @@ module PZHardcoreNuzlocke
     install_menu_hooks
     install_learning_hooks
     install_first_run_hooks
+    install_update_title_hook
     self.installed = true
+    start_update_check
     log("Hardcore Nuzlocke/Random setup installed successfully")
   rescue Exception => error
     log("INSTALL ERROR: #{error.class}: #{error.message}\n#{error.backtrace ? error.backtrace.join("\n") : ''}")
