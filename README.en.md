@@ -16,10 +16,10 @@ Configurable challenge mod for the Spanish, English and French editions of **Pok
 
 Pokémon names, move names and move descriptions come from each game's localized data. Every menu, explanation and notification added by the mod is translated. The mod language can be changed at any time under Options without changing the base game's language.
 
-## Quick installation
+## Quick installation on Windows
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.2.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.3.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -32,9 +32,43 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Games\Pokem
 
 See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS and iOS status, or [INSTALL.md](INSTALL.md) for manual installation, updating, uninstalling and troubleshooting.
 
+## Android installation
+
+### Simple installer for JoiPlay and Kirin
+
+Download the [Android v1.1.3 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.3/Pokemon-Z-Mods-v1.1.3-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
+
+> Version 1.1.3 includes the fixes verified in JoiPlay. The published 1.1.2 ZIPs do not include those fixes and failed to load the mod in the tested environment. See the [validation report](docs/android-validation.md).
+
+1. Install [JoiPlay and RPG Maker Plugin](https://joiplay.net/), or Kirin for experimental testing. Extract Pokémon Z into an accessible folder such as `Documents/PokemonZ`.
+2. Close the game and back up your saves. Install and open the **Pokémon Z Mods** APK.
+3. Tap **Choose game folder**, select the folder directly containing `Game.exe`, and grant access. Do not select the ZIP or the `Mods` folder.
+4. Confirm the game edition: **Spanish 2.18**, **English 2.13** or **French 2.12 + Patch 1**. Select the game edition, regardless of your preferred mod menu language.
+5. Tap **Install / update mod**. Backups are stored in `PokemonZMods-backups/date-time/`. Saves and `Data/Scripts.rxdata` are preserved.
+6. In JoiPlay, tap `+` and add `Game.exe`. If asked for the **RPG Maker XP RTP**, download it from [RPG Maker](https://www.rpgmakerweb.com/run-time-package) and import it through **Settings → Import Runtime Packages → RPG Maker XP** in JoiPlay. You do not need to run the Windows installer on Android. In Kirin, add the same game folder to its library.
+7. Open the game, close it and return to the APK to **Check installation**. Confirm loading with `PASS (14 hooks)` and `Compatibility profile PASS`.
+
+See the [illustrated installation steps](README.md#instalador-sencillo-para-joiplay-y-kirin) for screenshots of folder selection, installation and verification.
+
+### When Randomlocke appears
+
+Start a new game and progress through the introduction and initial Nuzlocke selection. **The setup wizards do not appear on the title screen.** If you choose Nuzlocke, configure its rules; then enable Random for Randomlocke. Answer **Yes** to the game's “Understood?” tips prompt to continue; **No** repeats the tips.
+
+![Random setup running in JoiPlay; Spanish game used for this test](docs/screenshots/android/joiplay-random-settings.png)
+
+### Test results and Kirin status
+
+**JoiPlay 1.22.001 + RPG Maker Plugin 1.23.00:** startup, all 14 hooks and the Random wizard were verified with Spanish 2.18 on virtual Android. This is not a full playthrough; the other game editions have not been verified on Android.
+
+**Kirin 0.3.5 and 0.4.0-beta4 remain unconfirmed.** The Android 16.1 emulator fails before loading the mod, even with 8 GB RAM and 8 CPU cores. A second Android 13 emulator rejects the ARM64 APK because of an incompatible architecture. No physical ARM64 phone has been tested. The installer prepares the files for Kirin but does not fix its runtime failure.
+
+If options are missing after the introduction, keep `Mods/HardcoreNuzlocke/nuzlocke.log` and report the game, mod and runtime versions. Options should also include the challenge, battle aid and type chart menus. See the [test environment and limitations](docs/android-validation.md).
+
+Without the APK, prepare the game on a PC using the **version 1.1.3** installer, then copy the resulting folder to Android. `Game.exe`, `preload.rb` and `Mods/HardcoreNuzlocke/loader.rb` must retain their layout, without an extra ZIP-named parent folder. See [INSTALL.md](INSTALL.md).
+
 ## First-playthrough setup
 
-Nuzlocke and Random are available immediately; completing the game is no longer required. After the initial Nuzlocke question, selecting **Yes** opens its setup wizard. The game then always asks whether Random should be enabled and, if accepted, opens the Random setup wizard.
+Nuzlocke and Random are available from the first playthrough; completing the game is no longer required. At the end of the introduction, after the initial Nuzlocke question, selecting **Yes** leads to its setup wizard. The game then always asks whether Random should be enabled and, if accepted, opens the Random setup wizard.
 
 This supports four starting modes:
 

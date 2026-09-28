@@ -6,10 +6,10 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 
 > Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
-## Instalación rápida
+## Instalación rápida en Windows
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.2.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.3.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -21,6 +21,46 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Juegos\Poke
 `auto` detecta la edición por sus archivos (aunque se haya renombrado la carpeta) y selecciona el idioma y perfil compatibles. También se puede indicar `-Language es`, `-Language en` o `-Language fr`. El instalador copia el mod a `Mods\HardcoreNuzlocke`, guarda copias de seguridad de `preload.rb` y `mkxp.json`, activa el cargador y corrige el wrapper Zlib defectuoso incluido en 2.12/2.13. **No modifica `Data\Scripts.rxdata`.** Puedes volver a ejecutar el mismo comando para actualizar el mod.
 
 Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, o [INSTALL.md](INSTALL.md) para la instalación manual, verificación, actualización, solución de problemas y desinstalación.
+
+## Instalación en Android
+
+### Instalador sencillo para JoiPlay y Kirin
+
+Descarga el [instalador Android v1.1.3 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.3/Pokemon-Z-Mods-v1.1.3-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
+
+> La versión 1.1.3 incluye las correcciones comprobadas en JoiPlay. Los ZIP 1.1.2 ya publicados no incluyen esas correcciones y fallaron al cargar el mod en el entorno probado. Consulta el [informe de comprobaciones](docs/android-validation.md).
+
+1. Instala [JoiPlay y RPG Maker Plugin](https://joiplay.net/), o Kirin si quieres probarlo. Descomprime primero Pokémon Z en una carpeta accesible, por ejemplo `Documents/PokemonZ`.
+2. Cierra el juego y conserva una copia de tus partidas. Instala y abre la APK **Pokémon Z Mods**.
+3. Pulsa **Elegir carpeta del juego**, entra en la carpeta que contiene directamente `Game.exe` y concede acceso a esa carpeta. No selecciones el ZIP ni `Mods`.
+4. Confirma la edición: **Español 2.18**, **English 2.13** o **Français 2.12 + Patch 1**. Es la edición del juego, no el idioma que quieras para los menús.
+5. Pulsa **Instalar / actualizar mod**. El instalador guarda una copia en `PokemonZMods-backups/fecha-hora/` y conserva las partidas y `Data/Scripts.rxdata`.
+6. En JoiPlay pulsa `+` y añade `Game.exe`. Si pide el **RTP de RPG Maker XP**, descárgalo desde [RPG Maker](https://www.rpgmakerweb.com/run-time-package) e impórtalo desde **Settings → Import Runtime Packages → RPG Maker XP** en JoiPlay. No necesitas ejecutar ese instalador de Windows en Android. En Kirin, añade la misma carpeta del juego a su biblioteca.
+7. Abre el juego, ciérralo y vuelve a la APK para pulsar **Comprobar instalación**. La carga queda confirmada cuando aparecen `PASS (14 hooks)` y `Compatibility profile PASS`.
+
+| Elegir la carpeta que contiene Game.exe | Instalar y conservar una copia | Comprobar la carga después de jugar |
+| --- | --- | --- |
+| ![Selector Android dentro de la carpeta del juego](docs/screenshots/android/installer-folder.png) | ![Instalación terminada con copia de seguridad](docs/screenshots/android/installer-complete.png) | ![Carga del mod confirmada en JoiPlay](docs/screenshots/android/installer-verified.png) |
+
+### Dónde se activa Randomlocke
+
+Inicia una partida nueva y avanza por la introducción y la selección inicial de Nuzlocke. **Los asistentes no aparecen en la pantalla de título.** Si eliges Nuzlocke, configura sus reglas; después se ofrece activar Random. Activa ambos para jugar Randomlocke. En la pantalla «¿ENTENDIDO?» de los consejos del juego, selecciona **Sí** para continuar; **No** repite los consejos.
+
+Estas capturas son de una prueba real en JoiPlay con el cargador corregido:
+
+![Pregunta de activación de Random después de la selección inicial](docs/screenshots/android/joiplay-random-prompt.png)
+
+![Asistente de configuración Random funcionando en JoiPlay](docs/screenshots/android/joiplay-random-settings.png)
+
+### Comprobaciones y estado de Kirin
+
+**JoiPlay 1.22.001 + RPG Maker Plugin 1.23.00:** arranque, carga de los 14 componentes y asistente Random comprobados con la edición española 2.18 en un Android virtual. Esto no equivale a una partida completa ni confirma todavía las otras ediciones en Android.
+
+**Kirin 0.3.5 y 0.4.0-beta4:** compatibilidad sin confirmar. En el emulador Android 16.1, incluso con 8 GB y 8 núcleos, el motor falla antes de cargar el mod. El segundo emulador Android 13 rechaza la APK ARM64 por arquitectura incompatible. No se ha validado en un teléfono ARM64 real. El instalador puede preparar los archivos para Kirin, pero no corrige ese fallo del motor.
+
+Si faltan opciones tras la introducción, conserva `Mods/HardcoreNuzlocke/nuzlocke.log` e indica las versiones del juego, mod y reproductor. En Opciones también deben aparecer los menús de desafíos, ayudas de combate y tabla de tipos. Ver [entorno, resultados y límites de la prueba](docs/android-validation.md).
+
+Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.3** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
 
 ## Configuración inicial y guardado
 

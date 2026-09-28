@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
-PZ_HARDCORE_NUZLOCKE_ROOT = File.dirname(__FILE__) unless defined?(PZ_HARDCORE_NUZLOCKE_ROOT)
+# JoiPlay's Ruby 1.8 runtime has an empty load path. Keep every load absolute.
+PZ_HARDCORE_NUZLOCKE_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(PZ_HARDCORE_NUZLOCKE_ROOT)
 
 [
   "Config/install_profile.rb",

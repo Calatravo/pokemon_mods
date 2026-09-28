@@ -32,9 +32,11 @@ module PZHardcoreNuzlocke
 
   def self.schedule_install!
     return if @bridge_scheduled
-    return if !defined?($RGSS_SCRIPTS) || !$RGSS_SCRIPTS
     @bridge_scheduled = true
-    existing_bridge = $RGSS_SCRIPTS.any? { |entry| entry[1].to_s == "PZ Hardcore Nuzlocke Bridge" }
+    # JoiPlay does not expose this table during preload; the deferred hook can
+    # still wait for the game's classes through Graphics.update.
+    existing_bridge = defined?($RGSS_SCRIPTS) && $RGSS_SCRIPTS &&
+      $RGSS_SCRIPTS.any? { |entry| entry[1].to_s == "PZ Hardcore Nuzlocke Bridge" }
     if existing_bridge
       log("Persistent runtime bridge found")
       return

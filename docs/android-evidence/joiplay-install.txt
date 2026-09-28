@@ -1,0 +1,5 @@
+[2026-09-28 07:03:25] Deferred runtime hook installed
+[2026-09-28 07:03:25] Loader initialized; RGSS script table: unavailable; last=none
+[2026-09-28 07:03:27] Hardcore Nuzlocke/Random setup installed successfully
+[2026-09-28 07:03:27] Installation self-test PASS (14 hooks)
+[2026-09-28 07:03:27] Compatibility profile PASS: es_218; language=es

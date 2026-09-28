@@ -1,0 +1,4 @@
+--------- beginning of main
+09-28 06:50:04.207  3943  3943 E KirinLoader: Native startup failed (2)
+09-28 06:50:04.289  3943  3943 E KirinLoader: Native startup failed (2)
+09-28 06:50:04.416  3943  3970 E KirinLoader: Native startup failed (41)

@@ -16,10 +16,10 @@ Mod de défis configurables pour les éditions espagnole, anglaise et française
 
 Les noms de Pokémon, capacités et descriptions proviennent des données localisées de chaque jeu. Tous les menus, explications et messages ajoutés par le mod sont traduits. La langue du mod peut être changée dans les Options sans modifier celle du jeu de base.
 
-## Installation rapide
+## Installation rapide sous Windows
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.2.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.3.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -32,9 +32,43 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "C:\Jeux\Pokém
 
 Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, macOS et l'état d'iOS, ou [INSTALL.md](INSTALL.md) pour l'installation manuelle, la mise à jour, la désinstallation et le dépannage.
 
+## Installation sur Android
+
+### Installateur simple pour JoiPlay et Kirin
+
+Téléchargez l’[installateur Android v1.1.3 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.3/Pokemon-Z-Mods-v1.1.3-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
+
+> La version 1.1.3 inclut les corrections vérifiées dans JoiPlay. Les ZIP 1.1.2 déjà publiés ne contiennent pas ces corrections et n’ont pas chargé le mod dans l’environnement testé. Consultez le [rapport de validation](docs/android-validation.md).
+
+1. Installez [JoiPlay et RPG Maker Plugin](https://joiplay.net/), ou Kirin pour un essai expérimental. Décompressez Pokémon Z dans un dossier accessible, par exemple `Documents/PokemonZ`.
+2. Fermez le jeu et conservez une copie de vos parties. Installez et ouvrez l’APK **Pokémon Z Mods**.
+3. Appuyez sur **Choisir le dossier du jeu**, sélectionnez le dossier contenant directement `Game.exe` et autorisez l’accès. Ne sélectionnez ni le ZIP ni le dossier `Mods`.
+4. Confirmez l’édition du jeu : **Espagnole 2.18**, **Anglaise 2.13** ou **Française 2.12 + Patch 1**. Ce choix concerne l’édition du jeu, pas votre langue préférée pour les menus.
+5. Appuyez sur **Installer / mettre à jour**. Les copies sont conservées dans `PokemonZMods-backups/date-heure/`. Les parties et `Data/Scripts.rxdata` restent intacts.
+6. Dans JoiPlay, appuyez sur `+` et ajoutez `Game.exe`. Si le **RTP de RPG Maker XP** est demandé, téléchargez-le depuis [RPG Maker](https://www.rpgmakerweb.com/run-time-package), puis importez-le dans **Settings → Import Runtime Packages → RPG Maker XP** de JoiPlay. Il n’est pas nécessaire d’exécuter l’installateur Windows sur Android. Dans Kirin, ajoutez le même dossier du jeu à la bibliothèque.
+7. Ouvrez le jeu, fermez-le, puis revenez dans l’APK et appuyez sur **Vérifier l’installation**. Le chargement est confirmé par `PASS (14 hooks)` et `Compatibility profile PASS`.
+
+Consultez les [étapes illustrées](README.md#instalador-sencillo-para-joiplay-y-kirin) pour voir la sélection du dossier, l’installation et la vérification.
+
+### Quand apparaît Randomlocke ?
+
+Commencez une nouvelle partie et avancez jusqu’après l’introduction et le choix initial de Nuzlocke. **Les assistants n’apparaissent pas sur l’écran titre.** Si vous choisissez Nuzlocke, configurez ses règles, puis activez Random pour jouer en Randomlocke. Répondez **Oui** à la question de compréhension des conseils du jeu pour continuer ; **Non** répète les conseils.
+
+![Configuration Random dans JoiPlay ; édition espagnole utilisée pour le test](docs/screenshots/android/joiplay-random-settings.png)
+
+### Résultats et état de Kirin
+
+**JoiPlay 1.22.001 + RPG Maker Plugin 1.23.00 :** démarrage, chargement des 14 composants et assistant Random vérifiés avec l’édition espagnole 2.18 sur Android virtuel. Il ne s’agit pas d’une partie complète ; les autres éditions ne sont pas encore validées sur Android.
+
+**Kirin 0.3.5 et 0.4.0-beta4 restent non confirmés.** Le moteur échoue avant le chargement du mod sur l’émulateur Android 16.1, même avec 8 Go de RAM et 8 cœurs. Un deuxième émulateur Android 13 refuse l’APK ARM64 pour incompatibilité d’architecture. Aucun téléphone ARM64 physique n’a été testé. L’installateur prépare les fichiers pour Kirin, sans corriger cet échec du moteur.
+
+Si les options manquent après l’introduction, conservez `Mods/HardcoreNuzlocke/nuzlocke.log` et indiquez les versions du jeu, du mod et du moteur. Les Options doivent aussi afficher les défis, les aides en combat et la table des types. Voir l’[environnement et les limites des tests](docs/android-validation.md).
+
+Sans APK, préparez le jeu sur PC avec l’installateur de la **version 1.1.3**, puis copiez le dossier obtenu sur Android. Conservez les emplacements de `Game.exe`, `preload.rb` et `Mods/HardcoreNuzlocke/loader.rb`, sans dossier supplémentaire portant le nom du ZIP. Consultez [INSTALL.md](INSTALL.md).
+
 ## Configuration dès la première partie
 
-Nuzlocke et Random sont disponibles immédiatement, sans terminer le jeu. Après la question Nuzlocke initiale, répondre **Oui** ouvre son assistant. Le jeu demande ensuite toujours si le mode Random doit être activé et, si la réponse est Oui, ouvre son assistant.
+Nuzlocke et Random sont disponibles dès la première partie, sans terminer le jeu. À la fin de l'introduction, après la question Nuzlocke initiale, répondre **Oui** donne accès à son assistant. Le jeu demande ensuite toujours si le mode Random doit être activé et, si la réponse est Oui, ouvre son assistant.
 
 Quatre modes de départ sont possibles :
 

@@ -105,6 +105,11 @@ try {
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot $file) -Destination (Join-Path $universalStage "installer\$file")
     }
 
+    Copy-TreeContents (Join-Path $PSScriptRoot "android") (Join-Path $universalStage "installer/android")
+    New-Item -ItemType Directory -Path (Join-Path $universalStage "docs") -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $projectRoot "docs/android-validation.md") -Destination (Join-Path $universalStage "docs/android-validation.md")
+    Copy-TreeContents (Join-Path $projectRoot "docs/android-evidence") (Join-Path $universalStage "docs/android-evidence")
+
     $trackedScreenshots = & git -C $projectRoot ls-files "docs/screenshots/*"
     foreach ($relativePath in $trackedScreenshots) {
         $destination = Join-Path $universalStage $relativePath
@@ -126,7 +131,11 @@ try {
         Copy-TreeContents (Join-Path $projectRoot "mod\HardcoreNuzlocke") $targetMod
         Write-InstallProfile $targetMod $package.Language $package.Profile
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot "preload-snippet.rb") -Destination (Join-Path $androidStage "preload.rb")
-        Copy-Item -LiteralPath (Join-Path $projectRoot "PLATFORMS.md") -Destination (Join-Path $androidStage "PLATFORMS.md")
+        # Overlay ZIPs do not bundle the repository documentation tree.
+        # Resolve its relative links to GitHub so the copied platform guide works.
+        $platformGuide = [IO.File]::ReadAllText((Join-Path $projectRoot "PLATFORMS.md"))
+        $platformGuide = [regex]::Replace($platformGuide, '\]\(((?:README(?:\.[a-z]+)?\.md|installer/[^)]+|docs/[^)]+)[^)]*)\)', '](' + 'https://github.com/Calatravo/pokemon_mods/blob/main/$1)')
+        [IO.File]::WriteAllText((Join-Path $androidStage "PLATFORMS.md"), $platformGuide, $utf8WithoutBom)
 
         $androidReadme = @"
 Pokemon Z Mods v$Version - Android/JoiPlay $($package.Suffix)

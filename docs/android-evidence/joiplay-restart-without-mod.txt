@@ -1,0 +1,10 @@
+Executing script  Controles
+Executing script  PSystem_System
+Requested resolution  512 x 384
+Script 'PBSpecies' line 28: SyntaxError occured.
+
+compile error
+PBSpecies:28: Invalid char `\016' in expression
+PBSpecies:28: syntax error, unexpected $end, expecting kEND
+SANDSHREW=27
+              ^
