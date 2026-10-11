@@ -35,6 +35,39 @@ module PZHardcoreNuzlocke
     current && current[:enabled] && defined?($game_switches) && $game_switches && $game_switches[409]
   end
 
+  def self.valid_random_type?(type)
+    type.is_a?(Integer) && type >= 0 && type <= PBTypes.maxValue &&
+      !RandomizedChallenge::INVALID_TYPES.include?(type) &&
+      (!PBTypes.respond_to?(:isPseudoType?) || !PBTypes.isPseudoType?(type))
+  end
+
+  def self.generate_random_type
+    types = (0..PBTypes.maxValue).find_all { |type| valid_random_type?(type) }
+    raise 'No valid types available for Random' if types.empty?
+    types[rand(types.length)]
+  end
+
+  # RandomMain's modifier-while never samples its initially nil local, so old
+  # saves can contain [nil] or [nil, nil]. Generate both slots together and
+  # preserve every valid saved slot rather than rerolling the species table.
+  def self.random_types_for(pokemon)
+    $PokemonGlobal.random_types = {} unless $PokemonGlobal.random_types.is_a?(Hash)
+    table = $PokemonGlobal.random_types
+    stored = table[pokemon.species]
+    stored = [] unless stored.is_a?(Array)
+    return stored if valid_random_type?(stored[0]) && valid_random_type?(stored[1])
+
+    first = valid_random_type?(stored[0]) ? stored[0] : generate_random_type
+    second = if valid_random_type?(stored[1])
+      stored[1]
+    elsif pokemon.type1_random == pokemon.type2_random
+      first
+    else
+      generate_random_type
+    end
+    table[pokemon.species] = [first, second]
+  end
+
   # These graphics identify renewable resource nodes. Their normal drops are
   # deliberately preserved so crafting remains reliable and repeatable nodes
   # cannot become an unlimited source of arbitrary random objects.

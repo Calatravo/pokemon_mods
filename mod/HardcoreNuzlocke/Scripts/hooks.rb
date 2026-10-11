@@ -72,6 +72,8 @@ module PZHardcoreNuzlocke
       :pokemon_hp=>PokeBattle_Pokemon.method_defined?(:pzn_hardcore_original_hp_set),
       :capture=>PokeBattle_BattleCommon.method_defined?(:pzn_hardcore_original_throw_ball),
       :battle=>PokeBattle_Battle.method_defined?(:pzn_hardcore_original_start_core) &&
+               PokeBattle_Pokemon.method_defined?(:pzn_random_original_type1) &&
+               PokeBattle_Pokemon.method_defined?(:pzn_random_original_type2) &&
                (Object.private_method_defined?(:pzn_hardcore_original_battle_on_step_taken) ||
                 Object.method_defined?(:pzn_hardcore_original_battle_on_step_taken)),
       :storage=>PokemonStorageScreen.method_defined?(:pzn_hardcore_original_withdraw),
@@ -116,6 +118,7 @@ module PZHardcoreNuzlocke
     install_metadata_hooks
     install_pokemon_hooks
     install_random_ability_hooks
+    install_random_type_hooks
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
@@ -165,6 +168,25 @@ module PZHardcoreNuzlocke
         def ability_map(ret)
           $PokemonGlobal.ability_hash ||= {}
           pzn_random_original_ability_map(ret)
+        end
+      end
+    end
+  end
+
+  def self.install_random_type_hooks
+    PokeBattle_Pokemon.class_eval do
+      if !method_defined?(:pzn_random_original_type1)
+        alias_method :pzn_random_original_type1, :type1
+        def type1
+          return pzn_random_original_type1 if semi_random_mode? || !random_enabled? || !random_types_enabled?
+          PZHardcoreNuzlocke.random_types_for(self)[0]
+        end
+      end
+      if !method_defined?(:pzn_random_original_type2)
+        alias_method :pzn_random_original_type2, :type2
+        def type2
+          return pzn_random_original_type2 if semi_random_mode? || !random_enabled? || !random_types_enabled?
+          PZHardcoreNuzlocke.random_types_for(self)[1]
         end
       end
     end

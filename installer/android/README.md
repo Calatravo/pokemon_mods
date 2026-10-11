@@ -1,10 +1,10 @@
 # Instalador Android de Pokémon Z Mods
 
-APK de prueba para instalar el mismo mod en una carpeta de juego usada por JoiPlay o Kirin. Descarga la [APK v1.1.3 de la release](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.3/Pokemon-Z-Mods-v1.1.3-Android-Installer.apk). La aplicación sigue siendo experimental. Instalar los archivos para Kirin no confirma que su motor pueda ejecutar el juego; consulta las [pruebas reales](../../docs/android-validation.md).
+APK de prueba para instalar el mismo mod en una carpeta de juego usada por JoiPlay o Kirin. Descarga la [APK v1.1.4 de la release](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk). La aplicación sigue siendo experimental. Instalar los archivos para Kirin no confirma que su motor pueda ejecutar el juego; consulta las [pruebas reales](../../docs/android-validation.md).
 
 ## Uso
 
-1. Instala `Pokemon-Z-Mods-v1.1.3-Android-Installer.apk` y abre **Pokémon Z Mods**. Android puede pedir autorización para instalar desde la aplicación con la que abras la APK.
+1. Instala `Pokemon-Z-Mods-v1.1.4-Android-Installer.apk` y abre **Pokémon Z Mods**. Android puede pedir autorización para instalar desde la aplicación con la que abras la APK.
 2. Cierra el juego. Pulsa **Elegir carpeta del juego** y selecciona la carpeta descomprimida que contiene `Game.exe`; concede acceso a esa carpeta.
 3. Confirma la **edición del juego**, no el idioma que prefieras para el mod. Si el SHA-256 de `Data/Scripts.rxdata` coincide con una edición conocida, se selecciona automáticamente. Si no, el instalador exige elegirla. Rechaza una edición que contradiga una identificación conocida.
 4. Pulsa **Instalar / actualizar mod**. Guarda y verifica copias de los archivos existentes antes de escribir. No modifica partidas ni `Data/Scripts.rxdata`.
@@ -30,6 +30,6 @@ Salida: `dist/android-installer/Pokemon-Z-Mods-Android-Installer-test.apk`. Se g
 
 Puedes pasar `-Sdk`, `-JavaHome` y `-OutputPath` para otras rutas. Para publicar, usa `-Release -Keystore <ruta> -KeyAlias <alias>`, con las contraseñas en `PZ_APK_STORE_PASSWORD` y `PZ_APK_KEY_PASSWORD`. El modo `-Release` deriva `versionCode`, `versionName` y el nombre de la APK del archivo `VERSION`, y exige una clave del proyecto. Guarda esa clave y sus credenciales fuera del repositorio: son necesarias para las próximas actualizaciones de la aplicación. Si instalaste la APK local de prueba con otra firma, desinstala solo esa aplicación antes de instalar la pública; conserva la carpeta del juego.
 
-El empaquetado incluye solamente los archivos del mod enumerados por Git y el cargador actual. No incluye el juego, JoiPlay, Kirin ni RTP. La APK y los ZIP 1.1.3 incluyen las correcciones de arranque de JoiPlay. Los ZIP 1.1.2 anteriores no las contienen.
+El empaquetado incluye solamente los archivos del mod enumerados por Git y el cargador actual. No incluye el juego, JoiPlay, Kirin ni RTP. La APK y los ZIP 1.1.3 y posteriores incluyen las correcciones de arranque de JoiPlay. Los ZIP 1.1.2 anteriores no las contienen.
 
 Referencia de almacenamiento: [selección de directorios con Android SAF](https://developer.android.com/training/data-storage/shared/documents-files).

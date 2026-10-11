@@ -6,6 +6,8 @@ Configurable challenge mod for the Spanish, English and French editions of **Pok
 
 > This repository does not include Pokémon Z, ROMs, executables, graphics, music or save files. You need a legally obtained copy of a supported edition.
 
+Version **1.1.4** fixes the crash when entering a battle with **Random types** enabled, including the introductory Bidoof battle in ES 2.18. It also repairs missing types in existing saves while preserving valid assignments. [Release notes](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.4).
+
 ## Supported editions
 
 | Tested edition | Profile | Default mod language |
@@ -19,7 +21,7 @@ Pokémon names, move names and move descriptions come from each game's localized
 ## Quick installation on Windows
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.3.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.4.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -36,7 +38,7 @@ See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS a
 
 ### Simple installer for JoiPlay and Kirin
 
-Download the [Android v1.1.3 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.3/Pokemon-Z-Mods-v1.1.3-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
+Download the [Android v1.1.4 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
 
 > Version 1.1.3 includes the fixes verified in JoiPlay. The published 1.1.2 ZIPs do not include those fixes and failed to load the mod in the tested environment. See the [validation report](docs/android-validation.md).
 
@@ -64,7 +66,7 @@ Start a new game and progress through the introduction and initial Nuzlocke sele
 
 If options are missing after the introduction, keep `Mods/HardcoreNuzlocke/nuzlocke.log` and report the game, mod and runtime versions. Options should also include the challenge, battle aid and type chart menus. See the [test environment and limitations](docs/android-validation.md).
 
-Without the APK, prepare the game on a PC using the **version 1.1.3** installer, then copy the resulting folder to Android. `Game.exe`, `preload.rb` and `Mods/HardcoreNuzlocke/loader.rb` must retain their layout, without an extra ZIP-named parent folder. See [INSTALL.md](INSTALL.md).
+Without the APK, prepare the game on a PC using the **version 1.1.4** installer, then copy the resulting folder to Android. `Game.exe`, `preload.rb` and `Mods/HardcoreNuzlocke/loader.rb` must retain their layout, without an extra ZIP-named parent folder. See [INSTALL.md](INSTALL.md).
 
 ## First-playthrough setup
 
