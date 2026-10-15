@@ -11,7 +11,7 @@ Sources: [Pokémon Z download and platform guide](https://pokemonzfangame.com/do
 ### Windows — recomendado
 
 1. Cierra Pokémon Z y conserva una copia de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.4.zip` de la release y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.5.zip` de la release y descomprímelo.
 3. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 4. Selecciona la carpeta que contiene directamente `Game.exe`.
 5. Inicia el juego y comprueba que `Mods/HardcoreNuzlocke/nuzlocke.log` contiene `PASS (14 hooks)`.
@@ -20,7 +20,7 @@ El instalador no necesita permisos de administrador, no modifica `Data/Scripts.r
 
 ### Android — JoiPlay / Kirin
 
-Consulta las [instrucciones Android con capturas](README.md#instalación-en-android). Hay un [instalador APK de prueba](installer/android/README.md) que pide la carpeta del juego y su edición, guarda copias de seguridad y comprueba el registro después del arranque. Descarga la [APK v1.1.4](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk) desde la release.
+Consulta las [instrucciones Android con capturas](README.md#instalación-en-android). Hay un [instalador APK de prueba](installer/android/README.md) que pide la carpeta del juego y su edición, guarda copias de seguridad y comprueba el registro después del arranque. Descarga la [APK v1.1.5](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk) desde la release.
 
 JoiPlay necesita también RPG Maker Plugin y puede pedir importar el RTP de RPG Maker XP desde sus ajustes. Añade el `Game.exe` de la carpeta ya preparada. Los asistentes Random/Nuzlocke aparecen después de la selección inicial, no en el título.
 
@@ -29,7 +29,7 @@ La prueba de JoiPlay usa correcciones de la versión 1.1.3 que no están en los 
 ### Steam Deck y Linux — Wine/Proton
 
 1. En Steam Deck cambia al modo Escritorio. En Linux abre una terminal.
-2. Descomprime `Pokemon-Z-Mods-v1.1.4.zip`.
+2. Descomprime `Pokemon-Z-Mods-v1.1.5.zip`.
 3. Ejecuta, sustituyendo la ruta y el perfil cuando corresponda:
 
 ```bash
@@ -51,11 +51,11 @@ No se publica un paquete iOS porque la web del juego no ofrece un método compat
 
 ### Windows — recommended
 
-Extract `Pokemon-Z-Mods-v1.1.4.zip`, double-click `Install Pokemon Z Mods.cmd`, and select the folder that directly contains `Game.exe`. The installer does not require administrator privileges, never edits `Data/Scripts.rxdata`, and backs up `preload.rb` and `mkxp.json`.
+Extract `Pokemon-Z-Mods-v1.1.5.zip`, double-click `Install Pokemon Z Mods.cmd`, and select the folder that directly contains `Game.exe`. The installer does not require administrator privileges, never edits `Data/Scripts.rxdata`, and backs up `preload.rb` and `mkxp.json`.
 
 ### Android — JoiPlay / Kirin
 
-See the [Android instructions](README.en.md#android-installation) and the [test APK installer](installer/android/README.md). It selects the game folder and edition, backs up changed files and checks the log after startup. Download the [v1.1.4 APK](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk) from the release.
+See the [Android instructions](README.en.md#android-installation) and the [test APK installer](installer/android/README.md). It selects the game folder and edition, backs up changed files and checks the log after startup. Download the [v1.1.5 APK](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk) from the release.
 
 JoiPlay also needs RPG Maker Plugin and may require importing the RPG Maker XP RTP through its settings. Add `Game.exe` from the prepared folder. Random/Nuzlocke setup appears after the initial selection, not at the title screen.
 
@@ -73,11 +73,11 @@ No iOS package is provided because the Pokémon Z guide does not provide a compa
 
 ### Windows — recommandé
 
-Décompressez `Pokemon-Z-Mods-v1.1.4.zip`, double-cliquez sur `Install Pokemon Z Mods.cmd`, puis sélectionnez le dossier contenant directement `Game.exe`. L'installateur ne demande pas de droits administrateur, ne modifie jamais `Data/Scripts.rxdata` et sauvegarde `preload.rb` et `mkxp.json`.
+Décompressez `Pokemon-Z-Mods-v1.1.5.zip`, double-cliquez sur `Install Pokemon Z Mods.cmd`, puis sélectionnez le dossier contenant directement `Game.exe`. L'installateur ne demande pas de droits administrateur, ne modifie jamais `Data/Scripts.rxdata` et sauvegarde `preload.rb` et `mkxp.json`.
 
 ### Android — JoiPlay / Kirin
 
-Consultez les [instructions Android](README.fr.md#installation-sur-android) et l’[installateur APK de test](installer/android/README.md). Il demande le dossier et l’édition du jeu, sauvegarde les fichiers modifiés et vérifie le journal après le démarrage. Téléchargez l’[APK v1.1.4](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk) depuis la release.
+Consultez les [instructions Android](README.fr.md#installation-sur-android) et l’[installateur APK de test](installer/android/README.md). Il demande le dossier et l’édition du jeu, sauvegarde les fichiers modifiés et vérifie le journal après le démarrage. Téléchargez l’[APK v1.1.5](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk) depuis la release.
 
 JoiPlay nécessite également RPG Maker Plugin et peut demander l’importation du RTP de RPG Maker XP depuis ses paramètres. Ajoutez le `Game.exe` du dossier préparé. Les assistants Random/Nuzlocke apparaissent après le choix initial, pas sur l’écran titre.
 

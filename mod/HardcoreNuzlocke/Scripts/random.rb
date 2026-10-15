@@ -163,6 +163,21 @@ module PZHardcoreNuzlocke
     Object.new.send(method_name, *arguments)
   end
 
+  # EN/FR's original move reader randomizes on switches 409/802 without
+  # checking enable_random_moves. RandomMain calls this reader when it wants
+  # ordinary moves (also in Semi Random); suppress only that legacy fallback.
+  def self.with_original_move_lookup
+    return yield unless call_global(:random_enabled?)
+    switches = [RandomizedChallenge::SWITCH, 802]
+    previous = switches.collect { |switch| $game_switches[switch] }
+    begin
+      switches.each { |switch| $game_switches[switch] = false }
+      yield
+    ensure
+      switches.each_with_index { |switch, index| $game_switches[switch] = previous[index] }
+    end
+  end
+
   # The game's starter gift pauses all randomization to keep the chosen species.
   # Allow only its move-list lookup to see the player's original Random settings.
   def self.with_starter_random_moves

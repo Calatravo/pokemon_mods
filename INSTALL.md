@@ -22,7 +22,7 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga `Pokemon-Z-Mods-v1.1.4.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+1. Descarga `Pokemon-Z-Mods-v1.1.5.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
 
@@ -51,7 +51,7 @@ mkxp.json.backup-before-pokemon-mods
 
 Las ediciones 2.12/2.13 incluyen en `preload.rb` un antiguo wrapper Zlib que falla al activarlo; el instalador retira únicamente ese bloque conocido y conserva la copia original. El instalador es repetible: vuelve a ejecutar el mismo comando para actualizar los archivos del mod sin duplicar el cargador ni la entrada de `mkxp.json`.
 
-Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.4](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.4/Pokemon-Z-Mods-v1.1.4-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
+Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.5](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
 
 ## Instalación manual
 
@@ -122,6 +122,10 @@ Restaura temporalmente las copias de `preload.rb` y `mkxp.json`, conserva `nuzlo
 ### El juego se cierra al entrar en combate con Tipos random
 
 La versión 1.1.4 corrige la generación de tipos vacíos que podía provocar `nil can't be coerced into Fixnum`, incluido el combate introductorio de Bidoof en ES 2.18. Cierra el juego y actualiza el mod con el instalador 1.1.4 sobre la misma carpeta. No necesitas empezar una partida nueva: se reparan los tipos inválidos al consultarlos y se conservan las asignaciones válidas. En Android, después de actualizar la APK, pulsa **Instalar / actualizar mod** para actualizar también los archivos dentro del juego.
+
+### Los movimientos siguen siendo aleatorios con la opción desactivada
+
+La versión 1.1.5 corrige una segunda rutina de aleatorización de movimientos en EN 2.13 y FR 2.12 + Patch 1. Actualiza el mod con el juego cerrado. Los Pokémon nuevos y los movimientos futuros por nivel respetarán la opción guardada. Los ataques que ya tienen los Pokémon existentes se conservan para no borrar movimientos aprendidos con MT o tutores; la actualización no deshace esas asignaciones anteriores.
 
 ### No aparecen los menús
 

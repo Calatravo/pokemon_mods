@@ -85,6 +85,8 @@ La selección de generaciones se aplica antes de generar los iniciales. Debe que
 
 Los tipos random se generan y guardan juntos por especie, incluyendo Normal y Hada y excluyendo el tipo `???`. Las especies de un solo tipo conservan un solo tipo. Si una partida anterior contiene tipos vacíos o inválidos, se reparan al consultarlos sin cambiar las asignaciones válidas de la partida. Esto corrige el fallo de `RandomMain` que podía causar `nil can't be coerced into Fixnum` al iniciar el primer combate con tipos random activos.
 
+Cuando Movimientos random está desactivado o se usa Semi Random, la consulta de movimientos normales evita la rutina antigua de EN/FR que aleatorizaba por los interruptores 409/802 sin consultar esa opción. El mod restaura ambos interruptores al terminar la consulta y conserva las listas de formas alternativas. No sustituye los ataques ya aprendidos ni elimina las tablas aleatorias guardadas.
+
 Al recoger un objeto del suelo o recibirlo de un evento o recompensa, se conservan los mensajes normales del juego y después aparece otra ventana con su descripción localizada. La ventana solo se muestra si el objeto entra en la mochila, una sola vez aunque haya varias unidades y, con Random, utiliza el objeto final obtenido tras la sustitución.
 
 ## Archivos configurables
@@ -119,3 +121,5 @@ Para comprobar la corrección de tipos desde la raíz del repositorio en Windows
 ```
 
 La prueba utiliza el motor y los datos reales del juego para inicializar al inicial y Bidoof, calcular la eficacia de todos los tipos y comprobar la recarga y reparación de guardados en memoria. No ejecuta la introducción ni guarda una partida. Con `-Unpatched` reproduce el error del código original. `tests/type_randomization_test.rb` cubre además la estabilidad por especie, el orden de consulta, los tipos válidos, los modos desactivado/Semi Random y la instalación repetida de los hooks.
+
+Para comprobar la opción de movimientos con el motor real de EN 2.13, ejecuta `tests/move_randomization_integration.ps1`; acepta `-GameFolder` para ES/FR y `-Unpatched` para reproducir el fallo anterior en EN/FR. Comprueba movimientos activados/desactivados, los interruptores antiguos, iniciales, construcción de Pokémon de entrenadores, Semi Random y tablas guardadas. `tests/move_randomization_test.rb` añade casos de formas alternativas, consultas anidadas y restauración tras excepciones. Ninguna de estas pruebas modifica una partida guardada.

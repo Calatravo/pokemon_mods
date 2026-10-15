@@ -74,6 +74,7 @@ module PZHardcoreNuzlocke
       :battle=>PokeBattle_Battle.method_defined?(:pzn_hardcore_original_start_core) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type1) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type2) &&
+               PokeBattle_Pokemon.method_defined?(:pzn_random_original_move_list) &&
                (Object.private_method_defined?(:pzn_hardcore_original_battle_on_step_taken) ||
                 Object.method_defined?(:pzn_hardcore_original_battle_on_step_taken)),
       :storage=>PokemonStorageScreen.method_defined?(:pzn_hardcore_original_withdraw),
@@ -119,6 +120,7 @@ module PZHardcoreNuzlocke
     install_pokemon_hooks
     install_random_ability_hooks
     install_random_type_hooks
+    install_random_move_hooks
     install_battle_hooks
     install_storage_hooks
     install_gift_hooks
@@ -187,6 +189,17 @@ module PZHardcoreNuzlocke
         def type2
           return pzn_random_original_type2 if semi_random_mode? || !random_enabled? || !random_types_enabled?
           PZHardcoreNuzlocke.random_types_for(self)[1]
+        end
+      end
+    end
+  end
+
+  def self.install_random_move_hooks
+    PokeBattle_Pokemon.class_eval do
+      unless method_defined?(:pzn_random_original_move_list)
+        alias_method :pzn_random_original_move_list, :random_getMoveList
+        def random_getMoveList
+          PZHardcoreNuzlocke.with_original_move_lookup { pzn_random_original_move_list }
         end
       end
     end
