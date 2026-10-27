@@ -9,10 +9,13 @@ import java.util.regex.Pattern;
 public final class InstallLogic {
     public static final String[] PROFILES = {"es_218", "en_213", "fr_212p1"};
     public static final String[] LANGUAGES = {"es", "en", "fr"};
-    private static final String[] HASHES = {
-        "0580b2f2787c16fcbc72f6cd34155656102985f43d92a560a34232e64dea9001",
-        "82ac875ca31a2b9b32f046c965e5f89dda8b479ec768d3ca2b90125943dbdfee",
-        "4af6e9e7ead84e439c3ec05451dcfac46b06b70c6160e8e99f6207d18209c1b4"
+    private static final String[][] HASHES = {
+        { // Both Spanish versions share the es_218 runtime profile.
+            "0580b2f2787c16fcbc72f6cd34155656102985f43d92a560a34232e64dea9001",
+            "0d2fb0bc24bb5a69d6df8d8d7fc787a6dc804ceaff94209171394e5e0cc6abec"
+        },
+        {"82ac875ca31a2b9b32f046c965e5f89dda8b479ec768d3ca2b90125943dbdfee"},
+        {"4af6e9e7ead84e439c3ec05451dcfac46b06b70c6160e8e99f6207d18209c1b4"}
     };
     public static String sha256(byte[] data) throws Exception {
         StringBuilder out = new StringBuilder();
@@ -21,7 +24,9 @@ public final class InstallLogic {
     }
     public static int detect(byte[] scripts) throws Exception {
         String hash = sha256(scripts);
-        for (int i = 0; i < HASHES.length; i++) if (HASHES[i].equals(hash)) return i;
+        for (int i = 0; i < HASHES.length; i++) {
+            for (String known : HASHES[i]) if (known.equals(hash)) return i;
+        }
         return -1;
     }
     public static String preload(String old, String snippet) {

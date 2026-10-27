@@ -6,12 +6,12 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 
 > Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
-La versión **1.1.5** corrige que los Pokémon siguieran recibiendo movimientos aleatorios con **Movimientos random** desactivado en las ediciones inglesa 2.13 y francesa 2.12 + Patch 1. También conserva los movimientos normales en Semi Random. [Notas de la actualización](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.5).
+La versión **1.1.6** corrige que las recompensas de MT entreguen objetos comunes aunque falten MT y añade **Desafíos → Compensar MT perdidas** para partidas antiguas: una compensación opcional con cantidad manual, una sola vez por guardado. También reconoce automáticamente la edición española 2.19. [Notas de la actualización](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.6).
 
 ## Instalación rápida en Windows
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.5.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.6.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -28,14 +28,14 @@ Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, m
 
 ### Instalador sencillo para JoiPlay y Kirin
 
-Descarga el [instalador Android v1.1.5 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
+Descarga el [instalador Android v1.1.6 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
 
 > La versión 1.1.3 incluye las correcciones comprobadas en JoiPlay. Los ZIP 1.1.2 ya publicados no incluyen esas correcciones y fallaron al cargar el mod en el entorno probado. Consulta el [informe de comprobaciones](docs/android-validation.md).
 
 1. Instala [JoiPlay y RPG Maker Plugin](https://joiplay.net/), o Kirin si quieres probarlo. Descomprime primero Pokémon Z en una carpeta accesible, por ejemplo `Documents/PokemonZ`.
 2. Cierra el juego y conserva una copia de tus partidas. Instala y abre la APK **Pokémon Z Mods**.
 3. Pulsa **Elegir carpeta del juego**, entra en la carpeta que contiene directamente `Game.exe` y concede acceso a esa carpeta. No selecciones el ZIP ni `Mods`.
-4. Confirma la edición: **Español 2.18**, **English 2.13** o **Français 2.12 + Patch 1**. Es la edición del juego, no el idioma que quieras para los menús.
+4. Confirma la edición: **Español 2.18 / 2.19**, **English 2.13** o **Français 2.12 + Patch 1**. Es la edición del juego, no el idioma que quieras para los menús.
 5. Pulsa **Instalar / actualizar mod**. El instalador guarda una copia en `PokemonZMods-backups/fecha-hora/` y conserva las partidas y `Data/Scripts.rxdata`.
 6. En JoiPlay pulsa `+` y añade `Game.exe`. Si pide el **RTP de RPG Maker XP**, descárgalo desde [RPG Maker](https://www.rpgmakerweb.com/run-time-package) e impórtalo desde **Settings → Import Runtime Packages → RPG Maker XP** en JoiPlay. No necesitas ejecutar ese instalador de Windows en Android. En Kirin, añade la misma carpeta del juego a su biblioteca.
 7. Abre el juego, ciérralo y vuelve a la APK para pulsar **Comprobar instalación**. La carga queda confirmada cuando aparecen `PASS (14 hooks)` y `Compatibility profile PASS`.
@@ -62,7 +62,7 @@ Estas capturas son de una prueba real en JoiPlay con el cargador corregido:
 
 Si faltan opciones tras la introducción, conserva `Mods/HardcoreNuzlocke/nuzlocke.log` e indica las versiones del juego, mod y reproductor. En Opciones también deben aparecer los menús de desafíos, ayudas de combate y tabla de tipos. Ver [entorno, resultados y límites de la prueba](docs/android-validation.md).
 
-Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.5** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
+Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.6** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
 
 ## Configuración inicial y guardado
 
@@ -208,9 +208,11 @@ La documentación interna y técnica adicional está en [la documentación del m
 
 | Edición probada | Perfil | Idioma inicial |
 | --- | --- | --- |
-| Pokémon Z **V2.18 española** | `es_218` | Español |
+| Pokémon Z **V2.18 / V2.19 española** | `es_218` | Español |
 | Pokémon Z **V2.13 inglesa** | `en_213` | English |
 | Pokémon Z **V2.12 francesa + Patch 1** | `fr_212p1` | Français |
+
+Desde 1.1.6, los instaladores Windows, Python y Android reconocen automáticamente ES 2.19, también con la carpeta renombrada. Las ediciones españolas 2.18 y 2.19 comparten el perfil `es_218`.
 
 - Los nombres de Pokémon, movimientos y sus descripciones se obtienen de los datos de cada edición; los textos propios del mod están traducidos íntegramente.
 - El idioma del mod puede cambiarse después desde Opciones sin reinstalar ni alterar el idioma base del juego.

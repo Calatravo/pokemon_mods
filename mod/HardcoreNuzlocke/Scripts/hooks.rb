@@ -93,7 +93,8 @@ module PZHardcoreNuzlocke
       :gifts=>(Object.private_method_defined?(:pzn_hardcore_original_add_pokemon) || Object.method_defined?(:pzn_hardcore_original_add_pokemon)),
       :item_randomization=>Kernel.respond_to?(:pzn_random_policy_original_item_ball) &&
                            Kernel.respond_to?(:pzn_random_policy_original_receive_item) &&
-                           RandomizedChallenge.respond_to?(:pzn_original_unrandomizable_item),
+                           RandomizedChallenge.respond_to?(:pzn_original_unrandomizable_item) &&
+                           RandomizedChallenge.respond_to?(:pzn_original_random_tm),
       :item_descriptions=>Kernel.respond_to?(:pzn_hardcore_original_item_ball) &&
                           Kernel.respond_to?(:pzn_hardcore_original_receive_item),
       :test_input=>Input.respond_to?(:pzn_test_original_update) &&
@@ -651,6 +652,19 @@ module PZHardcoreNuzlocke
   def self.install_item_randomization_hooks
     randomized_singleton = class << RandomizedChallenge; self; end
     randomized_singleton.class_eval do
+      if method_defined?(:random_tm) && !method_defined?(:pzn_original_random_tm)
+        alias_method :pzn_original_random_tm, :random_tm
+        def random_tm
+          # A saved tm_list can be incomplete. Rebuild it from this edition's
+          # data, then sample only missing TMs; bounded retries over owned TMs
+          # can incorrectly fall back to an ordinary item before exhaustion.
+          $PokemonGlobal.tm_list = PZHardcoreNuzlocke.all_random_tms
+          available = $PokemonGlobal.tm_list.find_all { |item| !$PokemonBag.pbHasItem?(item) }
+          return available[rand(available.length)] unless available.empty?
+          random_item(false, true)
+        end
+      end
+
       if !method_defined?(:pzn_original_unrandomizable_item)
         alias_method :pzn_original_unrandomizable_item, :unrandomizable_item?
         def unrandomizable_item?(item)

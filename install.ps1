@@ -44,6 +44,8 @@ $languageProfiles = @{
 }
 $knownScriptsProfiles = @{
     "0580B2F2787C16FCBC72F6CD34155656102985F43D92A560A34232E64DEA9001" = "es_218"
+    # Spanish 2.19 uses the same compatible runtime profile as 2.18.
+    "0D2FB0BC24BB5A69D6DF8D8D7FC787A6DC804CEAFF94209171394E5E0CC6ABEC" = "es_218"
     "82AC875CA31A2B9B32F046C965E5F89DDA8B479EC768D3CA2B90125943DBDFEE" = "en_213"
     "4AF6E9E7EAD84E439C3EC05451DCFAC46B06B70C6160E8E99F6207D18209C1B4" = "fr_212p1"
 }
@@ -67,7 +69,7 @@ if ($Profile -eq "auto") {
     elseif ($detectionText -match '2[\.,]12|fran[cç]ais|french') {
         $Profile = "fr_212p1"
     }
-    elseif ($detectionText -match '2[\.,]18|spanish|espa[nñ]ol') {
+    elseif ($detectionText -match '2[\.,](?:18|19)|spanish|espa[nñ]ol') {
         $Profile = "es_218"
     }
     else {

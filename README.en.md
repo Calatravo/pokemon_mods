@@ -6,22 +6,24 @@ Configurable challenge mod for the Spanish, English and French editions of **Pok
 
 > This repository does not include Pokémon Z, ROMs, executables, graphics, music or save files. You need a legally obtained copy of a supported edition.
 
-Version **1.1.5** fixes Pokémon receiving randomized moves even with **Random moves** disabled in English 2.13 and French 2.12 + Patch 1. Semi Random also keeps normal moves. [Release notes](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.5).
+Version **1.1.6** fixes TM rewards turning into ordinary items while TMs are still missing. **Challenges → Compensate lost TMs** offers old saves an optional, one-time compensation with a manually chosen quantity. Spanish 2.19 is now detected automatically. [Release notes](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.6).
 
 ## Supported editions
 
 | Tested edition | Profile | Default mod language |
 | --- | --- | --- |
-| Pokémon Z **2.18 Spanish** | `es_218` | Español |
+| Pokémon Z **2.18 / 2.19 Spanish** | `es_218` | Español |
 | Pokémon Z **2.13 English** | `en_213` | English |
 | Pokémon Z **2.12 French + Patch 1** | `fr_212p1` | Français |
+
+Since 1.1.6, the Windows, Python and Android installers automatically detect Spanish 2.19, including renamed game folders. Spanish 2.18 and 2.19 share the `es_218` compatibility profile.
 
 Pokémon names, move names and move descriptions come from each game's localized data. Every menu, explanation and notification added by the mod is translated. The mod language can be changed at any time under Options without changing the base game's language.
 
 ## Quick installation on Windows
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.5.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.6.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -38,14 +40,14 @@ See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS a
 
 ### Simple installer for JoiPlay and Kirin
 
-Download the [Android v1.1.5 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
+Download the [Android v1.1.6 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
 
 > Version 1.1.3 includes the fixes verified in JoiPlay. The published 1.1.2 ZIPs do not include those fixes and failed to load the mod in the tested environment. See the [validation report](docs/android-validation.md).
 
 1. Install [JoiPlay and RPG Maker Plugin](https://joiplay.net/), or Kirin for experimental testing. Extract Pokémon Z into an accessible folder such as `Documents/PokemonZ`.
 2. Close the game and back up your saves. Install and open the **Pokémon Z Mods** APK.
 3. Tap **Choose game folder**, select the folder directly containing `Game.exe`, and grant access. Do not select the ZIP or the `Mods` folder.
-4. Confirm the game edition: **Spanish 2.18**, **English 2.13** or **French 2.12 + Patch 1**. Select the game edition, regardless of your preferred mod menu language.
+4. Confirm the game edition: **Spanish 2.18 / 2.19**, **English 2.13** or **French 2.12 + Patch 1**. Select the game edition, regardless of your preferred mod menu language.
 5. Tap **Install / update mod**. Backups are stored in `PokemonZMods-backups/date-time/`. Saves and `Data/Scripts.rxdata` are preserved.
 6. In JoiPlay, tap `+` and add `Game.exe`. If asked for the **RPG Maker XP RTP**, download it from [RPG Maker](https://www.rpgmakerweb.com/run-time-package) and import it through **Settings → Import Runtime Packages → RPG Maker XP** in JoiPlay. You do not need to run the Windows installer on Android. In Kirin, add the same game folder to its library.
 7. Open the game, close it and return to the APK to **Check installation**. Confirm loading with `PASS (14 hooks)` and `Compatibility profile PASS`.
@@ -66,7 +68,7 @@ Start a new game and progress through the introduction and initial Nuzlocke sele
 
 If options are missing after the introduction, keep `Mods/HardcoreNuzlocke/nuzlocke.log` and report the game, mod and runtime versions. Options should also include the challenge, battle aid and type chart menus. See the [test environment and limitations](docs/android-validation.md).
 
-Without the APK, prepare the game on a PC using the **version 1.1.5** installer, then copy the resulting folder to Android. `Game.exe`, `preload.rb` and `Mods/HardcoreNuzlocke/loader.rb` must retain their layout, without an extra ZIP-named parent folder. See [INSTALL.md](INSTALL.md).
+Without the APK, prepare the game on a PC using the **version 1.1.6** installer, then copy the resulting folder to Android. `Game.exe`, `preload.rb` and `Mods/HardcoreNuzlocke/loader.rb` must retain their layout, without an extra ZIP-named parent folder. See [INSTALL.md](INSTALL.md).
 
 ## First-playthrough setup
 

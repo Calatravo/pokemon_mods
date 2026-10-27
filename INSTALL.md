@@ -4,7 +4,7 @@
 
 Necesitas una de estas ediciones para Windows ya instalada:
 
-- Pokémon Z V2.18 española.
+- Pokémon Z V2.18 o V2.19 española (ambas usan el perfil `es_218`).
 - Pokémon Z V2.13 inglesa.
 - Pokémon Z V2.12 francesa con Patch 1.
 
@@ -22,7 +22,7 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga `Pokemon-Z-Mods-v1.1.5.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+1. Descarga `Pokemon-Z-Mods-v1.1.6.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
 
@@ -42,6 +42,10 @@ El script detecta primero la edición por la firma de sus archivos y usa el nomb
 
 También admite el parámetro avanzado `-Profile es_218`, `-Profile en_213` o `-Profile fr_212p1`. El idioma y el perfil deben corresponder.
 
+Desde 1.1.6 se detecta automáticamente ES 2.19 en Windows, Python y Android. Las ediciones españolas 2.18 y 2.19 comparten el perfil `es_218`.
+
+Las partidas que ya tenían Random activo pueden abrir **Desafíos → Compensar MT perdidas** tras actualizar. Indica cuántas MT perdiste por el fallo, confirma y guarda normalmente. Es una compensación única de MT aleatorias que no poseas: el guardado antiguo no permite calcular las pérdidas ni restaurar el resultado exacto. Las partidas nuevas no ofrecen esta compensación.
+
 La primera ejecución crea:
 
 ```text
@@ -51,7 +55,7 @@ mkxp.json.backup-before-pokemon-mods
 
 Las ediciones 2.12/2.13 incluyen en `preload.rb` un antiguo wrapper Zlib que falla al activarlo; el instalador retira únicamente ese bloque conocido y conserva la copia original. El instalador es repetible: vuelve a ejecutar el mismo comando para actualizar los archivos del mod sin duplicar el cargador ni la entrada de `mkxp.json`.
 
-Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.5](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
+Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.6](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
 
 ## Instalación manual
 
@@ -125,7 +129,7 @@ La versión 1.1.4 corrige la generación de tipos vacíos que podía provocar `n
 
 ### Los movimientos siguen siendo aleatorios con la opción desactivada
 
-La versión 1.1.5 corrige una segunda rutina de aleatorización de movimientos en EN 2.13 y FR 2.12 + Patch 1. Actualiza el mod con el juego cerrado. Los Pokémon nuevos y los movimientos futuros por nivel respetarán la opción guardada. Los ataques que ya tienen los Pokémon existentes se conservan para no borrar movimientos aprendidos con MT o tutores; la actualización no deshace esas asignaciones anteriores.
+La versión 1.1.6 corrige una segunda rutina de aleatorización de movimientos en EN 2.13 y FR 2.12 + Patch 1. Actualiza el mod con el juego cerrado. Los Pokémon nuevos y los movimientos futuros por nivel respetarán la opción guardada. Los ataques que ya tienen los Pokémon existentes se conservan para no borrar movimientos aprendidos con MT o tutores; la actualización no deshace esas asignaciones anteriores.
 
 ### No aparecen los menús
 

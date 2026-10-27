@@ -227,6 +227,7 @@ module PZHardcoreNuzlocke
       :first_run_setup_done   => false,
       :pending_first_setup    => false,
       :random                 => default_random_state,
+      :tm_recovery            => nil,
       :started_at             => nil,
       :failed_at              => nil
     }

@@ -23,6 +23,8 @@ PROFILE_LANGUAGES = {
 LANGUAGE_PROFILES = {value: key for key, value in PROFILE_LANGUAGES.items()}
 KNOWN_SCRIPTS_PROFILES = {
     "0580b2f2787c16fcbc72f6cd34155656102985f43d92a560a34232e64dea9001": "es_218",
+    # Spanish 2.19 uses the same compatible runtime profile as 2.18.
+    "0d2fb0bc24bb5a69d6df8d8d7fc787a6dc804ceaff94209171394e5e0cc6abec": "es_218",
     "82ac875ca31a2b9b32f046c965e5f89dda8b479ec768d3ca2b90125943dbdfee": "en_213",
     "4af6e9e7ead84e439c3ec05451dcfac46b06b70c6160e8e99f6207d18209c1b4": "fr_212p1",
 }
@@ -53,7 +55,7 @@ def detect_profile(game_path: Path, language: str, profile: str) -> tuple[str, s
         return "en_213", "en"
     if re.search(r"2[.,]12|fran[cç]ais|french", detection):
         return "fr_212p1", "fr"
-    if re.search(r"2[.,]18|spanish|espa[nñ]ol", detection):
+    if re.search(r"2[.,](?:18|19)|spanish|espa[nñ]ol", detection):
         return "es_218", "es"
     raise ValueError(
         "The game edition could not be detected from its files or folder name. "

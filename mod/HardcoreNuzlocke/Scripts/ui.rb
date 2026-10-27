@@ -343,6 +343,36 @@ module PZHardcoreNuzlocke
     end
   end
 
+  def self.open_tm_recovery
+    return false unless tm_recovery_enabled?
+    if state[:tm_recovery]
+      show_info(t(:tm_recovery_used), t(:tm_recovery_title))
+      return false
+    end
+    count = missing_random_tms.length
+    if count == 0
+      show_info(t(:tm_recovery_none), t(:tm_recovery_title))
+      return false
+    end
+    params = ChooseNumberParams.new
+    params.setRange(0, count)
+    params.setDefaultValue(0)
+    params.setCancelValue(0)
+    amount = Kernel.pbMessageChooseNumber(t(:tm_recovery_amount, count), params)
+    return false if amount <= 0
+    return false unless confirm_choice(t(:tm_recovery_confirm, amount), t(:tm_recovery_help), t(:tm_recovery_title))
+    result = recover_missing_tms!(amount)
+    if result[:status] == :ok
+      names = result[:items].collect do |item|
+        "#{PBItems.getName(item)}: #{PBMoves.getName($ItemData[item][ITEMMACHINE])}"
+      end
+      show_info(t(:tm_recovery_done, names.length) + "\n\n" + names.join("\n"), t(:tm_recovery_title))
+      return true
+    end
+    show_info(t(:tm_recovery_error), t(:tm_recovery_title))
+    false
+  end
+
   def self.open_menu
     current = state
     if !current
@@ -358,10 +388,19 @@ module PZHardcoreNuzlocke
         t(:random_status, random_status),
         t(:progress_nuz),
         t(:zone_register),
-        t(:cemetery),
-        t(:close)
+        t(:cemetery)
       ]
+      recovery_index = nil
+      if tm_recovery_enabled?
+        recovery_index = commands.length
+        commands << t(:tm_recovery_title)
+      end
+      commands << t(:close)
       choice = choose(t(:challenge_menu), commands)
+      if recovery_index && choice == recovery_index
+        open_tm_recovery
+        next
+      end
       case choice
       when 0 then open_nuzlocke_setup(true)
       when 1 then open_random_setup(true)

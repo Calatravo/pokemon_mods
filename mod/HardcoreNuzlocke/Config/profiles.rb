@@ -3,7 +3,7 @@
 module PZHardcoreNuzlocke
   module Config
     SUPPORTED_PROFILES = {
-      :es_218=>{:language=>:es, :version=>"2.18"},
+      :es_218=>{:language=>:es, :version=>"2.18 / 2.19"},
       :en_213=>{:language=>:en, :version=>"2.13"},
       :fr_212p1=>{:language=>:fr, :version=>"2.12 + Patch 1"}
     }

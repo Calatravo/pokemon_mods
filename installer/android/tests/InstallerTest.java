@@ -1,5 +1,7 @@
 import org.pokemonzmods.installer.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class InstallerTest {
@@ -16,6 +18,14 @@ public class InstallerTest {
         public void delete(String path) { files.remove(path); }
     }
     public static void main(String[] args) throws Exception {
+        check(InstallLogic.detect(bytes("unknown game scripts")) == -1, "Unknown scripts recognized as a supported edition");
+        check(args.length % 2 == 0, "Detection fixtures require edition/path pairs");
+        for (int i = 0; i < args.length; i += 2) {
+            int edition = Integer.parseInt(args[i]);
+            byte[] scripts = Files.readAllBytes(Paths.get(args[i + 1]));
+            check(InstallLogic.detect(scripts) == edition, "Wrong detected edition for " + args[i + 1]);
+            System.out.println("PASS auto-detection: " + args[i + 1] + " -> " + InstallLogic.PROFILES[edition]);
+        }
         String snippet = "# BEGIN POKEMON_MODS HARDCORE_NUZLOCKE\nload File.expand_path('Mods/HardcoreNuzlocke/loader.rb')\n# END POKEMON_MODS HARDCORE_NUZLOCKE";
         String first = InstallLogic.preload("# user preload\n", snippet);
         check(first.equals(InstallLogic.preload(first, snippet)), "Repeated install duplicates loader");

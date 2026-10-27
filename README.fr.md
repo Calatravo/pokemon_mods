@@ -6,22 +6,24 @@ Mod de défis configurables pour les éditions espagnole, anglaise et française
 
 > Ce dépôt ne contient ni Pokémon Z, ni ROM, ni exécutable, ni graphismes, ni musique, ni sauvegarde. Une copie obtenue légalement d'une édition compatible est nécessaire.
 
-La version **1.1.5** corrige les capacités aléatoires qui restaient actives malgré la désactivation de cette option dans les éditions anglaise 2.13 et française 2.12 + Patch 1. Le mode Semi Random conserve aussi les capacités normales. [Notes de version](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.5).
+La version **1.1.6** corrige les récompenses de CT remplacées par des objets ordinaires alors que des CT manquent encore. **Défis → Compenser les CT perdues** propose aux anciennes sauvegardes une compensation facultative, utilisable une fois, avec une quantité choisie manuellement. L’édition espagnole 2.19 est détectée automatiquement. [Notes de version](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.6).
 
 ## Éditions compatibles
 
 | Édition testée | Profil | Langue initiale du mod |
 | --- | --- | --- |
-| Pokémon Z **2.18 espagnole** | `es_218` | Español |
+| Pokémon Z **2.18 / 2.19 espagnole** | `es_218` | Español |
 | Pokémon Z **2.13 anglaise** | `en_213` | English |
 | Pokémon Z **2.12 française + Patch 1** | `fr_212p1` | Français |
+
+Depuis la version 1.1.6, les installateurs Windows, Python et Android détectent automatiquement l’édition espagnole 2.19, même si le dossier a été renommé. Les éditions espagnoles 2.18 et 2.19 partagent le profil `es_218`.
 
 Les noms de Pokémon, capacités et descriptions proviennent des données localisées de chaque jeu. Tous les menus, explications et messages ajoutés par le mod sont traduits. La langue du mod peut être changée dans les Options sans modifier celle du jeu de base.
 
 ## Installation rapide sous Windows
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.5.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.6.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -38,14 +40,14 @@ Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, 
 
 ### Installateur simple pour JoiPlay et Kirin
 
-Téléchargez l’[installateur Android v1.1.5 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.5/Pokemon-Z-Mods-v1.1.5-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
+Téléchargez l’[installateur Android v1.1.6 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
 
 > La version 1.1.3 inclut les corrections vérifiées dans JoiPlay. Les ZIP 1.1.2 déjà publiés ne contiennent pas ces corrections et n’ont pas chargé le mod dans l’environnement testé. Consultez le [rapport de validation](docs/android-validation.md).
 
 1. Installez [JoiPlay et RPG Maker Plugin](https://joiplay.net/), ou Kirin pour un essai expérimental. Décompressez Pokémon Z dans un dossier accessible, par exemple `Documents/PokemonZ`.
 2. Fermez le jeu et conservez une copie de vos parties. Installez et ouvrez l’APK **Pokémon Z Mods**.
 3. Appuyez sur **Choisir le dossier du jeu**, sélectionnez le dossier contenant directement `Game.exe` et autorisez l’accès. Ne sélectionnez ni le ZIP ni le dossier `Mods`.
-4. Confirmez l’édition du jeu : **Espagnole 2.18**, **Anglaise 2.13** ou **Française 2.12 + Patch 1**. Ce choix concerne l’édition du jeu, pas votre langue préférée pour les menus.
+4. Confirmez l’édition du jeu : **Espagnole 2.18 / 2.19**, **Anglaise 2.13** ou **Française 2.12 + Patch 1**. Ce choix concerne l’édition du jeu, pas votre langue préférée pour les menus.
 5. Appuyez sur **Installer / mettre à jour**. Les copies sont conservées dans `PokemonZMods-backups/date-heure/`. Les parties et `Data/Scripts.rxdata` restent intacts.
 6. Dans JoiPlay, appuyez sur `+` et ajoutez `Game.exe`. Si le **RTP de RPG Maker XP** est demandé, téléchargez-le depuis [RPG Maker](https://www.rpgmakerweb.com/run-time-package), puis importez-le dans **Settings → Import Runtime Packages → RPG Maker XP** de JoiPlay. Il n’est pas nécessaire d’exécuter l’installateur Windows sur Android. Dans Kirin, ajoutez le même dossier du jeu à la bibliothèque.
 7. Ouvrez le jeu, fermez-le, puis revenez dans l’APK et appuyez sur **Vérifier l’installation**. Le chargement est confirmé par `PASS (14 hooks)` et `Compatibility profile PASS`.
@@ -66,7 +68,7 @@ Commencez une nouvelle partie et avancez jusqu’après l’introduction et le c
 
 Si les options manquent après l’introduction, conservez `Mods/HardcoreNuzlocke/nuzlocke.log` et indiquez les versions du jeu, du mod et du moteur. Les Options doivent aussi afficher les défis, les aides en combat et la table des types. Voir l’[environnement et les limites des tests](docs/android-validation.md).
 
-Sans APK, préparez le jeu sur PC avec l’installateur de la **version 1.1.5**, puis copiez le dossier obtenu sur Android. Conservez les emplacements de `Game.exe`, `preload.rb` et `Mods/HardcoreNuzlocke/loader.rb`, sans dossier supplémentaire portant le nom du ZIP. Consultez [INSTALL.md](INSTALL.md).
+Sans APK, préparez le jeu sur PC avec l’installateur de la **version 1.1.6**, puis copiez le dossier obtenu sur Android. Conservez les emplacements de `Game.exe`, `preload.rb` et `Mods/HardcoreNuzlocke/loader.rb`, sans dossier supplémentaire portant le nom du ZIP. Consultez [INSTALL.md](INSTALL.md).
 
 ## Configuration dès la première partie
 

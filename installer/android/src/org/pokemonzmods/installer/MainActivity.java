@@ -49,7 +49,7 @@ public final class MainActivity extends Activity {
         folder = label(layout, t("Selecciona la carpeta que contiene Game.exe, no el ZIP ni la carpeta Mods.", "Select the folder containing Game.exe, not the ZIP or Mods folder.", "Sélectionnez le dossier contenant Game.exe, pas le ZIP ni le dossier Mods."), 15);
         label(layout, t("2. Edición del juego", "2. Game edition", "2. Édition du jeu"), 18);
         edition = new Spinner(this);
-        ArrayAdapter<String> options = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{t("Selecciona la edición…", "Select edition…", "Choisissez l’édition…"), "Español · 2.18", "English · 2.13", "Français · 2.12 + Patch 1"});
+        ArrayAdapter<String> options = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{t("Selecciona la edición…", "Select edition…", "Choisissez l’édition…"), "Español · 2.18 / 2.19", "English · 2.13", "Français · 2.12 + Patch 1"});
         edition.setAdapter(options); layout.addView(edition);
         install = button(layout, t("3. Instalar / actualizar mod", "3. Install / update mod", "3. Installer / mettre à jour"), v -> {
             if (tree == null || edition.getSelectedItemPosition() == 0) { status.setText(t("Elige la carpeta y la edición primero.", "Choose a folder and edition first.", "Choisissez d’abord le dossier et l’édition.")); return; }

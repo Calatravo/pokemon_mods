@@ -35,6 +35,90 @@ module PZHardcoreNuzlocke
     current && current[:enabled] && defined?($game_switches) && $game_switches && $game_switches[409]
   end
 
+  def self.all_random_tms
+    (1..PBItems.maxValue).find_all do |item|
+      pbIsTechnicalMachine?(item) && !PBItems.getName(item).to_s.empty?
+    end
+  end
+
+  def self.missing_random_tms
+    all_random_tms.find_all { |item| !$PokemonBag.pbHasItem?(item) }
+  end
+
+  def self.tm_recovery_enabled?
+    config = random_state
+    random_active? && config && !config[:semi_random] && !config[:tm_recovery_fixed_from_start] &&
+      (config[:items] || config[:event_items])
+  end
+
+  # Old saves retain no ledger of replaced TM rewards. This is an explicit,
+  # one-time compensation chosen by the player, not an inferred restoration.
+  def self.recover_missing_tms!(amount)
+    return {:status=>:unavailable} if !tm_recovery_enabled? || @tm_recovery_busy
+    current = state
+    return {:status=>:already_used} if current[:tm_recovery]
+    available = missing_random_tms
+    return {:status=>:invalid_count} if !amount.is_a?(Integer) || amount < 1 || amount > available.length
+    return {:status=>:unavailable} if !defined?($Trainer) || !$Trainer
+
+    items = []
+    amount.times { items << available.delete_at(rand(available.length)) }
+    old_pockets = Marshal.dump($PokemonBag.pockets)
+    old_moves = Marshal.dump([$PokemonGlobal.tm_moves, $PokemonGlobal.given_tm_moves])
+    old_item_moves = {}
+    items.each { |item| old_item_moves[item] = $ItemData[item][ITEMMACHINE] }
+    committed = false
+    @tm_recovery_busy = true
+    begin
+      $PokemonGlobal.tm_moves ||= {}
+      $PokemonGlobal.given_tm_moves ||= []
+      to_generate = items.find_all do |item|
+        RandomizedChallenge::RANDOMIZE_TM_MOVES &&
+          !RandomizedChallenge::UNRANDOMIZABLE_TMS.include?(item) && !$PokemonGlobal.tm_moves[item]
+      end
+      pool = []
+      unless to_generate.empty?
+        progressive = call_global(:progressive_random_on?) && $Trainer.numbadges < 3 &&
+          RandomizedChallenge::MT_MOVES_RESPECT_PROGRESSIVE_RANDOM
+        # Enumerate once rather than retry indefinitely if the move pool is
+        # exhausted. Existing TM assignments, including shops, stay unchanged.
+        pool = (1..PBMoves.maxValue).find_all do |move|
+          !$PokemonGlobal.tm_moves.values.include?(move) &&
+            !call_global(:invalid_move?, progressive, move, false, progressive ? 70 : 0, true)
+        end
+        return {:status=>:no_moves} if pool.length < to_generate.length
+      end
+      moves = {}
+      items.each do |item|
+        move = $PokemonGlobal.tm_moves[item]
+        move = pool.delete_at(rand(pool.length)) if to_generate.include?(item)
+        moves[item] = move if move
+      end
+      items.each do |item|
+        if moves[item]
+          $ItemData[item][ITEMMACHINE] = moves[item]
+          $PokemonGlobal.tm_moves[item] = moves[item]
+          $PokemonGlobal.given_tm_moves << moves[item] unless $PokemonGlobal.given_tm_moves.include?(moves[item])
+        end
+        return {:status=>:bag_full} unless $PokemonBag.pbStoreItem(item, 1)
+      end
+      current[:tm_recovery] = {:items=>items.clone, :at=>Time.now.to_i}
+      committed = true
+      log("One-time TM compensation: #{items.inspect}")
+      {:status=>:ok, :items=>items}
+    ensure
+      unless committed
+        $PokemonBag.instance_variable_set(:@pockets, Marshal.load(old_pockets))
+        $PokemonGlobal.tm_moves, $PokemonGlobal.given_tm_moves = Marshal.load(old_moves)
+        old_item_moves.each { |item, move| $ItemData[item][ITEMMACHINE] = move }
+      end
+      @tm_recovery_busy = false
+    end
+  rescue Exception => error
+    log_exception('TM compensation failed', error)
+    {:status=>:error}
+  end
+
   def self.valid_random_type?(type)
     type.is_a?(Integer) && type >= 0 && type <= PBTypes.maxValue &&
       !RandomizedChallenge::INVALID_TYPES.include?(type) &&
@@ -229,6 +313,7 @@ module PZHardcoreNuzlocke
     $PokemonGlobal.random_abs_pokemon = nil if $PokemonGlobal.respond_to?(:random_abs_pokemon=)
     config[:enabled] = true
     config[:locked] = true
+    config[:tm_recovery_fixed_from_start] = true
     log("Randomizer activated: #{config.inspect}")
     true
   rescue Exception => error

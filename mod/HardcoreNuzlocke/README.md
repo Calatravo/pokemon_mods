@@ -1,6 +1,6 @@
 # Desafíos configurables - Pokémon Z
 
-Este módulo añade Nuzlocke forzado, Random configurable y Randomlocke a las ediciones española 2.18, inglesa 2.13 y francesa 2.12 + Patch 1. Los modos están disponibles desde la primera partida y su estado se guarda dentro de la partida.
+Este módulo añade Nuzlocke forzado, Random configurable y Randomlocke a las ediciones españolas 2.18 y 2.19 (perfil compartido `es_218`), inglesa 2.13 y francesa 2.12 + Patch 1. Los modos están disponibles desde la primera partida y su estado se guarda dentro de la partida.
 
 ## Idiomas y perfiles
 
@@ -123,3 +123,7 @@ Para comprobar la corrección de tipos desde la raíz del repositorio en Windows
 La prueba utiliza el motor y los datos reales del juego para inicializar al inicial y Bidoof, calcular la eficacia de todos los tipos y comprobar la recarga y reparación de guardados en memoria. No ejecuta la introducción ni guarda una partida. Con `-Unpatched` reproduce el error del código original. `tests/type_randomization_test.rb` cubre además la estabilidad por especie, el orden de consulta, los tipos válidos, los modos desactivado/Semi Random y la instalación repetida de los hooks.
 
 Para comprobar la opción de movimientos con el motor real de EN 2.13, ejecuta `tests/move_randomization_integration.ps1`; acepta `-GameFolder` para ES/FR y `-Unpatched` para reproducir el fallo anterior en EN/FR. Comprueba movimientos activados/desactivados, los interruptores antiguos, iniciales, construcción de Pokémon de entrenadores, Semi Random y tablas guardadas. `tests/move_randomization_test.rb` añade casos de formas alternativas, consultas anidadas y restauración tras excepciones. Ninguna de estas pruebas modifica una partida guardada.
+
+`tests/tm_randomization_integration.ps1 -GameFolder <carpeta>` comprueba con los datos reales que las recompensas de MT seleccionen una MT pendiente incluso con una lista guardada incompleta o muchos intentos repetidos. Verifica entregas de mapa y NPC con 0/4/8 medallas, progresividad, movimientos guardados, nodos renovables y agotamiento del catálogo. `-Unpatched` reproduce el fallo del selector original. Consulta [la política de objetos](../../docs/random-item-protection.md) para los resultados y los casos aún pendientes de identificar del reporte del acto 2.
+
+En las partidas que activaron Random antes del arreglo, **Desafíos → Compensar MT perdidas** permite indicar una cantidad de MT perdidas y recibir MT pendientes una sola vez por guardado. No calcula las pérdidas históricas ni entrega todo el catálogo. Conserva las asignaciones existentes y revierte la operación si falla; después hay que guardar normalmente. Las partidas que activan Random con el arreglo ya instalado no ofrecen esta compensación. La prueba anterior incluye `tm_recovery_test.rb` para comprobar este flujo con la mochila, los movimientos y la serialización del juego.

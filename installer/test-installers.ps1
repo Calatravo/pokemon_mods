@@ -8,6 +8,8 @@ New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 $cases = @(
     @{ Source = "Pokemon Z V2.18"; Target = "Edition A"; Profile = "es_218"; Language = "es" },
+    @{ Source = "Pokemon Z V2.19"; Target = "Edition D"; Profile = "es_218"; Language = "es" },
+    @{ Source = "Pokemon Z V2.19"; Target = "Pokemon Z V2.19"; Profile = "es_218"; Language = "es"; UnknownHash = $true },
     @{ Source = "POKEMON Z V2.13\Pokemon Z V2.13"; Target = "Edition B"; Profile = "en_213"; Language = "en" },
     @{ Source = "Pokémon Z V2.12 - Français"; Target = "Edition C"; Profile = "fr_212p1"; Language = "fr" }
 )
@@ -27,16 +29,29 @@ try {
         Copy-Item -LiteralPath $originalPreload -Destination (Join-Path $target "preload.rb")
 
         $scriptsPath = Join-Path $target "Data\Scripts.rxdata"
+        if ($case.UnknownHash) {
+            # Exercise the folder-name fallback independently of known hashes.
+            $stream = [System.IO.File]::OpenWrite($scriptsPath)
+            try {
+                $stream.Seek(0, [System.IO.SeekOrigin]::End) | Out-Null
+                $stream.WriteByte(0)
+            }
+            finally { $stream.Dispose() }
+        }
         $scriptsHashBefore = (Get-FileHash -LiteralPath $scriptsPath -Algorithm SHA256).Hash
-        & python (Join-Path $PSScriptRoot "install.py") $target
-        if ($LASTEXITCODE -ne 0) {
-            throw "First Python installation failed for $($case.Profile)."
+        foreach ($installer in @("Python", "Python", "PowerShell", "PowerShell")) {
+            if ($installer -eq "Python") {
+                & python (Join-Path $PSScriptRoot "install.py") $target
+                if ($LASTEXITCODE -ne 0) { throw "Python installation failed for $($case.Source)." }
+            }
+            else {
+                & (Join-Path $projectRoot "install.ps1") -GamePath $target -Language auto
+            }
+            $installedProfile = [System.IO.File]::ReadAllText((Join-Path $target "Mods\HardcoreNuzlocke\Config\install_profile.rb"))
+            if ($installedProfile -notmatch "LANGUAGE = :$($case.Language)" -or $installedProfile -notmatch "PROFILE = :$($case.Profile)") {
+                throw "$installer selected the wrong profile for $($case.Source)."
+            }
         }
-        & python (Join-Path $PSScriptRoot "install.py") $target
-        if ($LASTEXITCODE -ne 0) {
-            throw "Second Python installation failed for $($case.Profile)."
-        }
-        & (Join-Path $projectRoot "install.ps1") -GamePath $target -Language auto
 
         $preload = [System.IO.File]::ReadAllText((Join-Path $target "preload.rb"))
         $profile = [System.IO.File]::ReadAllText((Join-Path $target "Mods\HardcoreNuzlocke\Config\install_profile.rb"))
@@ -57,7 +72,7 @@ try {
         if ($checks -contains $false) {
             throw "Validation failed for $($case.Profile): loader entries=$loaderCount, preload entries=$preloadEntryCount."
         }
-        Write-Host "PASS $($case.Profile): Python/PowerShell auto-detection, idempotency, backups, unchanged Scripts.rxdata"
+        Write-Host "PASS $($case.Source) as $($case.Target): Python/PowerShell auto-detection, idempotency, backups, unchanged Scripts.rxdata"
     }
 }
 finally {
