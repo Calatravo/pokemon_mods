@@ -53,7 +53,7 @@ PZHardcoreNuzlocke::I18n.register(:en, {
   :random_held_items=>"Random held items",
   :random_trainer_rewards=>"Random Trainer rewards", :random_semi_random=>"Semi Random mode",
   :random_progressive_help=>"Limits base strength and move power according to your Badges. Prevents Legendaries and extreme moves from appearing too early.",
-  :random_moves_help=>"Each species receives a random movepool. With Progressive Random enabled, power is adjusted to story progress.",
+  :random_moves_help=>"Each species receives a random movepool. Full Random also applies it to opponents, bosses and scripted battles. Progressive Random adjusts power to story progress. Semi Random keeps normal moves.",
   :random_evolutions_help=>"Evolutions change into random species. The result remains fixed for this save.",
   :random_evo_similar_bst_help=>"When evolutions are random, searches for results with similar base stat totals to reduce absurd power jumps.",
   :random_tm_compat_help=>"Each Pokémon's compatibility with TMs is generated randomly, changing which moves it can learn.",

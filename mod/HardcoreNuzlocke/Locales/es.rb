@@ -53,7 +53,7 @@ PZHardcoreNuzlocke::I18n.register(:es, {
   :random_held_items=>"Objetos equipados random",
   :random_trainer_rewards=>"Recompensas random de entrenadores", :random_semi_random=>"Modo Semi Random",
   :random_progressive_help=>"Limita la fuerza base y la potencia de movimientos según tus medallas. Evita legendarios y ataques extremos demasiado pronto.",
-  :random_moves_help=>"Cada especie recibe un movepool aleatorio. Con Random progresivo activo, la potencia se adapta al avance de la partida.",
+  :random_moves_help=>"Cada especie recibe un movepool aleatorio. En Random completo también se aplica a los rivales, jefes y combates prefijados. Con Random progresivo, la potencia se adapta al avance. Semi Random conserva los movimientos normales.",
   :random_evolutions_help=>"Las evoluciones cambian a especies aleatorias. El resultado queda fijado para este guardado.",
   :random_evo_similar_bst_help=>"Si las evoluciones son random, busca resultados con fuerza base parecida para reducir saltos de poder absurdos.",
   :random_tm_compat_help=>"La compatibilidad de cada Pokémon con las MT se genera al azar, cambiando qué movimientos puede aprender.",

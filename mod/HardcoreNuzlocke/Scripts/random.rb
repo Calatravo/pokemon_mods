@@ -262,6 +262,55 @@ module PZHardcoreNuzlocke
     end
   end
 
+  # Trainers and story events can overwrite moves after Pokemon construction.
+  # Apply the selected Random policy to the enemy party only, immediately
+  # before battlers copy those moves. Saved player/tutor/TM moves stay intact.
+  def self.prepare_random_opponent_moves(battle)
+    return false if battle.instance_variable_get(:@pzn_random_moves_prepared)
+    return false if !defined?($PokemonGlobal) || !$PokemonGlobal || !$game_switches
+    config = random_state
+    configured = config && config[:enabled]
+    enabled = configured || call_global(:random_enabled?)
+    moves = configured ? config[:moves] : $PokemonGlobal.enable_random_moves
+    semi = configured ? config[:semi_random] : $PokemonGlobal.semi_random
+    return false unless enabled && moves && !semi
+
+    original_party = battle.party2
+    return false if !original_party || original_party.empty?
+    originals = original_party.dup
+    original_moves = originals.collect { |pokemon| pokemon ? pokemon.moves : nil }
+    switch = RandomizedChallenge::SWITCH
+    previous = [$game_switches[switch], $PokemonGlobal.enable_random_moves, $PokemonGlobal.semi_random]
+    begin
+      # Honor a configured Random run even while a story event pauses Random.
+      $game_switches[switch] = true
+      $PokemonGlobal.enable_random_moves = true
+      $PokemonGlobal.semi_random = false
+      party = original_party.equal?(battle.party1) ? original_party.dup : original_party
+      battle.instance_variable_set(:@party2, party)
+      party.each_with_index do |pokemon, index|
+        next if !pokemon || pokemon.isEgg?
+        if battle.party1.any? { |ally| ally.equal?(pokemon) }
+          pokemon = Marshal.load(Marshal.dump(pokemon))
+          party[index] = pokemon
+        end
+        # The mirror boss uses shallow clones that share the player's moves.
+        pokemon.moves = pokemon.moves.dup
+        pokemon.resetMoves
+      end
+      battle.instance_variable_set(:@pzn_random_moves_prepared, true)
+      true
+    rescue Exception => error
+      originals.each_with_index { |pokemon, index| pokemon.moves = original_moves[index] if pokemon }
+      original_party.replace(originals)
+      battle.instance_variable_set(:@party2, original_party)
+      log("opponent random moves error: #{error.class}: #{error.message}")
+      false
+    ensure
+      $game_switches[switch], $PokemonGlobal.enable_random_moves, $PokemonGlobal.semi_random = previous
+    end
+  end
+
   # The game's starter gift pauses all randomization to keep the chosen species.
   # Allow only its move-list lookup to see the player's original Random settings.
   def self.with_starter_random_moves

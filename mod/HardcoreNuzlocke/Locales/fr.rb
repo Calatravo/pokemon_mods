@@ -53,7 +53,7 @@ PZHardcoreNuzlocke::I18n.register(:fr, {
   :random_held_items=>"Objets tenus aléatoires",
   :random_trainer_rewards=>"Récompenses de Dresseurs aléatoires", :random_semi_random=>"Mode Semi Random",
   :random_progressive_help=>"Limite la puissance de base et celle des capacités selon vos Badges. Évite les légendaires et attaques extrêmes trop tôt.",
-  :random_moves_help=>"Chaque espèce reçoit une liste de capacités aléatoire. Avec le Random progressif, la puissance suit la progression de l'histoire.",
+  :random_moves_help=>"Chaque espèce reçoit des capacités aléatoires. Le Random complet les applique aussi aux adversaires, boss et combats prédéfinis. Le Random progressif adapte la puissance à la progression. Semi Random conserve les capacités normales.",
   :random_evolutions_help=>"Les évolutions deviennent des espèces aléatoires. Le résultat reste fixe pour cette sauvegarde.",
   :random_evo_similar_bst_help=>"Si les évolutions sont aléatoires, cherche un total de statistiques de base proche pour réduire les écarts de puissance absurdes.",
   :random_tm_compat_help=>"La compatibilité de chaque Pokémon avec les CT est générée aléatoirement, modifiant les capacités qu'il peut apprendre.",

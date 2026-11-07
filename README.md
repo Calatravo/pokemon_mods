@@ -6,12 +6,12 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 
 > Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
-La versión **1.1.6** corrige que las recompensas de MT entreguen objetos comunes aunque falten MT y añade **Desafíos → Compensar MT perdidas** para partidas antiguas: una compensación opcional con cantidad manual, una sola vez por guardado. También reconoce automáticamente la edición española 2.19. [Notas de la actualización](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.6).
+La versión **1.1.7** corrige los ataques prefijados de líderes, jefes y encuentros guionizados con **Movimientos random** activado y **Semi Random** desactivado. Semi Random conserva los equipos y movimientos normales de los entrenadores. Incluye la corrección y compensación de MT de 1.1.6. [Notas de la actualización](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.7).
 
 ## Instalación rápida en Windows
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.6.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.7.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -28,7 +28,7 @@ Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, m
 
 ### Instalador sencillo para JoiPlay y Kirin
 
-Descarga el [instalador Android v1.1.6 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
+Descarga el [instalador Android v1.1.7 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.7/Pokemon-Z-Mods-v1.1.7-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
 
 > La versión 1.1.3 incluye las correcciones comprobadas en JoiPlay. Los ZIP 1.1.2 ya publicados no incluyen esas correcciones y fallaron al cargar el mod en el entorno probado. Consulta el [informe de comprobaciones](docs/android-validation.md).
 
@@ -62,7 +62,7 @@ Estas capturas son de una prueba real en JoiPlay con el cargador corregido:
 
 Si faltan opciones tras la introducción, conserva `Mods/HardcoreNuzlocke/nuzlocke.log` e indica las versiones del juego, mod y reproductor. En Opciones también deben aparecer los menús de desafíos, ayudas de combate y tabla de tipos. Ver [entorno, resultados y límites de la prueba](docs/android-validation.md).
 
-Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.6** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
+Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.7** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
 
 ## Configuración inicial y guardado
 
@@ -124,6 +124,14 @@ El combate introductorio de Bidoof tras elegir el inicial está exento de muerte
 ## Modo Random
 
 Al aplicar Random se generan y guardan las tablas necesarias para esa partida. Las elecciones quedan bloqueadas para que especies, evoluciones, habilidades y demás resultados sean consistentes durante todo el guardado. La selección de generaciones se aplica antes de generar los iniciales.
+
+| Ajustes | Entrenadores, líderes y jefes |
+| --- | --- |
+| Semi Random activado | Conserva equipos y ataques normales; la opción Movimientos random no anula Semi Random. |
+| Semi Random desactivado + Movimientos random activado | Aplica los movimientos aleatorios también a los ataques prefijados del rival. |
+| Semi Random desactivado + Movimientos random desactivado | Conserva movimientos normales o prefijados; las especies siguen las reglas Random del juego. |
+
+**Full Random** en el apartado Habilidades se refiere solo a las habilidades. Para randomizar ataques de jefes hay que configurar las dos opciones indicadas arriba. No es necesario reiniciar una run que ya tenía esa configuración para aplicar el arreglo 1.1.7; las opciones de una partida iniciada siguen bloqueadas.
 
 ### Habilidades
 

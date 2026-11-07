@@ -75,6 +75,9 @@ module PZHardcoreNuzlocke
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type1) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type2) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_move_list) &&
+               PokeBattle_Battle.method_defined?(:pzn_random_original_battle_core) &&
+               (Object.private_method_defined?(:pzn_random_original_boss_fight) ||
+                Object.method_defined?(:pzn_random_original_boss_fight)) &&
                (Object.private_method_defined?(:pzn_hardcore_original_battle_on_step_taken) ||
                 Object.method_defined?(:pzn_hardcore_original_battle_on_step_taken)),
       :storage=>PokemonStorageScreen.method_defined?(:pzn_hardcore_original_withdraw),
@@ -202,6 +205,38 @@ module PZHardcoreNuzlocke
         def random_getMoveList
           PZHardcoreNuzlocke.with_original_move_lookup { pzn_random_original_move_list }
         end
+      end
+    end
+    if defined?(PokeBattle_Battle)
+      PokeBattle_Battle.class_eval do
+        unless method_defined?(:pzn_random_original_battle_core)
+          alias_method :pzn_random_original_battle_core, :pbStartBattleCore
+          def pbStartBattleCore(canlose)
+            PZHardcoreNuzlocke.prepare_random_opponent_moves(self)
+            pzn_random_original_battle_core(canlose)
+          end
+        end
+      end
+    end
+    Object.class_eval do
+      if (method_defined?(:pbBossFightRandom) || private_method_defined?(:pbBossFightRandom)) &&
+         !method_defined?(:pzn_random_original_boss_fight) && !private_method_defined?(:pzn_random_original_boss_fight)
+        alias_method :pzn_random_original_boss_fight, :pbBossFight
+        def pbBossFight(*arguments)
+          return pzn_random_original_boss_fight(*arguments) unless random_enabled?
+          # RandomMain omits the full-Random branch, and Semi Random returns
+          # resume_random's value instead of the actual battle result.
+          return pbBossFightRandom(*arguments) unless semi_random_mode?
+          switch = RandomizedChallenge::SWITCH
+          previous = $game_switches[switch]
+          begin
+            $game_switches[switch] = false
+            pbBossFightRandom(*arguments)
+          ensure
+            $game_switches[switch] = previous
+          end
+        end
+        private :pbBossFight
       end
     end
   end

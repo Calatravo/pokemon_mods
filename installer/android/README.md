@@ -1,12 +1,12 @@
 # Instalador Android de Pokémon Z Mods
 
-APK de prueba para instalar el mismo mod en una carpeta de juego usada por JoiPlay o Kirin. Descarga la [APK v1.1.6 de la release](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.6/Pokemon-Z-Mods-v1.1.6-Android-Installer.apk). La aplicación sigue siendo experimental. Instalar los archivos para Kirin no confirma que su motor pueda ejecutar el juego; consulta las [pruebas reales](../../docs/android-validation.md).
+APK de prueba para instalar el mismo mod en una carpeta de juego usada por JoiPlay o Kirin. Descarga la [APK v1.1.7 de la release](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.7/Pokemon-Z-Mods-v1.1.7-Android-Installer.apk). La aplicación sigue siendo experimental. Instalar los archivos para Kirin no confirma que su motor pueda ejecutar el juego; consulta las [pruebas reales](../../docs/android-validation.md).
 
 Desde 1.1.6 se detectan ES 2.18 y ES 2.19 en la opción «Español · 2.18 / 2.19», con el perfil `es_218`. La firma de 2.19 se ha probado en Java en el PC; las pruebas de ejecución en JoiPlay siguen correspondiendo a 2.18. Después de actualizar la APK, pulsa **Instalar / actualizar mod** para aplicar la corrección de MT al juego. En partidas antiguas está disponible **Desafíos → Compensar MT perdidas** con cantidad manual y un único uso por guardado.
 
 ## Uso
 
-1. Instala `Pokemon-Z-Mods-v1.1.6-Android-Installer.apk` y abre **Pokémon Z Mods**. Android puede pedir autorización para instalar desde la aplicación con la que abras la APK.
+1. Instala `Pokemon-Z-Mods-v1.1.7-Android-Installer.apk` y abre **Pokémon Z Mods**. Android puede pedir autorización para instalar desde la aplicación con la que abras la APK.
 2. Cierra el juego. Pulsa **Elegir carpeta del juego** y selecciona la carpeta descomprimida que contiene `Game.exe`; concede acceso a esa carpeta.
 3. Confirma la **edición del juego**, no el idioma que prefieras para el mod. Si el SHA-256 de `Data/Scripts.rxdata` coincide con una edición conocida, se selecciona automáticamente. Si no, el instalador exige elegirla. Rechaza una edición que contradiga una identificación conocida.
 4. Pulsa **Instalar / actualizar mod**. Guarda y verifica copias de los archivos existentes antes de escribir. No modifica partidas ni `Data/Scripts.rxdata`.
