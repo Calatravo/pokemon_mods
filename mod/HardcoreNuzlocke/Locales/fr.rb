@@ -63,7 +63,7 @@ PZHardcoreNuzlocke::I18n.register(:fr, {
   :random_held_items_help=>"Les Pokémon sauvages peuvent tenir des objets aléatoires. Les listes de sécurité du jeu restent appliquées.",
   :random_trainer_rewards_help=>"Certains Dresseurs vaincus peuvent offrir une récompense aléatoire supplémentaire.",
   :random_semi_random_help=>"Ne randomise que les rencontres et les Pokémon offerts. Dresseurs, capacités, talents et objets restent normaux.",
-  :random_ability_help=>"Full Random donne de nouveaux talents par espèce ; Correspondance remplace chaque talent de façon cohérente ; Inchangés les conserve.",
+  :random_ability_help=>"Full Random attribue des talents aléatoires stables, y compris aux Méga-Évolutions. Correspondance remplace chaque talent de façon cohérente. Inchangés et Semi Random gardent les talents canoniques. Le retour à la forme normale restaure son talent sauvegardé.",
   :random_generations_help=>"Limite les espèces aléatoires aux générations cochées. Au moins une génération doit rester active.",
   :abilities=>"Talents", :abilities_random=>"Talents aléatoires", :ability_full=>"Full Random", :ability_map=>"Correspondance cohérente",
   :ability_none=>"Inchangés", :choose_ability=>"Choisissez le mode des talents", :use_ability_question=>"Utiliser « %s » pour les talents ?",

@@ -75,6 +75,8 @@ module PZHardcoreNuzlocke
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type1) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_type2) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_move_list) &&
+               PokeBattle_Pokemon.method_defined?(:pzn_random_original_form_ability) &&
+               PokeBattle_Pokemon.method_defined?(:pzn_random_original_form_ability_list) &&
                PokeBattle_Battle.method_defined?(:pzn_random_original_battle_core) &&
                (Object.private_method_defined?(:pzn_random_original_boss_fight) ||
                 Object.method_defined?(:pzn_random_original_boss_fight)) &&
@@ -174,6 +176,21 @@ module PZHardcoreNuzlocke
         def ability_map(ret)
           $PokemonGlobal.ability_hash ||= {}
           pzn_random_original_ability_map(ret)
+        end
+      end
+      if method_defined?(:__mf_ability) && !method_defined?(:pzn_random_original_form_ability)
+        alias_method :pzn_random_original_form_ability, :ability
+        alias_method :pzn_random_original_form_ability_list, :getAbilityList
+        def getAbilityList
+          original = PZHardcoreNuzlocke.random_legacy_form_ability(self)
+          return pzn_random_original_form_ability_list unless original
+          PZHardcoreNuzlocke.legacy_form_ability_list(self, original)
+        end
+        def ability
+          return pzn_random_original_form_ability unless PZHardcoreNuzlocke.random_legacy_form_ability(self)
+          # Use the game's slot/fallback selection, bypassing only the legacy
+          # canonical callback. It reads the randomized list above.
+          __mf_ability
         end
       end
     end

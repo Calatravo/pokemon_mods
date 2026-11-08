@@ -109,6 +109,7 @@ try {
     New-Item -ItemType Directory -Path (Join-Path $universalStage "docs") -Force | Out-Null
     Copy-Item -LiteralPath (Join-Path $projectRoot "docs/android-validation.md") -Destination (Join-Path $universalStage "docs/android-validation.md")
     Copy-Item -LiteralPath (Join-Path $projectRoot "docs/random-item-protection.md") -Destination (Join-Path $universalStage "docs/random-item-protection.md")
+    Copy-Item -LiteralPath (Join-Path $projectRoot "docs/mega-random-abilities.md") -Destination (Join-Path $universalStage "docs/mega-random-abilities.md")
     Copy-TreeContents (Join-Path $projectRoot "docs/android-evidence") (Join-Path $universalStage "docs/android-evidence")
 
     $trackedScreenshots = & git -C $projectRoot ls-files "docs/screenshots/*"

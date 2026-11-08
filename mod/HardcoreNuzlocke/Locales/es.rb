@@ -63,7 +63,7 @@ PZHardcoreNuzlocke::I18n.register(:es, {
   :random_held_items_help=>"Los Pokémon salvajes pueden llevar objetos aleatorios. Las listas de seguridad del juego siguen aplicándose.",
   :random_trainer_rewards_help=>"Algunos entrenadores derrotados pueden entregar una recompensa aleatoria adicional.",
   :random_semi_random_help=>"Solo randomiza encuentros y Pokémon regalados. Entrenadores, movimientos, habilidades y objetos conservan su comportamiento normal.",
-  :random_ability_help=>"El modo Full Random da habilidades nuevas por especie; Mapeo sustituye cada habilidad por otra de forma consistente; Sin randomizar las conserva.",
+  :random_ability_help=>"Full Random asigna habilidades aleatorias estables, incluidas las megas. Mapeo sustituye cada habilidad por otra de forma consistente. Sin randomizar y Semi Random conservan las canónicas. Al dejar de ser mega se recupera la habilidad guardada de la forma normal.",
   :random_generations_help=>"Restringe las especies aleatorias a las generaciones marcadas. Debe quedar al menos una generación activa.",
   :abilities=>"Habilidades", :abilities_random=>"Habilidades random", :ability_full=>"Full Random", :ability_map=>"Mapeo consistente",
   :ability_none=>"Sin randomizar", :choose_ability=>"Elige el modo de habilidades", :use_ability_question=>"¿Deseas usar '%s' para las habilidades?",

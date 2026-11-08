@@ -6,7 +6,7 @@ Mod de défis configurables pour les éditions espagnole, anglaise et française
 
 > Ce dépôt ne contient ni Pokémon Z, ni ROM, ni exécutable, ni graphismes, ni musique, ni sauvegarde. Une copie obtenue légalement d'une édition compatible est nécessaire.
 
-La version **1.1.7** corrige les capacités prédéfinies des adversaires, boss et combats scénarisés lorsque les **capacités aléatoires** sont activées et **Semi Random** désactivé. Semi Random conserve les équipes et capacités normales des dresseurs. Inclut la correction et la compensation de CT de 1.1.6. [Notes de version](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.7).
+La version **1.1.8** corrige les talents de Méga-Lockpin et Méga-Blizzaroi. Après mise à jour d’une partie Full Random, leur talent Méga peut devenir son attribution aléatoire stable ; les talents sauvegardés des formes normales sont conservés. Vous pouvez continuer votre partie. [Effets sur la sauvegarde et mise à jour](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.8).
 
 ## Éditions compatibles
 
@@ -23,7 +23,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide sous Windows
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.7.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.8.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -40,7 +40,7 @@ Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, 
 
 ### Installateur simple pour JoiPlay et Kirin
 
-Téléchargez l’[installateur Android v1.1.7 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.7/Pokemon-Z-Mods-v1.1.7-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
+Téléchargez l’[installateur Android v1.1.8 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.8/Pokemon-Z-Mods-v1.1.8-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
 
 > La version 1.1.3 inclut les corrections vérifiées dans JoiPlay. Les ZIP 1.1.2 déjà publiés ne contiennent pas ces corrections et n’ont pas chargé le mod dans l’environnement testé. Consultez le [rapport de validation](docs/android-validation.md).
 

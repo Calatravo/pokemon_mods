@@ -63,7 +63,7 @@ PZHardcoreNuzlocke::I18n.register(:en, {
   :random_held_items_help=>"Wild Pokémon may carry random held items. The game's safety lists still apply.",
   :random_trainer_rewards_help=>"Some defeated Trainers may give an additional random reward.",
   :random_semi_random_help=>"Only randomizes encounters and gift Pokémon. Trainers, moves, abilities and items keep their normal behavior.",
-  :random_ability_help=>"Full Random gives each species new abilities; Consistent mapping replaces each ability with another stable result; Unchanged preserves them.",
+  :random_ability_help=>"Full Random assigns stable random abilities, including Megas. Consistent mapping replaces each ability with a stable result. Unchanged and Semi Random keep canonical abilities. Reverting from Mega restores the saved normal-form ability.",
   :random_generations_help=>"Restricts random species to the selected generations. At least one generation must remain enabled.",
   :abilities=>"Abilities", :abilities_random=>"Random abilities", :ability_full=>"Full Random", :ability_map=>"Consistent mapping",
   :ability_none=>"Unchanged", :choose_ability=>"Choose the ability mode", :use_ability_question=>"Use '%s' for abilities?",

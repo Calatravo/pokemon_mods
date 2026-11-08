@@ -35,6 +35,40 @@ module PZHardcoreNuzlocke
     current && current[:enabled] && defined?($game_switches) && $game_switches && $game_switches[409]
   end
 
+  # Some Mega definitions use the old single-ability callback instead of an
+  # ability list. That getter bypasses RandomMain entirely (Lopunny/Abomasnow).
+  def self.random_legacy_form_ability(pokemon)
+    return nil unless call_global(:random_enabled?) && !call_global(:semi_random_mode?)
+    mode = $PokemonGlobal.random_ability_mode
+    return nil unless mode == :FULL_RANDOM_ABS || mode == :MAP_RANDOM_ABS
+    value = MultipleForms.call('ability', pokemon)
+    value.is_a?(Integer) && value > 0 ? value : nil
+  end
+
+  def self.legacy_form_ability_list(pokemon, original)
+    return pokemon.ability_map([[original, 0]]) if $PokemonGlobal.random_ability_mode == :MAP_RANDOM_ABS
+    # Preserve the base species table when forms are configured to share it.
+    unless RandomizedChallenge::DIFFERENT_FORMS_HAVE_DIFFERENT_ABILITIES
+      return pokemon.pzn_random_original_form_ability_list
+    end
+    $PokemonGlobal.random_abs_pokemon ||= {}
+    $PokemonGlobal.random_abs_pokemon[pokemon.species] ||= {}
+    forms = $PokemonGlobal.random_abs_pokemon[pokemon.species]
+    list = forms[pokemon.form]
+    unless list.is_a?(Array) && !list.empty? && list.all? { |entry| entry.is_a?(Array) && entry.length >= 2 }
+      list = [[pokemon.generate_random_ability, 0]]
+      forms[pokemon.form] = list
+    end
+    list.each do |entry|
+      value = entry[0]
+      if !value.is_a?(Integer) || value <= 0 || value > PBAbilities.maxValue ||
+         RandomizedChallenge::ABILITYBLACKLIST.include?(value) || PBAbilities.getName(value).to_s.empty?
+        entry[0] = pokemon.generate_random_ability
+      end
+    end
+    list
+  end
+
   def self.all_random_tms
     (1..PBItems.maxValue).find_all do |item|
       pbIsTechnicalMachine?(item) && !PBItems.getName(item).to_s.empty?
