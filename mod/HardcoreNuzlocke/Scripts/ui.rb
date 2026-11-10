@@ -216,6 +216,7 @@ module PZHardcoreNuzlocke
         activate! if selected_nuzlocke
         apply_random_config! if selected_random
         disable_unapplied_random! if !selected_random
+        open_novice_intro
         current[:first_run_setup_done] = true
         current[:pending_first_setup] = false
         result_text = selected_nuzlocke && selected_random ? t(:mode_result_randomlocke) : (selected_nuzlocke ? t(:mode_result_nuzlocke) : (selected_random ? t(:mode_result_random) : t(:mode_result_normal)))
@@ -262,6 +263,7 @@ module PZHardcoreNuzlocke
       disable_unapplied_random!
     end
 
+    open_novice_intro
     current[:first_run_setup_done] = true
     current[:pending_first_setup] = false
     mode = if selected_nuzlocke && selected_random
@@ -390,6 +392,13 @@ module PZHardcoreNuzlocke
         t(:zone_register),
         t(:cemetery)
       ]
+      novice_index = commands.length
+      commands << t(:novice_title)
+      story_repair_index = nil
+      if current[:activated] && current[:failed]
+        story_repair_index = commands.length
+        commands << t(:story_repair_title)
+      end
       recovery_index = nil
       if tm_recovery_enabled?
         recovery_index = commands.length
@@ -397,6 +406,14 @@ module PZHardcoreNuzlocke
       end
       commands << t(:close)
       choice = choose(t(:challenge_menu), commands)
+      if choice == novice_index
+        open_novice_setup
+        next
+      end
+      if story_repair_index && choice == story_repair_index
+        open_story_wipe_repair
+        next
+      end
       if recovery_index && choice == recovery_index
         open_tm_recovery
         next

@@ -102,7 +102,7 @@ module PZHardcoreNuzlocke
         delay += frames
         next
       end
-      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|MOVE_INFO|ITEM_PICKUP|ITEM_RECEIVE|ITEM_POLICY_TEST|ENCOUNTER_TEST|OPTIONS|PAUSE|INITIAL_FLOW|BATTLE)$/i
+      if line =~ /^OPEN\s+(TYPE_CHART|CHALLENGES|RANDOM|NUZLOCKE|LEARNING|NOVICE|MOVE_INFO|ITEM_PICKUP|ITEM_RECEIVE|ITEM_POLICY_TEST|ENCOUNTER_TEST|OPTIONS|PAUSE|INITIAL_FLOW|BATTLE)$/i
         action = $1.to_s.upcase
         @test_pending_actions << action
         accepted << "OPEN #{action}"
@@ -194,6 +194,8 @@ module PZHardcoreNuzlocke
         safe_ui("Nuzlocke [prueba]") { open_nuzlocke_setup(false) }
       when "LEARNING"
         safe_ui("#{t(:learning_option)} [test]") { open_learning_setup }
+      when "NOVICE"
+        safe_ui("#{t(:novice_title)} [test]") { open_novice_setup }
       when "MOVE_INFO"
         safe_ui("#{t(:move_info_title)} [test]") { open_move_info_by_id(test_move_id) }
       when "ITEM_PICKUP"
@@ -271,6 +273,7 @@ module PZHardcoreNuzlocke
             current[:activated] = false
             current[:locked] = false
             current[:random] = default_random_state
+            current[:novice] = {}
             $game_switches[409] = false if defined?($game_switches) && $game_switches
             set_base_nuzlocke(false)
             safe_ui("#{t(:initial_config_title)} [test]") { open_post_nuzlocke_first_run_setup }

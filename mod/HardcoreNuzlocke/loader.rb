@@ -15,11 +15,13 @@ PZ_HARDCORE_NUZLOCKE_ROOT = File.expand_path(File.dirname(__FILE__)) unless defi
   "Scripts/core.rb",
   "Scripts/encounters.rb",
   "Scripts/death.rb",
+  "Scripts/story.rb",
   "Scripts/random.rb",
   "Scripts/updater.rb",
   "Scripts/ui.rb",
   "Scripts/type_chart.rb",
   "Scripts/learning.rb",
+  "Scripts/novice.rb",
   "Scripts/ui_smoke.rb",
   "Scripts/hooks.rb"
 ].each do |relative_path|

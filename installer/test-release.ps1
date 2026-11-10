@@ -52,6 +52,13 @@ foreach ($archiveName in $expectedArchives) {
         if ($forbidden) {
             throw "Forbidden game/save content in ${archiveName}: $($forbidden.FullName -join ', ')"
         }
+        if ($zip.Entries | Where-Object { $_.FullName -match '(?i)(\.log$|test-input)' }) {
+            throw "Runtime/test files in ${archiveName}"
+        }
+        $modPrefix = if ($archiveName -eq "Pokemon-Z-Mods-v$version.zip") { 'mod/HardcoreNuzlocke' } else { 'Mods/HardcoreNuzlocke' }
+        foreach ($script in @('novice.rb', 'story.rb')) {
+            if (-not $zip.GetEntry("$modPrefix/Scripts/$script")) { throw "Missing $script in ${archiveName}" }
+        }
 
         if ($archiveName -eq "Pokemon-Z-Mods-v$version.zip") {
             foreach ($entryName in @(

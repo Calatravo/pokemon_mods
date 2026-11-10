@@ -227,9 +227,11 @@ module PZHardcoreNuzlocke
       :first_run_setup_done   => false,
       :pending_first_setup    => false,
       :random                 => default_random_state,
+      :novice                 => {},
       :tm_recovery            => nil,
       :started_at             => nil,
-      :failed_at              => nil
+      :failed_at              => nil,
+      :story_repairs          => []
     }
   end
 
@@ -331,6 +333,10 @@ module PZHardcoreNuzlocke
     return if !current || current[:failed]
     current[:failed] = true
     current[:failed_at] = Time.now.to_i
+    current[:failure_context] = {
+      :map_id=>current_map_id,
+      :event_id=>(current_item_event.id rescue nil)
+    }
     current[:pending_notice] = t(:run_failed_notice)
     set_base_nuzlocke(false)
     log("Challenge failed")

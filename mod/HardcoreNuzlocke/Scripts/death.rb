@@ -38,6 +38,7 @@ module PZHardcoreNuzlocke
 
   def self.record_death(pokemon)
     return if intro_battle_exempt?
+    return if respond_to?(:story_battle_exempt?) && story_battle_exempt?
     return if !active? || !pokemon || (pokemon.isEgg? rescue false) || dead?(pokemon)
     return if !defined?($Trainer) || !$Trainer || !$Trainer.party || !$Trainer.party.include?(pokemon)
     area = area_for(current_map_id, nil)
@@ -49,6 +50,7 @@ module PZHardcoreNuzlocke
       :species=>pokemon.species,
       :level=>pokemon.level,
       :area=>area[:name],
+      :map_id=>current_map_id,
       :time=>pokemon.nuzlocke_death_time,
       :personal_id=>(pokemon.personalID rescue nil)
     }
@@ -62,6 +64,7 @@ module PZHardcoreNuzlocke
 
   def self.check_wipe!
     return if intro_battle_exempt?
+    return if respond_to?(:story_battle_exempt?) && story_battle_exempt?
     return if !active? || !defined?($Trainer) || !$Trainer || !$Trainer.party
     alive = false
     $Trainer.party.each do |pokemon|
@@ -174,6 +177,7 @@ module PZHardcoreNuzlocke
     @processing_death_notices = true
     begin
       process_party_deaths!
+      process_novice_recovery! if respond_to?(:process_novice_recovery!)
       current = state
       if current && current[:pending_notice] && defined?(Kernel) && Kernel.respond_to?(:pbMessage)
         notice = current[:pending_notice]

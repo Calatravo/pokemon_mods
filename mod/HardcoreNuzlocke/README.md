@@ -18,11 +18,14 @@ La elección Nuzlocke original está disponible desde la primera partida. Despu�
 
 Cada modo usa su propio asistente a pantalla completa. Al seleccionar una regla, la explicación, el efecto sobre la partida, la pregunta de activación o desactivación y los botones Sí/No se muestran juntos. La última opción es `Aplicar y continuar`.
 
-Al aplicar un modo, su configuración queda bloqueada para ese guardado. Así no se pueden relajar las reglas a mitad de una partida.
+Al aplicar un modo, sus reglas quedan bloqueadas para ese guardado. Las ayudas para novatos siguen siendo configurables; los rescates opcionales son una excepción explícita a la muerte permanente.
+
+Después se pregunta si se quiere activar alguna ayuda para novatos. Aceptar abre su configuración; rechazar conserva los valores nuevos desactivados y los ajustes de combate existentes.
 
 ## Acceso posterior
 
 - Menú de opciones: `Desafíos - Abrir`.
+- Menú de opciones: `Ayudas para novatos - Abrir`, también en `Pausa → Desafíos`.
 - Menú de opciones: `Ayudas de combate - Configurar`.
 - Menú de opciones: `Tabla de tipos - Abrir`.
 - Menú de opciones: `Idioma del mod` (`Español`, `English` o `Français`).
@@ -31,6 +34,25 @@ Al aplicar un modo, su configuración queda bloqueada para ese guardado. Así no
 Desde el centro de desafíos se puede consultar el estado de los modos, el progreso, las zonas, los encuentros perdidos y el cementerio. Una configuración ya aplicada puede revisarse, pero no alterarse.
 
 La tabla de tipos muestra el icono y el nombre de cada tipo. Izquierda y derecha cambian de tipo; C alterna entre defensa y ataque; arriba y abajo desplazan las relaciones cuando no caben; X o Esc vuelve al menú. La distribución en tres columnas evita que tipos con muchas relaciones, como Roca, salgan de la pantalla. En el selector de movimientos de un combate, `R` abre la tabla y vuelve después al mismo movimiento sin consumir el turno.
+
+## Ayudas para novatos
+
+El sueño de la Liga (mapa 248, evento 2) y el combate mental de Ferrofaz (mapa 251, evento 1) están exentos de muerte y derrota Nuzlocke, respetando el `canlose` del evento original. No se eximen todos los combates que admiten perder. `Scripts/story.rb` limita la excepción por mapa, evento y entrenador y recupera los PS del participante sin tocar muertes anteriores.
+
+Para guardados ya afectados, `Desafíos → Reparar derrota en combate mental` reactiva la misma run y recupera únicamente la última falsa baja identificada. Su registro se archiva en `story_repairs`; no se reinician reglas, zonas, Random ni el cupo de revivir. Los guardados antiguos solo indican la zona y exigen confirmación explícita del jugador tras advertir esa limitación. La reparación requiere conservar el Pokémon correspondiente. `tests/story_battles_integration.ps1` reproduce el fallo, comprueba ambos eventos reales y valida recuperación, guardados antiguos, cancelación, serialización y derrotas normales. No escribe guardados.
+
+`Scripts/novice.rb` añade ajustes por guardado, editables también en partidas existentes:
+
+- Revivir por gimnasio: de 0 a 10 rescates de Pokémon muertos en Nuzlocke/Randomlocke. Cupo inicial antes de la primera medalla, renovado con cada medalla nueva, sin acumular sobrantes. Editar o desactivar la opción conserva el gasto del tramo actual.
+- Revivir Pokémon: acción fuera de combate con selección y confirmación. Restaura PS y estado, quita la marca de muerte y conserva el historial. El Pokémon sigue en su caja o equipo; el PC permite retirar al rescatado. No restaura PP ni reabre retos terminados.
+- Curación tras ganar o capturar: 0%, 25%, 50% o 100% de los PS máximos de los Pokémon vivos del equipo, al regresar al mapa.
+- Curación de estados tras ganar o capturar, independiente de los PS.
+- Experiencia de combate/captura: x1, x1.5 o x2, aplicada antes de los mensajes y subida de nivel, con límites del juego y topes Nuzlocke. No multiplica Caramelos Raros ni consultas de experiencia fuera de combate.
+- Acceso al menú existente de ayudas de combate y la tabla de tipos.
+
+Las ayudas nuevas empiezan desactivadas y los rescates no consumen objetos. Las partidas existentes reciben el menú sin repetir la introducción. Guarda normalmente para conservar ajustes, gasto e historial de rescates.
+
+`tests/novice_aids_integration.ps1 -GameFolder <carpeta>` verifica con Ruby 1.8 y datos reales las cuatro ediciones: guardados anteriores, rescates de equipo/cajas, cupos, medallas, serialización, curación diferida, experiencia, topes, Sí/No inicial y accesos durante la partida. No escribe guardados. `-ScreenshotDirectory <carpeta>` permite renderizar el menú y la pregunta en los tres idiomas con el motor de Windows.
 
 ## Ayudas para aprender en combate
 
@@ -64,7 +86,7 @@ Opciones configurables, con las reglas habituales preactivadas:
 - Zona compartida entre hierba, agua y pesca.
 - División opcional por submapas.
 
-El primer encuentro queda consumido aunque se debilite o se huya. Las capturas no válidas se bloquean y la Poké Ball se devuelve. Los Pokémon debilitados no pueden revivir y se trasladan al último espacio libre de una caja `CEMENTERIO`; no se pueden devolver al equipo. Si todo el equipo cae, la partida Nuzlocke queda marcada como fallida sin bloquear el guardado.
+El primer encuentro queda consumido aunque se debilite o se huya. Las capturas no válidas se bloquean y la Poké Ball se devuelve. Los Pokémon muertos se trasladan a una caja `CEMENTERIO`; solo pueden volver mediante un rescate opcional de Ayudas para novatos. Si todo el equipo cae, la partida Nuzlocke queda marcada como fallida sin bloquear el guardado.
 
 ## Random
 
@@ -112,7 +134,7 @@ El puente interactivo solo se activa al iniciar `Game.exe` con la variable de en
 - `HOLD DIRECCION N`: mantiene `UP`, `DOWN`, `LEFT` o `RIGHT` durante N fotogramas; permite caminar por el mapa y provocar combates reales.
 - `WAIT N`: espera N fotogramas antes de continuar la secuencia.
 - `TEXT texto`: introduce texto por la ruta de teclado del juego.
-- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN MOVE_INFO`, `OPEN ITEM_PICKUP`, `OPEN ITEM_RECEIVE`, `OPEN ITEM_POLICY_TEST`, `OPEN ENCOUNTER_TEST`, `OPEN OPTIONS`, `OPEN PAUSE`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `ITEM_PICKUP` encuentra un Antídoto y `ITEM_RECEIVE` entrega una Poción en la sesión de prueba para comprobar ambos mensajes originales y sus ventanas posteriores con la descripción; `ITEM_POLICY_TEST` verifica la separación entre recogidas únicas, objetos clave y nodos renovables; `ENCOUNTER_TEST` valida que un combate por pasos no se clasifique como estático; `PAUSE` abre el menú de pausa real; `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.
+- Aperturas de prueba: `OPEN TYPE_CHART`, `OPEN CHALLENGES`, `OPEN RANDOM`, `OPEN NUZLOCKE`, `OPEN LEARNING`, `OPEN NOVICE`, `OPEN MOVE_INFO`, `OPEN ITEM_PICKUP`, `OPEN ITEM_RECEIVE`, `OPEN ITEM_POLICY_TEST`, `OPEN ENCOUNTER_TEST`, `OPEN OPTIONS`, `OPEN PAUSE`, `OPEN INITIAL_FLOW` y `OPEN BATTLE`. `NOVICE` abre las ayudas para novatos; `ITEM_PICKUP` encuentra un Antídoto y `ITEM_RECEIVE` entrega una Poción en la sesión de prueba para comprobar ambos mensajes originales y sus ventanas posteriores con la descripción; `ITEM_POLICY_TEST` verifica la separación entre recogidas únicas, objetos clave y nodos renovables; `ENCOUNTER_TEST` valida que un combate por pasos no se clasifique como estático; `PAUSE` abre el menú de pausa real; `INITIAL_FLOW` simula el encadenado inicial y restaura después el estado del guardado; `BATTLE` inicia un combate salvaje real para validar los hooks de combate sin tener que recorrer el mapa.
 
 Para comprobar la corrección de tipos desde la raíz del repositorio en Windows:
 

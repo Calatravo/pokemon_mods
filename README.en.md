@@ -6,7 +6,7 @@ Configurable challenge mod for the Spanish, English and French editions of **Pok
 
 > This repository does not include Pokémon Z, ROMs, executables, graphics, music or save files. You need a legally obtained copy of a supported edition.
 
-Version **1.1.8** fixes Mega Lopunny and Mega Abomasnow abilities. Updating a Full Random save may change their effective Mega ability to its stable randomized assignment; saved normal-form abilities are preserved. You can continue your existing save. [Save effects and updating](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.8).
+Version **1.1.9** adds configurable beginner aids and fixes false Nuzlocke wipes during the prison's mental battles. A repair option lets affected saves continue the same run. [Changes and save recovery](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
 
 ## Supported editions
 
@@ -23,7 +23,7 @@ Pokémon names, move names and move descriptions come from each game's localized
 ## Quick installation on Windows
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.8.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.9.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -40,7 +40,7 @@ See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS a
 
 ### Simple installer for JoiPlay and Kirin
 
-Download the [Android v1.1.8 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.8/Pokemon-Z-Mods-v1.1.8-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
+Download the [Android v1.1.9 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
 
 > Version 1.1.3 includes the fixes verified in JoiPlay. The published 1.1.2 ZIPs do not include those fixes and failed to load the mod in the tested environment. See the [validation report](docs/android-validation.md).
 
@@ -83,13 +83,34 @@ This supports four starting modes:
 
 Typical settings start enabled. Selecting any setting opens a full explanation, describes its gameplay impact and asks for a Yes/No confirmation before changing it. `Apply and continue` saves the configuration. Nuzlocke and Random settings are locked to that save once play begins; learning aids remain editable.
 
+## Recover a run ended by a mental battle
+
+The League dream and the iron-masked man's mental training battle in prison are now exempt from permadeath and challenge failure. Other battles still follow the usual rules.
+
+If your run already ended because of this bug, update the mod to **1.1.9**, load the same save and open **Pause → Challenges → Repair mental battle defeat**. Read the warning, confirm the affected Pokémon and save normally afterward. This reactivates the same Nuzlocke and repairs only the latest false death, preserving rules, area captures, Random settings and earlier deaths. No revive is spent and you do not need a new game.
+
+Older saves record only the area, so confirm only if the defeat really happened in one of those two events. The Pokémon identified by the latest death must still be present. If compatible records are unavailable, the repair makes no changes. It does not reset normal defeats.
+
+## Configurable beginner aids
+
+After initial setup, **“Would you like to enable any beginner aids?”** opens an optional menu on Yes. New aids start disabled. Existing games can also use **Options → Beginner aids** or **Pause → Challenges → Beginner aids**. Changes show explanations and require confirmation; save normally to keep them.
+
+- **Revives per gym:** 0–10 Nuzlocke rescues, initially 0. An allowance is available before the first badge and refreshes with each new badge without carrying over unused rescues. Editing the limit preserves spent uses.
+- **Revive Pokemon:** spend a rescue outside battle to restore a dead party or boxed Pokémon's HP and status. Withdraw boxed Pokémon from the PC afterward. Death history stays intact; PP are not restored. Ended runs cannot be reopened.
+- **Healing after battle:** off, 25%, 50% or 100% of maximum HP, applied to living party Pokémon upon returning to the map after a win or catch.
+- **Cure status after battle:** initially off; cures living party Pokémon after a win or catch, without reviving them or restoring PP.
+- **Battle experience:** x1 by default, x1.5 or x2, respecting Nuzlocke caps and game limits. Does not affect Rare Candies or experience outside battle.
+- **Battle aids and type chart:** access existing move information, effectiveness, exact multipliers, switch advice, immunity warnings and opponent types. Existing settings are preserved.
+
+New settings, rescue spending and rescue history are stored per save. Healing and experience also work in normal and Random games. Rescues are an explicit optional exception to Nuzlocke permadeath; they use no Bag items. Existing saves gain the menu without automatically enabling aids or repeating initial setup.
+
 ## Enforced Nuzlocke
 
 ### Mandatory rules
 
 | Rule | Effect |
 | --- | --- |
-| **Permadeath** | A Pokémon that reaches 0 HP is marked dead, cannot be revived or returned to the party, and is moved automatically to the `CEMETERY` PC box. |
+| **Permadeath** | A Pokémon that reaches 0 HP is marked dead and moved automatically to `CEMETERY`. It can only return by spending an optional rescue configured under Beginner aids. |
 | **First encounter** | Only the first valid encounter in each area may be caught. Fainting it or fleeing records the opportunity as missed. Dupes and shiny exemptions are evaluated first. |
 | **One catch per area** | Every logical area has one normal catch. Maps grouped into one location share their state unless method or subarea settings split them. |
 

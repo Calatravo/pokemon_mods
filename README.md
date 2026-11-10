@@ -6,12 +6,12 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 
 > Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
-La versión **1.1.8** corrige las habilidades de Mega Lopunny y Mega Abomasnow. Al actualizar una run Full Random, la habilidad efectiva de esas megas puede cambiar a su asignación aleatoria estable; las habilidades guardadas de las formas normales se conservan. No necesitas reiniciar la partida. [Efectos sobre tu guardado y actualización](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.8).
+La versión **1.1.9** añade ayudas configurables para novatos y corrige las falsas derrotas Nuzlocke en los combates mentales de la prisión. Incluye una opción para reparar guardados afectados y continuar la misma run. [Novedades y recuperación de partidas](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
 
 ## Instalación rápida en Windows
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.8.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.9.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -28,7 +28,7 @@ Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, m
 
 ### Instalador sencillo para JoiPlay y Kirin
 
-Descarga el [instalador Android v1.1.8 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.8/Pokemon-Z-Mods-v1.1.8-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
+Descarga el [instalador Android v1.1.9 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
 
 > La versión 1.1.3 incluye las correcciones comprobadas en JoiPlay. Los ZIP 1.1.2 ya publicados no incluyen esas correcciones y fallaron al cargar el mod en el entorno probado. Consulta el [informe de comprobaciones](docs/android-validation.md).
 
@@ -62,7 +62,7 @@ Estas capturas son de una prueba real en JoiPlay con el cargador corregido:
 
 Si faltan opciones tras la introducción, conserva `Mods/HardcoreNuzlocke/nuzlocke.log` e indica las versiones del juego, mod y reproductor. En Opciones también deben aparecer los menús de desafíos, ayudas de combate y tabla de tipos. Ver [entorno, resultados y límites de la prueba](docs/android-validation.md).
 
-Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.8** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
+Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.9** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
 
 ## Configuración inicial y guardado
 
@@ -77,7 +77,31 @@ Esto permite comenzar en cualquiera de los cuatro modos:
 
 Cada asistente muestra todas sus opciones, con los ajustes habituales ya preseleccionados. Al elegir una opción aparece su explicación, el efecto sobre la partida y una confirmación **Sí/No** para activarla o desactivarla. `Aplicar y continuar` guarda la configuración.
 
-La configuración de Nuzlocke y Random queda vinculada y bloqueada en ese guardado una vez iniciada la partida. Se puede consultar después, pero no relajar sus reglas a mitad de la run. Las ayudas de combate sí se pueden cambiar en cualquier momento.
+La configuración de Nuzlocke y Random queda vinculada y bloqueada en ese guardado una vez iniciada la partida. Las ayudas para novatos y de combate se pueden cambiar en cualquier momento; los rescates opcionales descritos abajo son una excepción explícita a la muerte permanente.
+
+## Recuperar una run terminada por un combate mental
+
+El sueño de la Liga y el entrenamiento mental con Ferrofaz en prisión están exentos de muerte permanente y derrota del reto. La exención se limita a esos dos eventos; perder otros combates sigue aplicando las reglas normales.
+
+Si tu run ya terminó por ese fallo, actualiza el mod a **1.1.9**, carga el mismo guardado y entra en **Pausa → Desafíos → Reparar derrota en combate mental**. Lee el aviso, confirma el Pokémon afectado y guarda normalmente. Se reactiva el mismo Nuzlocke y se recupera únicamente la última falsa baja; se conservan reglas, capturas, Random y muertes anteriores. No consume revivir.
+
+Los guardados antiguos solo registraban la zona, por lo que debes confirmar que la derrota fue realmente en uno de esos eventos. La reparación requiere conservar el Pokémon identificado por la última baja. Si no hay datos compatibles, no modifica la partida; no reinicia derrotas normales. No es necesario empezar otra partida.
+
+## Ayudas configurables para novatos
+
+Al terminar la configuración inicial se pregunta **«¿Quieres activar alguna ayuda para novatos?»**. **Sí** abre el menú y **No** continúa con las ayudas nuevas desactivadas. También está disponible en partidas ya empezadas desde **Opciones → Ayudas para novatos** y **Pausa → Desafíos → Ayudas para novatos**. Cada cambio muestra una explicación y pide confirmación. Guarda la partida normalmente para conservar los ajustes y los usos gastados.
+
+| Ayuda | Valores | Funcionamiento |
+| --- | --- | --- |
+| **Revivir por gimnasio** | 0–10; inicial 0 | Rescates gratuitos de Pokémon muertos en un Nuzlocke en curso, fuera de combate. Hay un cupo antes de la primera medalla y se renueva con cada medalla nueva, sin acumular sobrantes. Cambiar el cupo conserva los usos gastados. |
+| **Revivir Pokémon** | Acción con confirmación | Selecciona un Pokémon del equipo o del Cementerio. Recupera PS y estado, conserva el historial de muerte y gasta un rescate. Si está en una caja, retíralo después desde el PC. No restaura PP ni reabre una run terminada por derrota de todo el equipo. |
+| **Curación tras combate** | Desactivada, 25%, 50% o 100% | Tras ganar o capturar, añade ese porcentaje de los PS máximos a los Pokémon vivos del equipo al volver al mapa. No actúa tras huir o perder. |
+| **Curar estados tras combate** | Desactivada inicialmente | Tras ganar o capturar, cura los estados de los Pokémon vivos del equipo al volver al mapa. No revive ni restaura PP. |
+| **Experiencia de combate** | x1 inicial, x1.5 o x2 | Multiplica la experiencia de combate y captura, respetando los topes Nuzlocke y los límites del juego. No afecta a Caramelos Raros ni a experiencia fuera de combate. |
+| **Ayudas de combate** | Interruptores individuales | Acceso a ficha de ataque, eficacia, multiplicadores exactos, ayuda al cambiar, aviso de inmunidades y tipos del rival. Conservan sus ajustes existentes. |
+| **Tabla de tipos** | Consulta | Acceso a debilidades, resistencias e inmunidades. |
+
+Las ayudas de curación y experiencia funcionan también en partidas normales y Random. Los rescates son exclusivos del Nuzlocke/Randomlocke y no consumen objetos Revivir de la mochila. Los ajustes nuevos y el cupo se guardan por partida; actualizar una partida existente no activa ayudas automáticamente ni vuelve a mostrar el asistente inicial.
 
 ## Nuzlocke forzado
 
@@ -87,7 +111,7 @@ Estas tres reglas siempre están activas en el modo Nuzlocke forzado y no se pue
 
 | Regla | Qué hace |
 | --- | --- |
-| **Muerte permanente** | Cuando un Pokémon del equipo llega a 0 PS queda marcado como muerto. No puede revivir, recuperar PS ni regresar al equipo y se traslada automáticamente a una caja llamada `CEMENTERIO`. |
+| **Muerte permanente** | Cuando un Pokémon del equipo llega a 0 PS queda marcado como muerto y se traslada automáticamente a `CEMENTERIO`. Solo puede recuperarse gastando un rescate si se han configurado revivir en Ayudas para novatos. |
 | **Primer encuentro** | Solo se puede capturar el primer encuentro válido de cada zona. Si se debilita o se huye, la oportunidad queda registrada como perdida. Los duplicados y shiny exentos se resuelven antes de decidir cuál es el primer encuentro válido. |
 | **Una captura por zona** | Cada zona lógica dispone de una sola captura normal. Los mapas agrupados como una misma zona comparten su estado, salvo que las opciones de métodos o subzonas indiquen lo contrario. |
 

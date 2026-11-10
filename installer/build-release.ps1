@@ -42,6 +42,17 @@ function Copy-TreeContents {
     Get-ChildItem -LiteralPath $Source -Force | Copy-Item -Destination $Destination -Recurse -Force
 }
 
+function Copy-ModSources {
+    param([string]$Destination)
+    $files = & git -C $projectRoot ls-files mod/HardcoreNuzlocke
+    if ($LASTEXITCODE -ne 0 -or -not $files) { throw 'Cannot enumerate mod sources.' }
+    foreach ($relative in $files) {
+        $target = Join-Path $Destination $relative.Substring('mod/HardcoreNuzlocke/'.Length)
+        New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+        Copy-Item -LiteralPath (Join-Path $projectRoot $relative) -Destination $target
+    }
+}
+
 function Compress-Stage {
     param([string]$StagePath, [string]$ArchivePath)
 
@@ -99,7 +110,7 @@ try {
             Copy-Item -LiteralPath $source -Destination (Join-Path $universalStage $file)
         }
     }
-    Copy-TreeContents (Join-Path $projectRoot "mod") (Join-Path $universalStage "mod")
+    Copy-ModSources (Join-Path $universalStage "mod/HardcoreNuzlocke")
     New-Item -ItemType Directory -Path (Join-Path $universalStage "installer") | Out-Null
     foreach ($file in @("preload-snippet.rb", "install-gui.ps1", "install.py")) {
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot $file) -Destination (Join-Path $universalStage "installer\$file")
@@ -130,7 +141,7 @@ try {
     foreach ($package in $androidPackages) {
         $androidStage = Join-Path $workRoot ("android-" + $package.Profile)
         $targetMod = Join-Path $androidStage "Mods\HardcoreNuzlocke"
-        Copy-TreeContents (Join-Path $projectRoot "mod\HardcoreNuzlocke") $targetMod
+        Copy-ModSources $targetMod
         Write-InstallProfile $targetMod $package.Language $package.Profile
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot "preload-snippet.rb") -Destination (Join-Path $androidStage "preload.rb")
         # Overlay ZIPs do not bundle the repository documentation tree.

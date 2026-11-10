@@ -90,11 +90,14 @@ module PZHardcoreNuzlocke
               DP_PauseMenu.method_defined?(:pzn_hardcore_original_pause_main) &&
               respond_to?(:add_pause_menu_option),
       :first_run=>Scene_Map.method_defined?(:pzn_hardcore_original_transfer_player) &&
-                  Scene_Map.method_defined?(:pzn_hardcore_original_first_run_update),
+                  Scene_Map.method_defined?(:pzn_hardcore_original_first_run_update) &&
+                  (Object.private_method_defined?(:pzn_story_original_trainer_battle) || Object.method_defined?(:pzn_story_original_trainer_battle)),
       :learning=>PokeBattle_Scene.method_defined?(:pzn_learning_original_fight_menu) &&
                  PokeBattle_Scene.method_defined?(:pzn_learning_original_switch) &&
                  FightMenuButtons.method_defined?(:pzn_learning_original_refresh) &&
-                 PokemonScreen_Scene.method_defined?(:pzn_learning_original_update),
+                 PokemonScreen_Scene.method_defined?(:pzn_learning_original_update) &&
+                 PokeBattle_Battle.method_defined?(:pzn_novice_original_gain_exp) &&
+                 PBExperience.respond_to?(:pzn_novice_original_add_exp),
       :gifts=>(Object.private_method_defined?(:pzn_hardcore_original_add_pokemon) || Object.method_defined?(:pzn_hardcore_original_add_pokemon)),
       :item_randomization=>Kernel.respond_to?(:pzn_random_policy_original_item_ball) &&
                            Kernel.respond_to?(:pzn_random_policy_original_receive_item) &&
@@ -136,6 +139,7 @@ module PZHardcoreNuzlocke
     install_test_input_hook
     install_menu_hooks
     install_learning_hooks
+    install_novice_hooks
     install_first_run_hooks
     install_death_notice_hooks
     install_update_title_hook
@@ -301,6 +305,7 @@ module PZHardcoreNuzlocke
 
   def self.install_battle_hooks
     install_intro_battle_hook
+    install_story_battle_hook
     Object.class_eval do
       if (method_defined?(:pbBattleOnStepTaken) || private_method_defined?(:pbBattleOnStepTaken)) &&
          !private_method_defined?(:pzn_hardcore_original_battle_on_step_taken)
@@ -374,6 +379,9 @@ module PZHardcoreNuzlocke
         def pbEndOfBattle(canlose=false)
           result = pzn_hardcore_original_end_battle(canlose)
           PZHardcoreNuzlocke.finish_wild_battle(self)
+          if @internalbattle && [1, 4].include?(@decision) && PZHardcoreNuzlocke.state
+            PZHardcoreNuzlocke.state[:pending_novice_recovery] = true
+          end
           result
         end
       end
@@ -785,9 +793,11 @@ module PZHardcoreNuzlocke
           return result if !defined?($PokemonGlobal) || !$PokemonGlobal
           challenge_present = result.any? { |option| option.is_a?(PZNuzlockeMenuOption) }
           learning_present = result.any? { |option| option.is_a?(PZLearningMenuOption) }
+          novice_present = result.any? { |option| option.is_a?(PZNoviceMenuOption) }
           chart_present = result.any? { |option| option.is_a?(PZTypeChartMenuOption) }
           language_present = result.any? { |option| option.is_a?(PZLanguageMenuOption) }
           result << PZNuzlockeMenuOption.new if !challenge_present
+          result << PZNoviceMenuOption.new if !novice_present
           result << PZLearningMenuOption.new if !learning_present
           result << PZTypeChartMenuOption.new if !chart_present
           result << PZLanguageMenuOption.new if !language_present
@@ -804,6 +814,8 @@ module PZHardcoreNuzlocke
           selected = options && window.index < options.length ? options[window.index] : nil
           if selected.is_a?(PZNuzlockeMenuOption)
             @sprites["textbox"].text = PZHardcoreNuzlocke.t(:option_challenge_help)
+          elsif selected.is_a?(PZNoviceMenuOption)
+            @sprites["textbox"].text = PZHardcoreNuzlocke.t(:novice_option_help)
           elsif selected.is_a?(PZLearningMenuOption)
             @sprites["textbox"].text = PZHardcoreNuzlocke.t(:option_learning_help)
           elsif selected.is_a?(PZTypeChartMenuOption)
@@ -823,6 +835,10 @@ module PZHardcoreNuzlocke
           selected = self.index < @options.length ? @options[self.index] : nil
           if self.active && selected.is_a?(PZNuzlockeMenuOption) && Input.trigger?(Input::C)
             PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:challenges)) { PZHardcoreNuzlocke.open_menu }
+            Input.update
+            refresh
+          elsif self.active && selected.is_a?(PZNoviceMenuOption) && Input.trigger?(Input::C)
+            PZHardcoreNuzlocke.safe_ui(PZHardcoreNuzlocke.t(:novice_title)) { PZHardcoreNuzlocke.open_novice_setup }
             Input.update
             refresh
           elsif self.active && selected.is_a?(PZLearningMenuOption) && Input.trigger?(Input::C)

@@ -22,7 +22,7 @@ Cierra el juego y copia a un lugar seguro tanto su carpeta como tus partidas gua
 
 ## Instalación automática recomendada
 
-1. Descarga `Pokemon-Z-Mods-v1.1.8.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+1. Descarga `Pokemon-Z-Mods-v1.1.9.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 2. Haz doble clic en `Install Pokemon Z Mods.cmd`.
 3. Selecciona la carpeta de Pokémon Z que contiene directamente `Game.exe`.
 
@@ -55,7 +55,7 @@ mkxp.json.backup-before-pokemon-mods
 
 Las ediciones 2.12/2.13 incluyen en `preload.rb` un antiguo wrapper Zlib que falla al activarlo; el instalador retira únicamente ese bloque conocido y conserva la copia original. El instalador es repetible: vuelve a ejecutar el mismo comando para actualizar los archivos del mod sin duplicar el cargador ni la entrada de `mkxp.json`.
 
-Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.8](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.8/Pokemon-Z-Mods-v1.1.8-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
+Para Android/JoiPlay, Steam Deck, Linux, macOS y el estado de iOS, consulta [PLATFORMS.md](PLATFORMS.md). Hay un [instalador APK de prueba](installer/android/README.md) para preparar la carpeta usada por JoiPlay o Kirin, con copias de seguridad y comprobación. Descarga la [APK v1.1.9](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk) desde la release. Los ZIP Android 1.1.2 anteriores no incluyen las correcciones de arranque de JoiPlay presentes en el código actual: consulta las [pruebas reales](docs/android-validation.md).
 
 ## Instalación manual
 
@@ -139,7 +139,7 @@ Semi Random mantiene los equipos y ataques de entrenadores y jefes por diseño. 
 
 ### Mega Lopunny conserva Intrépido con habilidades random
 
-Actualiza a 1.1.8. En Full Random, Mega Lopunny y Mega Abomasnow usan la asignación válida guardada para la forma mega o generan una estable si falta. Su habilidad efectiva en combate puede cambiar tras actualizar. Las habilidades de las formas normales se conservan y se recuperan al terminar la megaevolución.
+Actualiza a 1.1.9. En Full Random, Mega Lopunny y Mega Abomasnow usan la asignación válida guardada para la forma mega o generan una estable si falta. Su habilidad efectiva en combate puede cambiar tras actualizar. Las habilidades de las formas normales se conservan y se recuperan al terminar la megaevolución.
 
 En Mapeo consistente se utiliza el reemplazo de la habilidad canónica. Semi Random, Sin randomizar y Random desactivado mantienen las habilidades canónicas. No necesitas empezar otra partida. Consulta [el comportamiento y las pruebas](docs/mega-random-abilities.md).
 

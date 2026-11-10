@@ -6,7 +6,7 @@ Mod de défis configurables pour les éditions espagnole, anglaise et française
 
 > Ce dépôt ne contient ni Pokémon Z, ni ROM, ni exécutable, ni graphismes, ni musique, ni sauvegarde. Une copie obtenue légalement d'une édition compatible est nécessaire.
 
-La version **1.1.8** corrige les talents de Méga-Lockpin et Méga-Blizzaroi. Après mise à jour d’une partie Full Random, leur talent Méga peut devenir son attribution aléatoire stable ; les talents sauvegardés des formes normales sont conservés. Vous pouvez continuer votre partie. [Effets sur la sauvegarde et mise à jour](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.8).
+La version **1.1.9** ajoute des aides configurables pour débutants et corrige les fausses défaites Nuzlocke lors des combats mentaux en prison. Une réparation permet de continuer le même défi avec une sauvegarde affectée. [Nouveautés et récupération](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
 
 ## Éditions compatibles
 
@@ -23,7 +23,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide sous Windows
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.8.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.9.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -40,7 +40,7 @@ Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, 
 
 ### Installateur simple pour JoiPlay et Kirin
 
-Téléchargez l’[installateur Android v1.1.8 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.8/Pokemon-Z-Mods-v1.1.8-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
+Téléchargez l’[installateur Android v1.1.9 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
 
 > La version 1.1.3 inclut les corrections vérifiées dans JoiPlay. Les ZIP 1.1.2 déjà publiés ne contiennent pas ces corrections et n’ont pas chargé le mod dans l’environnement testé. Consultez le [rapport de validation](docs/android-validation.md).
 
@@ -83,13 +83,34 @@ Quatre modes de départ sont possibles :
 
 Les réglages habituels sont présélectionnés. Choisir un réglage affiche son explication complète, son effet sur la partie et une confirmation Oui/Non avant tout changement. `Appliquer et continuer` enregistre la configuration. Les réglages Nuzlocke et Random sont verrouillés pour cette sauvegarde après le début de la partie ; les aides d'apprentissage restent modifiables.
 
+## Récupérer un défi terminé par un combat mental
+
+Le rêve de la Ligue et le combat mental de l'homme au masque de fer en prison sont désormais exempts de mort permanente et de défaite du défi. Les autres combats conservent les règles normales.
+
+Si ce bug a déjà terminé votre défi, mettez le mod à jour en **1.1.9**, chargez la même sauvegarde et ouvrez **Pause → Défis → Réparer la défaite du combat mental**. Lisez l'avertissement, confirmez le Pokémon concerné et sauvegardez normalement. Seule la dernière fausse mort est réparée ; règles, captures par zone, Random et morts précédentes sont conservés, sans dépenser de rappel ni recommencer la partie.
+
+Les anciennes sauvegardes n'indiquent que la zone : confirmez uniquement si la défaite a eu lieu dans l'un de ces deux événements. Le Pokémon identifié par la dernière mort doit encore être présent. Sans données compatibles, aucune modification n'est effectuée. Cette option ne réinitialise pas les défaites normales.
+
+## Aides configurables pour débutants
+
+Après la configuration initiale, **« Voulez-vous activer des aides pour débutants ? »** ouvre un menu facultatif si vous répondez Oui. Les nouvelles aides sont désactivées au départ. Le menu reste accessible dans une partie commencée via **Options → Aides pour débutants** ou **Pause → Défis → Aides pour débutants**. Chaque modification affiche une explication et demande confirmation. Sauvegardez normalement pour la conserver.
+
+- **Rappels par arène :** de 0 à 10 sauvetages Nuzlocke, 0 au départ. Le quota est disponible avant le premier badge et renouvelé à chaque nouveau badge sans cumul. Modifier le quota conserve les utilisations dépensées.
+- **Ranimer Pokémon :** dépense un sauvetage hors combat pour restaurer les PV et le statut d'un Pokémon mort de l'équipe ou d'une boîte. Retirez-le ensuite du PC s'il est en boîte. L'historique des morts est conservé, sans restauration des PP. Un défi terminé ne peut pas être rouvert.
+- **Soins après combat :** désactivés, 25 %, 50 % ou 100 % des PV maximaux, appliqués aux Pokémon vivants de l'équipe au retour sur la carte après une victoire ou une capture.
+- **Soigner les statuts après combat :** désactivé au départ ; soigne les Pokémon vivants après une victoire ou une capture, sans ranimer ni restaurer les PP.
+- **Expérience de combat :** x1 par défaut, x1.5 ou x2, en respectant les plafonds Nuzlocke et les limites du jeu. Sans effet sur les Super Bonbons ni l'expérience hors combat.
+- **Aides de combat et table des types :** accès aux fiches, efficacité, multiplicateurs exacts, conseils de changement, avertissements d'immunité et types adverses. Les réglages existants sont conservés.
+
+Les nouveaux réglages, utilisations et sauvetages sont enregistrés par sauvegarde. Les soins et l'expérience fonctionnent aussi en partie normale et Random. Les sauvetages constituent une exception facultative à la mort permanente et ne consomment aucun objet du Sac. Une ancienne sauvegarde reçoit le menu sans activation automatique ni répétition de l'introduction.
+
 ## Nuzlocke forcé
 
 ### Règles obligatoires
 
 | Règle | Effet |
 | --- | --- |
-| **Mort permanente** | Un Pokémon à 0 PV est marqué comme mort, ne peut plus être réanimé ni replacé dans l'équipe et rejoint automatiquement la boîte `CIMETIERE`. |
+| **Mort permanente** | Un Pokémon à 0 PV est marqué comme mort et rejoint automatiquement `CIMETIERE`. Il ne peut revenir qu'en dépensant un sauvetage facultatif configuré dans Aides pour débutants. |
 | **Première rencontre** | Seule la première rencontre valide de chaque zone peut être capturée. La mettre K.O. ou fuir consomme l'occasion. Les clauses doublon et chromatique sont évaluées auparavant. |
 | **Une capture par zone** | Chaque zone logique possède une capture normale. Les cartes regroupées partagent leur état, sauf si les réglages de méthode ou de sous-zone les séparent. |
 
