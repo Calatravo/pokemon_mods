@@ -6,12 +6,12 @@ Mod de desafíos configurables para las ediciones española, inglesa y francesa 
 
 > Este repositorio no incluye Pokémon Z, ROMs, ejecutables, gráficos, música, partidas guardadas ni otros recursos del juego. Necesitas una copia obtenida legalmente de una edición compatible.
 
-La versión **1.1.9** añade ayudas configurables para novatos y corrige las falsas derrotas Nuzlocke en los combates mentales de la prisión. Incluye una opción para reparar guardados afectados y continuar la misma run. [Novedades y recuperación de partidas](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
+La versión **1.1.10** permite conservar los equipos originales de entrenadores, rivales y líderes mientras el jugador usa habilidades, movimientos, MT y objetos random. Incluye las ayudas para novatos y la reparación de derrotas mentales de versiones anteriores. [Novedades y configuración](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.10).
 
 ## Instalación rápida en Windows
 
 1. Cierra el juego y haz una copia de seguridad de su carpeta y de tus partidas.
-2. Descarga `Pokemon-Z-Mods-v1.1.9.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
+2. Descarga `Pokemon-Z-Mods-v1.1.10.zip` desde [la última release](https://github.com/Calatravo/pokemon_mods/releases/latest) y descomprímelo.
 3. En Windows, haz doble clic en `Install Pokemon Z Mods.cmd` y selecciona la carpeta que contiene `Game.exe`.
 
 También puedes usar PowerShell, cambiando la ruta por la de tu instalación:
@@ -28,7 +28,7 @@ Consulta [PLATFORMS.md](PLATFORMS.md) para Android/JoiPlay, Steam Deck, Linux, m
 
 ### Instalador sencillo para JoiPlay y Kirin
 
-Descarga el [instalador Android v1.1.9 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
+Descarga el [instalador Android v1.1.10 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.10/Pokemon-Z-Mods-v1.1.10-Android-Installer.apk). Selecciona la carpeta del juego, confirma su edición y pulsa **Instalar / actualizar mod**. Incluye el mod, copias de seguridad y una comprobación de carga. La APK es **experimental**: JoiPlay se ha probado en Android virtual; Kirin sigue sin validarse. [Código e instrucciones del instalador](installer/android/README.md).
 
 > La versión 1.1.3 incluye las correcciones comprobadas en JoiPlay. Los ZIP 1.1.2 ya publicados no incluyen esas correcciones y fallaron al cargar el mod en el entorno probado. Consulta el [informe de comprobaciones](docs/android-validation.md).
 
@@ -62,7 +62,7 @@ Estas capturas son de una prueba real en JoiPlay con el cargador corregido:
 
 Si faltan opciones tras la introducción, conserva `Mods/HardcoreNuzlocke/nuzlocke.log` e indica las versiones del juego, mod y reproductor. En Opciones también deben aparecer los menús de desafíos, ayudas de combate y tabla de tipos. Ver [entorno, resultados y límites de la prueba](docs/android-validation.md).
 
-Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.9** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
+Para instalar sin APK, prepara el juego en un PC con el instalador de la **versión 1.1.10** y copia la carpeta resultante al móvil. La estructura debe contener `Game.exe`, `preload.rb` y `Mods/HardcoreNuzlocke/loader.rb` en sus rutas correspondientes; no dentro de otra carpeta con el nombre del ZIP. Consulta [INSTALL.md](INSTALL.md).
 
 ## Configuración inicial y guardado
 
@@ -83,7 +83,7 @@ La configuración de Nuzlocke y Random queda vinculada y bloqueada en ese guarda
 
 El sueño de la Liga y el entrenamiento mental con Ferrofaz en prisión están exentos de muerte permanente y derrota del reto. La exención se limita a esos dos eventos; perder otros combates sigue aplicando las reglas normales.
 
-Si tu run ya terminó por ese fallo, actualiza el mod a **1.1.9**, carga el mismo guardado y entra en **Pausa → Desafíos → Reparar derrota en combate mental**. Lee el aviso, confirma el Pokémon afectado y guarda normalmente. Se reactiva el mismo Nuzlocke y se recupera únicamente la última falsa baja; se conservan reglas, capturas, Random y muertes anteriores. No consume revivir.
+Si tu run ya terminó por ese fallo, actualiza el mod a **1.1.10**, carga el mismo guardado y entra en **Pausa → Desafíos → Reparar derrota en combate mental**. Lee el aviso, confirma el Pokémon afectado y guarda normalmente. Se reactiva el mismo Nuzlocke y se recupera únicamente la última falsa baja; se conservan reglas, capturas, Random y muertes anteriores. No consume revivir.
 
 Los guardados antiguos solo registraban la zona, por lo que debes confirmar que la derrota fue realmente en uno de esos eventos. La reparación requiere conservar el Pokémon identificado por la última baja. Si no hay datos compatibles, no modifica la partida; no reinicia derrotas normales. No es necesario empezar otra partida.
 
@@ -152,10 +152,11 @@ Al aplicar Random se generan y guardan las tablas necesarias para esa partida. L
 | Ajustes | Entrenadores, líderes y jefes |
 | --- | --- |
 | Semi Random activado | Conserva equipos y ataques normales; la opción Movimientos random no anula Semi Random. |
-| Semi Random desactivado + Movimientos random activado | Aplica los movimientos aleatorios también a los ataques prefijados del rival. |
-| Semi Random desactivado + Movimientos random desactivado | Conserva movimientos normales o prefijados; las especies siguen las reglas Random del juego. |
+| Conservar equipos de entrenadores activado + Semi Random desactivado | Entrenadores, rivales y líderes mantienen sus equipos, habilidades, ataques, tipos y objetos originales para la dificultad elegida. El jugador conserva sus opciones random; los jefes salvajes siguen sus reglas random. |
+| Ambas opciones anteriores desactivadas + Movimientos random activado | Aplica los movimientos aleatorios también a los ataques prefijados del rival. |
+| Ambas opciones anteriores desactivadas + Movimientos random desactivado | Conserva movimientos normales o prefijados; las especies siguen las reglas Random del juego. |
 
-**Full Random** en el apartado Habilidades se refiere solo a las habilidades. Para randomizar ataques de jefes hay que configurar las dos opciones indicadas arriba. No es necesario reiniciar una run que ya tenía esa configuración para aplicar el arreglo 1.1.7; las opciones de una partida iniciada siguen bloqueadas.
+**Full Random** en el apartado Habilidades se refiere solo a las habilidades. Para randomizar ataques de entrenadores, desactiva Semi Random y Conservar equipos de entrenadores y activa Movimientos random. No es necesario reiniciar una run que ya tenía esa configuración para aplicar el arreglo 1.1.7; las opciones de una partida iniciada siguen bloqueadas.
 
 ### Habilidades
 
@@ -181,7 +182,10 @@ Es una opción de tres estados, no un simple interruptor:
 | **Regalos de eventos random** | Desactivada | Randomiza regalos y recompensas no esenciales entregados directamente por eventos. Los objetos clave, MO y megapiedras permanecen protegidos. |
 | **Objetos equipados random** | Activada | Permite que los Pokémon salvajes lleven objetos aleatorios, respetando las listas de seguridad del juego. |
 | **Recompensas random de entrenadores** | Desactivada | Permite que algunos entrenadores derrotados entreguen una recompensa aleatoria adicional. |
+| **Conservar equipos de entrenadores** | Desactivada | Conserva especies, ataques, habilidades (incluidas las megas), tipos y objetos de entrenadores, rivales y líderes según la dificultad elegida. El jugador y los objetos siguen las demás opciones random. |
 | **Modo Semi Random** | Desactivada | Limita la aleatorización a encuentros y Pokémon regalados. Entrenadores, movimientos, habilidades y objetos mantienen su comportamiento normal; por ello actúa como una variante reducida frente a las demás opciones. |
+
+Para jugar con el jugador random y los entrenadores originales, activa **Conservar equipos de entrenadores**, deja **Semi Random desactivado** y selecciona las habilidades, movimientos, MT y objetos que quieras aleatorizar. Activa también **Regalos de eventos random** si quieres aleatorizar las recompensas de objetos de NPC. La opción se elige antes de aplicar Random; las partidas existentes la reciben desactivada y mantienen su configuración bloqueada.
 
 Al recoger un objeto del mapa o recibirlo de un evento o una recompensa, el juego conserva sus avisos habituales y abre después otra ventana con la descripción localizada del objeto. Solo aparece si el objeto entra realmente en la mochila, se muestra una vez aunque se reciban varias unidades y, con Random activo, describe el objeto que se ha recibido tras la sustitución.
 

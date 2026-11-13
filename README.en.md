@@ -6,7 +6,7 @@ Configurable challenge mod for the Spanish, English and French editions of **Pok
 
 > This repository does not include Pokémon Z, ROMs, executables, graphics, music or save files. You need a legally obtained copy of a supported edition.
 
-Version **1.1.9** adds configurable beginner aids and fixes false Nuzlocke wipes during the prison's mental battles. A repair option lets affected saves continue the same run. [Changes and save recovery](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
+Version **1.1.10** lets you keep original Trainer, rival and Gym Leader teams while randomizing the player's abilities, moves, TMs and items. It also includes the beginner aids and mental-battle save repair from previous versions. [Changes and configuration](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.10).
 
 ## Supported editions
 
@@ -23,7 +23,7 @@ Pokémon names, move names and move descriptions come from each game's localized
 ## Quick installation on Windows
 
 1. Close the game and back up its folder and save files.
-2. Download `Pokemon-Z-Mods-v1.1.9.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
+2. Download `Pokemon-Z-Mods-v1.1.10.zip` from [the latest release](https://github.com/Calatravo/pokemon_mods/releases/latest) and extract it.
 3. On Windows, double-click `Install Pokemon Z Mods.cmd` and select the folder containing `Game.exe`.
 
 You can also use PowerShell with the path to your game:
@@ -40,7 +40,7 @@ See [PLATFORMS.md](PLATFORMS.md) for Android/JoiPlay, Steam Deck, Linux, macOS a
 
 ### Simple installer for JoiPlay and Kirin
 
-Download the [Android v1.1.9 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
+Download the [Android v1.1.10 installer (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.10/Pokemon-Z-Mods-v1.1.10-Android-Installer.apk). Choose the game folder, confirm its edition and tap **Install / update mod**. It includes the mod, backups and a loading check. The APK is **experimental**: JoiPlay was tested on virtual Android; Kirin remains unverified. [Installer source and instructions](installer/android/README.md).
 
 > Version 1.1.3 includes the fixes verified in JoiPlay. The published 1.1.2 ZIPs do not include those fixes and failed to load the mod in the tested environment. See the [validation report](docs/android-validation.md).
 
@@ -87,7 +87,7 @@ Typical settings start enabled. Selecting any setting opens a full explanation, 
 
 The League dream and the iron-masked man's mental training battle in prison are now exempt from permadeath and challenge failure. Other battles still follow the usual rules.
 
-If your run already ended because of this bug, update the mod to **1.1.9**, load the same save and open **Pause → Challenges → Repair mental battle defeat**. Read the warning, confirm the affected Pokémon and save normally afterward. This reactivates the same Nuzlocke and repairs only the latest false death, preserving rules, area captures, Random settings and earlier deaths. No revive is spent and you do not need a new game.
+If your run already ended because of this bug, update the mod to **1.1.10**, load the same save and open **Pause → Challenges → Repair mental battle defeat**. Read the warning, confirm the affected Pokémon and save normally afterward. This reactivates the same Nuzlocke and repairs only the latest false death, preserving rules, area captures, Random settings and earlier deaths. No revive is spent and you do not need a new game.
 
 Older saves record only the area, so confirm only if the defeat really happened in one of those two events. The Pokémon identified by the latest death must still be present. If compatible records are unavailable, the repair makes no changes. It does not reset normal defeats.
 
@@ -160,7 +160,10 @@ Random tables are generated and saved for the playthrough, so species, abilities
 | **Random event gifts** | Off | Randomizes non-essential gifts and rewards handed out directly by events. Key items, HMs and Mega Stones remain protected. |
 | **Random held items** | On | Allows wild Pokémon to carry safe random items. |
 | **Random trainer rewards** | Off | Allows some defeated trainers to grant an extra random reward. |
+| **Keep original Trainer teams** | Off | Keeps Trainers, rivals and Gym Leaders' original species, moves, abilities (including Megas), types and items for the selected difficulty. Your Pokémon and items follow the other Random settings. |
 | **Semi Random mode** | Off | Limits randomization to encounters and gifts; trainers, moves, abilities and items keep their normal behavior. |
+
+For a randomized player with original Trainer teams, enable **Keep original Trainer teams**, leave **Semi Random off**, and select the abilities, moves, TM and item settings you want. Enable **Random event gifts** to randomize NPC item rewards too. Wild bosses still follow Random rules. Choose the option before applying Random; existing saves receive an off default and keep their settings locked.
 
 After a field item, event gift or reward is successfully added to the Bag, the game keeps its normal acquisition messages and then opens a separate window with the item's localized description. It appears once even for multiple copies and, with Random enabled, describes the item actually received after replacement.
 

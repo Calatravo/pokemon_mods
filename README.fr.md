@@ -6,7 +6,7 @@ Mod de défis configurables pour les éditions espagnole, anglaise et française
 
 > Ce dépôt ne contient ni Pokémon Z, ni ROM, ni exécutable, ni graphismes, ni musique, ni sauvegarde. Une copie obtenue légalement d'une édition compatible est nécessaire.
 
-La version **1.1.9** ajoute des aides configurables pour débutants et corrige les fausses défaites Nuzlocke lors des combats mentaux en prison. Une réparation permet de continuer le même défi avec une sauvegarde affectée. [Nouveautés et récupération](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.9).
+La version **1.1.10** permet de garder les équipes d'origine des Dresseurs, rivaux et Champions tout en randomisant les talents, capacités, CT et objets du joueur. Elle conserve les aides pour débutants et la réparation des défaites mentales des versions précédentes. [Nouveautés et configuration](https://github.com/Calatravo/pokemon_mods/releases/tag/v1.1.10).
 
 ## Éditions compatibles
 
@@ -23,7 +23,7 @@ Les noms de Pokémon, capacités et descriptions proviennent des données locali
 ## Installation rapide sous Windows
 
 1. Fermez le jeu et sauvegardez son dossier ainsi que vos sauvegardes.
-2. Téléchargez `Pokemon-Z-Mods-v1.1.9.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
+2. Téléchargez `Pokemon-Z-Mods-v1.1.10.zip` depuis [la dernière release](https://github.com/Calatravo/pokemon_mods/releases/latest), puis décompressez-le.
 3. Sous Windows, double-cliquez sur `Install Pokemon Z Mods.cmd` et sélectionnez le dossier contenant `Game.exe`.
 
 Vous pouvez également utiliser PowerShell en adaptant le chemin :
@@ -40,7 +40,7 @@ Consultez [PLATFORMS.md](PLATFORMS.md) pour Android/JoiPlay, Steam Deck, Linux, 
 
 ### Installateur simple pour JoiPlay et Kirin
 
-Téléchargez l’[installateur Android v1.1.9 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.9/Pokemon-Z-Mods-v1.1.9-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
+Téléchargez l’[installateur Android v1.1.10 (.apk)](https://github.com/Calatravo/pokemon_mods/releases/download/v1.1.10/Pokemon-Z-Mods-v1.1.10-Android-Installer.apk). Choisissez le dossier du jeu, confirmez son édition et appuyez sur **Installer / mettre à jour**. Il contient le mod, les sauvegardes de fichiers et une vérification du chargement. L’APK est **expérimentale** : JoiPlay a été testé sur Android virtuel ; Kirin reste non validé. [Code et instructions](installer/android/README.md).
 
 > La version 1.1.3 inclut les corrections vérifiées dans JoiPlay. Les ZIP 1.1.2 déjà publiés ne contiennent pas ces corrections et n’ont pas chargé le mod dans l’environnement testé. Consultez le [rapport de validation](docs/android-validation.md).
 
@@ -87,7 +87,7 @@ Les réglages habituels sont présélectionnés. Choisir un réglage affiche son
 
 Le rêve de la Ligue et le combat mental de l'homme au masque de fer en prison sont désormais exempts de mort permanente et de défaite du défi. Les autres combats conservent les règles normales.
 
-Si ce bug a déjà terminé votre défi, mettez le mod à jour en **1.1.9**, chargez la même sauvegarde et ouvrez **Pause → Défis → Réparer la défaite du combat mental**. Lisez l'avertissement, confirmez le Pokémon concerné et sauvegardez normalement. Seule la dernière fausse mort est réparée ; règles, captures par zone, Random et morts précédentes sont conservés, sans dépenser de rappel ni recommencer la partie.
+Si ce bug a déjà terminé votre défi, mettez le mod à jour en **1.1.10**, chargez la même sauvegarde et ouvrez **Pause → Défis → Réparer la défaite du combat mental**. Lisez l'avertissement, confirmez le Pokémon concerné et sauvegardez normalement. Seule la dernière fausse mort est réparée ; règles, captures par zone, Random et morts précédentes sont conservés, sans dépenser de rappel ni recommencer la partie.
 
 Les anciennes sauvegardes n'indiquent que la zone : confirmez uniquement si la défaite a eu lieu dans l'un de ces deux événements. Le Pokémon identifié par la dernière mort doit encore être présent. Sans données compatibles, aucune modification n'est effectuée. Cette option ne réinitialise pas les défaites normales.
 
@@ -157,7 +157,10 @@ Les tables aléatoires sont générées puis enregistrées : espèces, talents, 
 | **Cadeaux d'événements aléatoires** | Désactivés | Randomise les cadeaux et récompenses non essentiels remis directement par les événements. Les objets clés, les CS et les Méga-Gemmes restent protégés. |
 | **Objets tenus random** | Activés | Permet aux Pokémon sauvages de porter des objets aléatoires sûrs. |
 | **Récompenses de Dresseurs random** | Désactivées | Certains Dresseurs vaincus peuvent donner une récompense aléatoire supplémentaire. |
+| **Garder les équipes des Dresseurs** | Désactivé | Conserve les espèces, capacités, talents (y compris les Méga-Évolutions), types et objets d'origine des Dresseurs, rivaux et Champions selon la difficulté choisie. Vos Pokémon et objets suivent les autres options aléatoires. |
 | **Mode Semi Random** | Désactivé | Limite l'aléatoire aux rencontres et cadeaux ; Dresseurs, capacités, talents et objets restent normaux. |
+
+Pour jouer avec vos Pokémon aléatoires et les équipes d'origine des Dresseurs, activez **Garder les équipes des Dresseurs**, laissez **Semi Random désactivé** et choisissez les options de talents, capacités, CT et objets souhaitées. Activez aussi **Cadeaux d'événements aléatoires** pour les récompenses d'objets des PNJ. Les boss sauvages suivent toujours les règles aléatoires. Choisissez l'option avant d'appliquer Random ; les sauvegardes existantes la reçoivent désactivée et gardent leurs réglages verrouillés.
 
 Après l'ajout réussi d'un objet au sol, d'un cadeau d'événement ou d'une récompense dans le Sac, le jeu conserve ses messages habituels puis ouvre une fenêtre séparée avec la description localisée de l'objet. Elle n'apparaît qu'une fois, même pour plusieurs exemplaires, et décrit l'objet réellement reçu après remplacement lorsque le mode Random est actif.
 

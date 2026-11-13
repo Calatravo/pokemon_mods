@@ -249,6 +249,7 @@ module PZHardcoreNuzlocke
       :event_items=>false,
       :held_items=>true,
       :trainer_rewards=>false,
+      :original_trainers=>false,
       :semi_random=>false,
       :ability_mode=>:FULL_RANDOM_ABS,
       :generations=>[1, 2, 3, 4, 5, 6, 7, 8, 9]

@@ -78,6 +78,8 @@ module PZHardcoreNuzlocke
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_form_ability) &&
                PokeBattle_Pokemon.method_defined?(:pzn_random_original_form_ability_list) &&
                PokeBattle_Battle.method_defined?(:pzn_random_original_battle_core) &&
+               (Object.private_method_defined?(:pzn_random_original_load_trainer) ||
+                Object.method_defined?(:pzn_random_original_load_trainer)) &&
                (Object.private_method_defined?(:pzn_random_original_boss_fight) ||
                 Object.method_defined?(:pzn_random_original_boss_fight)) &&
                (Object.private_method_defined?(:pzn_hardcore_original_battle_on_step_taken) ||
@@ -134,6 +136,7 @@ module PZHardcoreNuzlocke
     install_storage_hooks
     install_gift_hooks
     install_random_starter_hooks
+    install_random_trainer_hooks
     install_item_randomization_hooks
     install_item_description_hooks
     install_test_input_hook
@@ -233,6 +236,7 @@ module PZHardcoreNuzlocke
         unless method_defined?(:pzn_random_original_battle_core)
           alias_method :pzn_random_original_battle_core, :pbStartBattleCore
           def pbStartBattleCore(canlose)
+            PZHardcoreNuzlocke.mark_original_trainer_party(self)
             PZHardcoreNuzlocke.prepare_random_opponent_moves(self)
             pzn_random_original_battle_core(canlose)
           end
@@ -259,6 +263,38 @@ module PZHardcoreNuzlocke
         end
         private :pbBossFight
       end
+    end
+  end
+
+  def self.install_random_trainer_hooks
+    Object.class_eval do
+      unless method_defined?(:pzn_random_original_load_trainer) || private_method_defined?(:pzn_random_original_load_trainer)
+        alias_method :pzn_random_original_load_trainer, :pbLoadTrainer
+        def pbLoadTrainer(*arguments)
+          return pzn_random_original_load_trainer(*arguments) unless PZHardcoreNuzlocke.original_trainers?
+          trainer = PZHardcoreNuzlocke.with_original_trainer_data do
+            pzn_random_original_load_trainer(*arguments)
+          end
+          if trainer && trainer[2]
+            trainer[2].each { |pokemon| pokemon.instance_variable_set(:@pzn_original_trainer, true) if pokemon }
+          end
+          trainer
+        end
+        private :pbLoadTrainer
+      end
+    end
+    # Wrap the final form-aware readers, including the Mega ability fix. Each
+    # Pokemon keeps its own policy even when both sides use the same species.
+    [:ability, :getAbilityList, :getMoveList, :type1, :type2,
+     :isCompatibleWithMove?, :wildHoldItems].each do |reader|
+      original = "pzn_trainer_original_#{reader}"
+      next if PokeBattle_Pokemon.method_defined?(original)
+      PokeBattle_Pokemon.class_eval <<-RUBY
+        alias_method :#{original}, :#{reader}
+        def #{reader}(*arguments)
+          PZHardcoreNuzlocke.with_trainer_pokemon_lookup(self) { #{original}(*arguments) }
+        end
+      RUBY
     end
   end
 

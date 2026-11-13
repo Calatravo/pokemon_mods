@@ -12,6 +12,7 @@ module PZHardcoreNuzlocke
     [:event_items,      :random_event_items],
     [:held_items,       :random_held_items],
     [:trainer_rewards,  :random_trainer_rewards],
+    [:original_trainers,:random_original_trainers],
     [:semi_random,      :random_semi_random]
   ]
 
@@ -22,6 +23,7 @@ module PZHardcoreNuzlocke
     :items=>:random_items_help, :event_items=>:random_event_items_help,
     :held_items=>:random_held_items_help,
     :trainer_rewards=>:random_trainer_rewards_help, :semi_random=>:random_semi_random_help,
+    :original_trainers=>:random_original_trainers_help,
     :ability_mode=>:random_ability_help, :generations=>:random_generations_help
   }
 
@@ -281,6 +283,52 @@ module PZHardcoreNuzlocke
     Object.new.send(method_name, *arguments)
   end
 
+  def self.original_trainers?
+    config = random_state
+    config && config[:enabled] && config[:original_trainers]
+  end
+
+  # Scope the pause to loading a trainer or reading one of its Pokemon.
+  # Pausing an entire battle would also disable the player's random abilities.
+  def self.with_original_trainer_data
+    switches = [RandomizedChallenge::SWITCH, 802]
+    previous = switches.collect { |switch| $game_switches[switch] }
+    # RandomMain checks this legacy per-Pokemon cache even with Random paused.
+    abilities = $PokemonGlobal.random_abs_pokes
+    begin
+      switches.each { |switch| $game_switches[switch] = false }
+      $PokemonGlobal.random_abs_pokes = nil
+      yield
+    ensure
+      switches.each_with_index { |switch, index| $game_switches[switch] = previous[index] }
+      $PokemonGlobal.random_abs_pokes = abilities
+    end
+  end
+
+  def self.with_trainer_pokemon_lookup(pokemon)
+    return yield unless pokemon.instance_variable_get(:@pzn_original_trainer) && original_trainers?
+    with_original_trainer_data { yield }
+  end
+
+  def self.mark_original_trainer_party(battle)
+    return unless original_trainers? && battle.opponent
+    return if battle.instance_variable_get(:@pzn_original_trainers_prepared)
+    party = battle.party2
+    return if !party
+    # Scripted mirror fights can share the player's party or Pokemon objects.
+    party = party.dup if party.equal?(battle.party1)
+    party.each_with_index do |pokemon, index|
+      next if !pokemon
+      if battle.party1.any? { |ally| ally.equal?(pokemon) }
+        pokemon = Marshal.load(Marshal.dump(pokemon))
+        party[index] = pokemon
+      end
+      pokemon.instance_variable_set(:@pzn_original_trainer, true)
+    end
+    battle.instance_variable_set(:@party2, party)
+    battle.instance_variable_set(:@pzn_original_trainers_prepared, true)
+  end
+
   # EN/FR's original move reader randomizes on switches 409/802 without
   # checking enable_random_moves. RandomMain calls this reader when it wants
   # ordinary moves (also in Semi Random); suppress only that legacy fallback.
@@ -301,6 +349,7 @@ module PZHardcoreNuzlocke
   # before battlers copy those moves. Saved player/tutor/TM moves stay intact.
   def self.prepare_random_opponent_moves(battle)
     return false if battle.instance_variable_get(:@pzn_random_moves_prepared)
+    return false if original_trainers? && battle.opponent
     return false if !defined?($PokemonGlobal) || !$PokemonGlobal || !$game_switches
     config = random_state
     configured = config && config[:enabled]

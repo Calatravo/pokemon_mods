@@ -101,6 +101,7 @@ El asistente permite configurar:
 - Objetos equipados random.
 - Recompensas aleatorias de entrenadores.
 - Modo Semi Random.
+- Conservar equipos de entrenadores, compatible con las opciones random del jugador y los objetos.
 - Generaciones permitidas, de la 1 a la 9.
 
 La selección de generaciones se aplica antes de generar los iniciales. Debe quedar al menos una generación activa.
@@ -108,6 +109,8 @@ La selección de generaciones se aplica antes de generar los iniciales. Debe que
 Los tipos random se generan y guardan juntos por especie, incluyendo Normal y Hada y excluyendo el tipo `???`. Las especies de un solo tipo conservan un solo tipo. Si una partida anterior contiene tipos vacíos o inválidos, se reparan al consultarlos sin cambiar las asignaciones válidas de la partida. Esto corrige el fallo de `RandomMain` que podía causar `nil can't be coerced into Fixnum` al iniciar el primer combate con tipos random activos.
 
 Cuando Movimientos random está desactivado o se usa Semi Random, la consulta de movimientos normales evita la rutina antigua de EN/FR que aleatorizaba por los interruptores 409/802 sin consultar esa opción. El mod restaura ambos interruptores al terminar la consulta y conserva las listas de formas alternativas. No sustituye los ataques ya aprendidos ni elimina las tablas aleatorias guardadas.
+
+**Conservar equipos de entrenadores** se configura antes de aplicar Random y está desactivado por defecto, también al migrar guardados anteriores. Con Semi Random desactivado, permite aleatorizar el jugador, salvajes, iniciales, regalos, MT y objetos mientras los entrenadores, rivales y líderes conservan sus equipos y dificultad originales. La carga de entrenadores y las consultas de sus Pokémon pausan los interruptores 409/802 solo durante esa operación; no se pausa todo el combate. Los Pokémon de entrenadores llevan una marca independiente de las tablas por especie del jugador. Así se conservan habilidades, formas mega, tipos y movimientos originales aunque ambos bandos usen la misma especie. Los jefes salvajes siguen las opciones random. Semi Random mantiene sus restricciones habituales si se activa.
 
 Al recoger un objeto del suelo o recibirlo de un evento o recompensa, se conservan los mensajes normales del juego y después aparece otra ventana con su descripción localizada. La ventana solo se muestra si el objeto entra en la mochila, una sola vez aunque haya varias unidades y, con Random, utiliza el objeto final obtenido tras la sustitución.
 
@@ -151,5 +154,7 @@ Para comprobar la opción de movimientos con el motor real de EN 2.13, ejecuta `
 En las partidas que activaron Random antes del arreglo, **Desafíos → Compensar MT perdidas** permite indicar una cantidad de MT perdidas y recibir MT pendientes una sola vez por guardado. No calcula las pérdidas históricas ni entrega todo el catálogo. Conserva las asignaciones existentes y revierte la operación si falla; después hay que guardar normalmente. Las partidas que activan Random con el arreglo ya instalado no ofrecen esta compensación. La prueba anterior incluye `tm_recovery_test.rb` para comprobar este flujo con la mochila, los movimientos y la serialización del juego.
 
 `tests/boss_moves_integration.ps1 -GameFolder <carpeta>` comprueba ataques prefijados con equipos reales de líderes, un evento salvaje que impone cuatro ataques y la copia nativa a los combatientes. Cubre Random completo, movimientos desactivados, Semi Random, pausas de historia, combates dobles y espejo, PP y movimientos del jugador y aliados, restauración tras errores y la función especial de jefes. Con `-Unpatched` reproduce los ataques prefijados de 1.1.6. No se ejecutan las ventanas ni el bucle de combate y no se escriben guardados.
+
+`tests/original_trainers_integration.ps1 -GameFolder <carpeta>` comprueba equipos reales de líderes tempranos y finales en las tres dificultades, separación entre jugador y rival de la misma especie, megas nativas con habilidades Full Random y mapeadas, combates dobles y espejo, los tres iniciales, especies salvajes y regalos, compatibilidad con MT, recogidas y recompensas de MT con movimientos random, restauración tras errores y pausas de historia, Semi Random anterior, migración y textos ES/EN/FR del menú. Validado con ES 2.18/2.19, EN 2.13 y FR 2.12 + Patch 1 sin abrir el bucle gráfico ni escribir guardados.
 
 `tests/mega_abilities_integration.ps1 -GameFolder <carpeta>` comprueba la megaevolución nativa en ambos lados del combate, habilidades efectivas, Full Random, mapeo, modos desactivados, índices, retorno a la forma normal y tablas guardadas. Cubre Lopunny, Abomasnow, Venusaur y Charizard X/Y. `-Unpatched` reproduce el fallo de 1.1.7. Ver [efectos sobre la partida](../../docs/mega-random-abilities.md).
